@@ -16,7 +16,8 @@
 					<table class="table table-bordered table-hover table-td-valign-middle">
 						<thead>
                             <form name="modifyForm" action="/customers/" method="post">
-                                <? foreach ($arrResult as $index => $row) { ?>
+							
+                                <? for( $i=0; $i<$modData; $i++){ ?>
                                 <tr><th class="text-center tb_top">항목</th><th class="text-center tb_top">정보</th></tr>
                                 <tr>
                                     <th width="5%" class="text-center">No</th>

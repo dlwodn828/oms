@@ -46,6 +46,7 @@
 							</tr>
 						</thead>
 						<tbody>
+						<form action="/customers/modifyCompany" method="get">
 							<? foreach ($arrResult as $index => $row) { ?>
 							<tr>
 								<td class="text-center"><?=$row["idx"]?></td>
@@ -57,20 +58,13 @@
 								<td class="text-center"><?=$row["managername"]?></td>
 								<td class="text-center"><?=$row["managertel"]?></td>
 								<td class="text-center"><?=$row["regdate"]?></td>
-								<td class="text-center "><a href="/customers/modifyCompany" class="btn btn-warning btn-sm modify">수정</a></td>
+								<td class="text-center "><input type="submit" name=<?=$row["idx"]?> class="btn btn-warning btn-sm modify" value=<?=$row["idx"]?>></td>
 								<td class="text-center "><div id="delete" data-toggle="modal" class="btn btn-danger btn-sm delete" data-toggle="modal">삭제</div></td>
 							</tr>
 							<? } ?>
+						</form>
 						</tbody>
 					</table>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="pull-right">
-						<a href="#modal-email" data-toggle="modal" class="btn btn-success btn-sm mailOrder" data-toggle="modal"><i class="fa fa-edit"></i>등록</a>
-						<!-- <a href="#modal-edit" data-toggle="modal" class="btn btn-success btn-sm printOrder" ><i class="fa fa-edit"></i> 인쇄</a> -->
-					</div>
 				</div>
 			</div>
 			<!-- pagination -->
