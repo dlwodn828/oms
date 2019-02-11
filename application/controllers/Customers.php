@@ -27,7 +27,15 @@ class Customers extends CI_Controller {
 		$this->load->view('customers/modifyCompany',$arrData);
 		$this->load->view('include/incBottom');
 	}
-	
+
+	public function modifyCompany2(){
+		$sSideBar = $this->authmodel->checkLogin01();
+		$this->load->view('include/incTop',$sSideBar);
+		$arrData=$this->customersmodel->consultHistoryList();
+		$this->load->view('customers/modifyCompany',$arrData);
+		$this->load->view('include/incBottom');
+	}
+
 	//alltRfidList
 	public function alltRfidList() {
 		$sSideBar = $this->authmodel->checkLogin01();

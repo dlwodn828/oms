@@ -31,7 +31,7 @@
 								<th width="5%" class="text-center">수정</th>
 								<th width="5%" class="text-center">삭제</th>
 							</tr-->
-                            <form name="modifyForm" action="post">
+                            <form name="modifyForm" action="/customers/" method="post">
                                 <? foreach ($arrResult as $index => $row) { ?>
                                 <tr><th class="text-center tb_top">항목</th><th class="text-center tb_top">정보</th></tr>
                                 <tr>
@@ -94,27 +94,6 @@
 	</div>
 	<!-- end #profile-container -->
 </div>
-<!-- #modal-dialog -->
-<div class="modal fade" id="modal-email">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h4 class="modal-title">이메일 주문</h4>
-			</div>
-			<div class="modal-body">
-				이메일 주문을 보내시겠습니까?
-			</div>
-			<div class="modal-footer">
-				<!-- <input type="hidden" id="pidx" value="">
-				<input type="hidden" id="basequantity" value=""> -->
-				<a href="javascript:;" class="btn btn-sm btn-white closeOrder" data-dismiss="modal">Close</a>
-				<a href="javascript:;" class="btn btn-sm btn-success sendOrder">Send</a>
-			</div>
-		</div>
-	</div>
-</div>
-
 <!-- end #content -->
 <script>
 $(document).ready(function() {
