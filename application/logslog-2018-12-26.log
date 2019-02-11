@@ -1,0 +1,35 @@
+ERROR - 2018-12-26 13:32:06 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:32:08 --> 404 Page Not Found: Faviconico/index
+ERROR - 2018-12-26 13:32:13 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:32:15 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:32:15 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:32:20 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:32:23 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:32:23 --> Query error: Table 'wms.tb_event_log_bk' doesn't exist - Invalid query: SELECT count(tbl1.nEventLogIdn) as iCnt FROM TB_EVENT_LOG_BK as tbl1 JOIN TB_EVENT_DATA as tbl2 ON tbl1.nEventIdn = tbl2.nEventIdn LEFT JOIN TB_USER as tbl3 ON tbl1.nUserID = tbl3.nUserIdn where 1=1 
+ERROR - 2018-12-26 13:32:27 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:32:27 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:32:27 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:32:27 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:32:35 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:32:35 --> Query error: Table 'wms.tb_event_log_bk' doesn't exist - Invalid query: SELECT count(tbl1.nEventLogIdn) as iCnt FROM TB_EVENT_LOG_BK as tbl1 JOIN TB_EVENT_DATA as tbl2 ON tbl1.nEventIdn = tbl2.nEventIdn LEFT JOIN TB_USER as tbl3 ON tbl1.nUserID = tbl3.nUserIdn where 1=1 
+ERROR - 2018-12-26 13:32:37 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:44:21 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:44:21 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:44:21 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:44:25 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:44:25 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:44:27 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:44:32 --> 404 Page Not Found: Customers/alltRfidBackup
+ERROR - 2018-12-26 13:44:33 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:44:37 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:56:14 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:56:15 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:56:19 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:56:25 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:56:26 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:56:26 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:56:30 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:56:30 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:56:32 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:56:36 --> Session: session.auto_start is enabled in php.ini. Aborting.
+ERROR - 2018-12-26 13:56:36 --> Session: session.auto_start is enabled in php.ini. Aborting.
