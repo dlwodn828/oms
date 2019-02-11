@@ -15,22 +15,6 @@
 				<div class="table-responsive">
 					<table class="table table-bordered table-hover table-td-valign-middle">
 						<thead>
-							<!--tr>
-								<th width="4%" class="text-center">No</th>
-								<th width="10%" class="text-center">업체명</th>
-								<th width="7%" class="text-center">ID</th>
-								<th width="7%" class="text-center">Password</th>
-								<th width="5%" class="text-center">대표자명</th>
-								<th width="5%" class="text-center">업태</th>
-								<th width="5%" class="text-center">종목</th>
-								<th width="20%" class="text-center">주소</th>
-								<th width="6%" class="text-center">전화번호</th>
-								<th width="6%" class="text-center">FAX</th>
-								<th width="6%" class="text-center">H.P</th>
-								<th width="5%" class="text-center">Email</th>
-								<th width="5%" class="text-center">수정</th>
-								<th width="5%" class="text-center">삭제</th>
-							</tr-->
                             <form name="modifyForm" action="/customers/" method="post">
                                 <? foreach ($arrResult as $index => $row) { ?>
                                 <tr><th class="text-center tb_top">항목</th><th class="text-center tb_top">정보</th></tr>
