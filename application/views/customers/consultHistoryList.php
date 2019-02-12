@@ -46,7 +46,7 @@
 							</tr>
 						</thead>
 						<tbody>
-						<form action="/customers/modifyCompany" method="post">
+						
 							<? foreach ($arrResult as $index => $row) { ?>
 							<tr>
 								<td class="text-center"><?=$row["idx"]?></td>
@@ -58,11 +58,15 @@
 								<td class="text-center"><?=$row["managername"]?></td>
 								<td class="text-center"><?=$row["managertel"]?></td>
 								<td class="text-center"><?=$row["regdate"]?></td>
-								<td class="text-center "><button name="idx" value="<?=$row["idx"]?>" class="btn btn-warning btn-sm modify" type="submit">수정</button></td>
-								<td class="text-center "><form action="/customers/deleteCompany" method="post"><button name="idx2" value="<?=$row["idx"]?>" id="delete" class="btn btn-danger btn-sm delete" >삭제</button></form></td>
+								<td class="text-center "><form action="/customers/modifyCompany" method="post"><button name="idx" value="<?=$row["idx"]?>" class="btn btn-warning btn-sm modify" type="submit">수정</button></form></td>
+								<td class="text-center ">
+									<form action="/customers/deleteCompany" method="post">
+										<button name="idx2" value="<?=$row["idx"]?>" id="delete" class="btn btn-danger btn-sm delete" onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</button>
+									</form>
+								</td>
 							</tr>
 							<? } ?>
-						</form>
+						
 						</tbody>
 					</table>
 				</div>
@@ -112,26 +116,21 @@ $(document).ready(function() {
 	App.init();
 
 });
-window.onload=function(){
-	var mod = document.getElementById("delete");
-	mod.onclick=function(){
-		if (confirm("해당 업체 정보를 삭제하시겠습니까?")) {
-			// 확인 버튼 클릭 시 동작
 
-			alert("해당 업체 정보를 삭제했습니다.");
-		}
-	}
-
-	var idx = 0;
-
-	$()
+// function delok(code){
+//     result = confirm('삭제 하시겠습니까');
+//     if(result == true){
+//         location.href = "addlist_ok.asp?gubun=del&key=" + code;
+//     }else{
+//     return false;
+//     }
+// }
 
 
-};
 
 
 // modal창 제어
-// $(document).on('click', '.modify', function (e) {
+// $(document).on('click', '.delete', function (e) {
 // 	// $("#pidx").val($(this).data("idx"));
 // 	// $("#basequantity").val($(this).data("basequantity"));
 // 	// $("#basequantity").val($("input[name=basequantity]").val());
@@ -142,7 +141,7 @@ window.onload=function(){
 // 		// i++;
 // 		// index = i.toString();
 // 	    arrIdx.push($(this).data('idx'));
-// 			arrBasequantity.push($("input[name="+'"'+$(this).data('basequantity-name')+'"'+"]").val());
+// 		arrBasequantity.push($("input[name="+'"'+$(this).data('basequantity-name')+'"'+"]").val());
 // 	});
 // 	if (arrIdx === undefined || arrIdx.length == 0) {
 // 		alert('주문하실 품명을 선택하세요!');
@@ -157,7 +156,7 @@ window.onload=function(){
 // 		$('.sendOrder').off('click');
 // 	});
 // 	$('.sendOrder').on('click', function(e) {
-//	// location.href="/customers/cancelStageProc?idx=<?=$row['idx']?>&basequantity="+$("#basequantity").val();
+// 	// location.href="/customers/cancelStageProc?idx=<?=$row['idx']?>&basequantity="+$("#basequantity").val();
 // 		$.ajax({
 // 			type: "post",
 // 			url: "/customers/cancelStageProc",
@@ -182,6 +181,7 @@ window.onload=function(){
 // 		});
 // 	});
 // });
+
 
 // $('.printOrder').click(function(e) {
 // 	var arrIdx = [];

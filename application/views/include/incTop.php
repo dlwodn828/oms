@@ -149,7 +149,7 @@
 						<span>품목 관리<?=$sidebar01[2]?></span>
 					</a>
 					<ul class="sub-menu">
-						<li class="<?=$sidebar03[1]?>"><a href="/customers/alltRfidList">품목정보</a></li>
+						<li class="<?=$sidebar03[1]?>"><a href="/customers/productList">품목정보</a></li>
 					</ul>
 				</li>
 				<li class="<?=$sidebar01[2]?> has-sub">
