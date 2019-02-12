@@ -23,16 +23,24 @@ class Customers extends CI_Controller {
 	public function modifyCompany(){
 		$sSideBar = $this->authmodel->checkLogin01();
 		$this->load->view('include/incTop',$sSideBar);
-		$arrData=$this->customersmodel->consultHistoryList();
+		$arrData=$this->customersmodel->modifyCompany();
 		$this->load->view('customers/modifyCompany',$arrData);
 		$this->load->view('include/incBottom');
 	}
 
-	public function modifyCompany2(){
+	public function modifySaveCompany(){
 		$sSideBar = $this->authmodel->checkLogin01();
 		$this->load->view('include/incTop',$sSideBar);
-		$arrData=$this->customersmodel->consultHistoryList();
-		$this->load->view('customers/modifyCompany',$arrData);
+		$arrData=$this->customersmodel->modifySaveCompany();
+		$this->load->view('customers/consultHistoryList',$arrData);
+		$this->load->view('include/incBottom');
+	}
+
+	public function deleteCompany(){
+		$sSideBar = $this->authmodel->checkLogin01();
+		$this->load->view('include/incTop',$sSideBar);
+		$arrData=$this->customersmodel->deleteCompany();
+		$this->load->view('customers/consultHistoryList',$arrData);
 		$this->load->view('include/incBottom');
 	}
 

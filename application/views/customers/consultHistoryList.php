@@ -46,7 +46,7 @@
 							</tr>
 						</thead>
 						<tbody>
-						<form action="/customers/modifyCompany" method="get">
+						<form action="/customers/modifyCompany" method="post">
 							<? foreach ($arrResult as $index => $row) { ?>
 							<tr>
 								<td class="text-center"><?=$row["idx"]?></td>
@@ -58,8 +58,8 @@
 								<td class="text-center"><?=$row["managername"]?></td>
 								<td class="text-center"><?=$row["managertel"]?></td>
 								<td class="text-center"><?=$row["regdate"]?></td>
-								<td class="text-center "><input type="submit" name=<?=$row["idx"]?> class="btn btn-warning btn-sm modify" value=<?=$row["idx"]?>></td>
-								<td class="text-center "><div id="delete" data-toggle="modal" class="btn btn-danger btn-sm delete" data-toggle="modal">삭제</div></td>
+								<td class="text-center "><button name="idx" value="<?=$row["idx"]?>" class="btn btn-warning btn-sm modify" type="submit">수정</button></td>
+								<td class="text-center "><form action="/customers/deleteCompany" method="post"><button name="idx2" value="<?=$row["idx"]?>" id="delete" class="btn btn-danger btn-sm delete" >삭제</button></form></td>
 							</tr>
 							<? } ?>
 						</form>
@@ -117,9 +117,16 @@ window.onload=function(){
 	mod.onclick=function(){
 		if (confirm("해당 업체 정보를 삭제하시겠습니까?")) {
 			// 확인 버튼 클릭 시 동작
+
 			alert("해당 업체 정보를 삭제했습니다.");
 		}
 	}
+
+	var idx = 0;
+
+	$()
+
+
 };
 
 

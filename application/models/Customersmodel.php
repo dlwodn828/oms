@@ -10,28 +10,9 @@ class Customersmodel extends CI_Model {
 	//consultHistoryList
 	function consultHistoryList() {
 		$this->sPage=addslashes(trim($this->input->get('sPage')));
-		//$this->sSearchType=addslashes(trim($this->input->get('sSearchType')));
-		$this->sSearchType="tbl1.UserNickName";
-		$this->sSearchWord=addslashes(trim($this->input->get('sSearchWord')));
-		$this->companyidx=addslashes(trim($this->input->get('companyidx')));
-		$this->warehouseidx=addslashes(trim($this->input->get('warehouseidx')));
-		$this->sSearchUserType=addslashes(trim($this->input->get('sSearchUserType')));
-		$this->sSearchAdminIdx=addslashes(trim($this->input->get('sSearchAdminIdx')));
-		$this->dStartDate=addslashes(trim($this->input->get('dStartDate')));
-		$this->dEndDate=addslashes(trim($this->input->get('dEndDate')));
 		$this->iPageScale = 10;
 		$this->iStepScale = 5;
 		$this->sWhere="where 1=1 ";
-		
-		if ($this->sSearchType) {
-			if ($this->sSearchWord) {
-				$this->sWhere.=" and ".$this->sSearchType." like '%".$this->sSearchWord."%' ";
-			}
-		}
-		if ($this->companyidx) { $this->sWhere.=" and tbl1.cid='".$this->companyidx."' ";  }
-		if ($this->warehouseidx) { $this->sWhere.=" and tbl1.wid='".$this->warehouseidx."' ";  }
-		if ($this->sSearchUserType) { $this->sWhere.=" and tbl1.UserType='".$this->sSearchUserType."' ";  }
-		if ($this->sSearchAdminIdx) { $this->sWhere.=" and tbl1.AdminIdx='".$this->sSearchAdminIdx."' ";  }
 
 		if(!$this->sPage){ $this->sPage = 1;}
 		$this->iStart=($this->sPage-1)*$this->iPageScale;
@@ -39,31 +20,86 @@ class Customersmodel extends CI_Model {
 		$this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
 		$arrData['iTotalCnt']=$this->iNum;
 		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale;
-		// $this->sQuery="SELECT tbl1.* from company as tbl1 ".$this->sWhere." order by tbl1.company_id desc LIMIT ".$this->iStart.", ".$this->iPageScale;
-		// $arrData['arrResult']= $this->db->query($this->sQuery)->result_array();
-
 		$this->sQuery="SELECT tbl1.* from tbl_company as tbl1";
 		$arrData['arrResult']= $this->db->query($this->sQuery)->result_array();
-
-		//$arrData['arrResult02']
-
-		$this->sQuery="SELECT tbl1.* from tbl_warehouse as tbl1 order by tbl1.idx";
-		$arrData['arrResult03']= $this->db->query($this->sQuery)->result_array();
-
 		$arrData['sPage']=$this->sPage;
 		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
-		$arrData['sSearchType']=$this->sSearchType;
-		$arrData['sSearchWord']=$this->sSearchWord;
-		$arrData['companyidx']=$this->companyidx;
-		$arrData['warehouseidx']=$this->warehouseidx;
-		$arrData['sSearchUserType']=$this->sSearchUserType;
-		$arrData['sSearchAdminIdx']=$this->sSearchAdminIdx;
-		$arrData['dStartDate']=$this->dStartDate;
-		$arrData['dEndDate']=$this->dEndDate;
-		$arrData['sParam']=fnParam();
 		return $arrData;
 	}
 
+	// 업체 - 수정 버튼 눌렀을 때
+	function modifyCompany(){
+		$this->idx=$this->input->post('idx');
+		$this->sQuery="SELECT tbl1.* from tbl_company as tbl1";
+		$arrData['arrResult']= $this->db->query($this->sQuery)->result_array();
+		$arrData['idx']=$this->idx;
+		return $arrData;
+	}
+	
+	// 업체 - 저장 버튼 눌렀을 때
+	function modifySaveCompany(){
+		
+		$this->sPage=addslashes(trim($this->input->get('sPage')));
+		$this->iPageScale = 10;
+		$this->iStepScale = 5;
+		$this->sWhere="where 1=1 ";
+
+		$this->idx=$this->input->post('idx');
+		$this->userid=$this->input->post('userid');
+		$this->userpwd=$this->input->post('userpwd');
+		$this->companyname=$this->input->post('companyname');
+		$this->managername=$this->input->post('managername');
+		$this->companyaddr=$this->input->post('companyaddr');
+		$this->companytel=$this->input->post('companytel');
+		$this->managertel=$this->input->post('managertel');
+
+		if(!$this->sPage){ $this->sPage = 1;}
+		$this->iStart=($this->sPage-1)*$this->iPageScale;
+		$this->sQuery="SELECT count(tbl1.Idx) as iCnt FROM tbl_company as tbl1 ".$this->sWhere;
+		$this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
+		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
+		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
+
+		
+		$this->sQuery="UPDATE tbl_company SET userid='".$this->userid."',userpwd='".$this->userpwd."',companyname='".$this->companyname."',managername='".$this->managername."',companyaddr='".$this->companyaddr."',companytel='".$this->companytel."',managertel='".$this->managertel."' WHERE tbl_company.idx='".$this->idx."'";
+		$this->sQuery2="SELECT tbl1.* from tbl_company as tbl1";
+		$this->db->query($this->sQuery);
+
+		$arrData['arrResult']=$this->db->query($this->sQuery2)->result_array();
+
+		$arrData['sPage']=$this->sPage;
+		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
+
+		return $arrData;
+
+	}
+
+	function deleteCompany(){
+		$this->sPage=addslashes(trim($this->input->get('sPage')));
+		$this->iPageScale = 10;
+		$this->iStepScale = 5;
+		$this->sWhere="where 1=1 ";
+
+		$this->idx=$this->input->post('idx2');
+
+		if(!$this->sPage){ $this->sPage = 1;}
+		$this->iStart=($this->sPage-1)*$this->iPageScale;
+		$this->sQuery="SELECT count(tbl1.Idx) as iCnt FROM tbl_company as tbl1 ".$this->sWhere;
+		$this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
+		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
+		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
+
+		
+		$this->sQuery="DELETE FROM tbl_company WHERE idx='".$this->idx."'";
+		$this->db->query($this->sQuery);
+		$this->sQuery2="SELECT tbl1.* from tbl_company as tbl1";
+		$arrData['arrResult']=$this->db->query($this->sQuery2)->result_array();
+
+		$arrData['sPage']=$this->sPage;
+		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
+
+		return $arrData;
+	}
 
 
 	function consultHistoryList1() {
