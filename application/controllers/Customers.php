@@ -14,6 +14,7 @@ class Customers extends CI_Controller {
 	public function consultHistoryList() {
 		$sSideBar = $this->authmodel->checkLogin01();
 		//$this->authmodel->fnAdminAuthCheck($this->session->userdata("AdminIdx"),$this->session->userdata("AdminRole"),"4-2","N");
+		// $this->authmodel->checkSession();
 		$this->load->view('include/incTop',$sSideBar);
 		$arrData=$this->customersmodel->consultHistoryList();
 		$this->load->view('customers/consultHistoryList',$arrData);

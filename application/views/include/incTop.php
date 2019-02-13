@@ -131,35 +131,45 @@
 
 				<li class="nav-header bg-black-lighter">OMS 관리</li>
 
-				<li class="<?=$sidebar01[1]?> has-sub"> 
-					<a href="javascript:;">
-						<b class="caret pull-right"></b>
-						<i class="fa fa-search"></i>
-						<span>업체 관리</span>
+				<li class="<?=$sidebar01[1]?>"> 
+					<a href="/customers/consultHistoryList">
+						<!-- <b class="caret pull-right"></b> -->
+						<i class="fa fa-user"></i>
+						<span>업체정보</span>
 					</a>
-					<ul class="sub-menu">
+					<!-- <ul class="sub-menu">
 						<li class="<?=$sidebar03[1]?>"><a href="/customers/consultHistoryList">업체정보</a></li>
-					</ul>
+					</ul> -->
 				</li>
 
-				<li class="<?=$sidebar01[2]?> has-sub">
-					<a href="javascript:;">
-						<b class="caret pull-right"></b>
-						<i class="fa fa-user"></i>
-						<span>품목 관리<?=$sidebar01[2]?></span>
+				<li class="<?=$sidebar01[2]?>">
+					<a href="/products/productList">
+						<!-- <b class="caret pull-right"></b> -->
+						<i class="fa fa-list"></i>
+						<span>품목 관리</span>
 					</a>
-					<ul class="sub-menu">
-						<li class="<?=$sidebar03[1]?>"><a href="/customers/productList">품목정보</a></li>
-					</ul>
+					<!-- <ul class="sub-menu">
+						<li class="<?=$sidebar03[1]?>"><a href="/products/productList">품목정보</a></li>
+					</ul> -->
 				</li>
-				<li class="<?=$sidebar01[2]?> has-sub">
+				<li class="<?=$sidebar01[3]?> has-sub">
 					<a href="javascript:;">
-						<b class="caret pull-right"></b>
-						<i class="fa fa-user"></i>
+						<!-- <b class="caret pull-right"></b> -->
+						<i class="fa fa-truck"></i>
 						<span>주문 관리</span>
 					</a>
-					<ul class="sub-menu">
+					<!-- <ul class="sub-menu">
 						<li class="<?=$sidebar03[1]?>"><a href="/dashboard/dash">주문정보</a></li>
+					</ul> -->
+				</li>
+				<li class="<?=$sidebar01[4]?> has-sub">
+					<a href="javascript:;">
+						<b class="caret pull-right"></b>
+						<i class="fa fa-plus"></i>
+						<span>업체/품목 등록</span>
+					</a>
+					<ul class="sub-menu">
+						<li class="<?=$sidebar03[4]?>"><a href="/dashboard/dash">주문정보</a></li>
 					</ul>
 				</li>
 

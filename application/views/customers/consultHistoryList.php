@@ -37,7 +37,7 @@
 								<th width="7%" class="text-center">Password</th>
 								<th width="5%" class="text-center">업체명</th>
 								<th width="20%" class="text-center">주소</th>
-								<th width="5%" class="text-center">전화번호</th>
+								<th width="6%" class="text-center">전화번호</th>
 								<th width="5%" class="text-center">대표자명</th>
 								<th width="6%" class="text-center">HP</th>
 								<th width="6%" class="text-center">등록일</th>

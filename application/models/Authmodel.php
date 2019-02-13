@@ -14,6 +14,10 @@ class Authmodel extends CI_Model {
 		}
 		return $arrData;
 	}
+	// function checkSession(){
+	// 	$savedUserdata = $this->session->userdata("AdminLoginYn");
+	// 	$this->sQuery="SELECT userid FROM tbl_company WHERE userid='".$this->
+	// }
 	function loginProc() {
 		$this->AdminId=addslashes(trim($this->input->post('AdminId')));
 		$this->AdminPwd=addslashes(trim($this->input->post('AdminPwd')));
@@ -48,10 +52,50 @@ class Authmodel extends CI_Model {
 	}
 	function fnSideBar() {
 		$arrPageNavi=array(
+			array("/customers/consulthistorylist","1","","1"),
+			array("/products/productlist","2","","2"),
+			// array("/customers/alltRfidBackup","2","","3"),
+		);
+		$arrPageNavi_modify=array(
+			array("/customers/modifycompany","1","","1"),
+			array("/products/modifyproduct","2","","2"),
+			// array("/customers/alltRfidBackup","2","","3"),
+		);
+		$sNowPage=$_SERVER["REQUEST_URI"];
+		$sSideBar01="";
+		$sSideBar02="";
+		$sSideBar03="";
+		//페이지 추출
+		$sNowPage02=explode("?",$sNowPage);
+		if(is_array($sNowPage02)) {$sNowPage=$sNowPage02[0]; }
+		for( $iCnt=0; $iCnt<sizeof($arrPageNavi); $iCnt++ ){
+			if ((strtolower($sNowPage)==$arrPageNavi[$iCnt][0]) || strtolower($sNowPage)==$arrPageNavi_modify[$iCnt][0]) {
+				$sSideBar01=$arrPageNavi[$iCnt][1]; //1		2
+				$sSideBar02=$arrPageNavi[$iCnt][2]; //""	""
+				$sSideBar03=$arrPageNavi[$iCnt][3]; //1		2
+			}
+		}
+		$arrTopNaviClass01=array_fill(0,22,"");
+		$arrTopNaviClass02=array_fill(0,10,"");
+		$arrTopNaviClass03=array_fill(0,100,"");
+		$arrTopNaviClass01[$sSideBar01]="active";
+		$arrTopNaviClass02[$sSideBar02]="active";
+		$arrTopNaviClass03[$sSideBar03]="active";
+//		if ($iNowPageRole>$iAdminRole) {
+			// fnAlertMsg03("접근권한이 없습니다.","/auth");
+//		} else {
+//		}
+		$arrData['sidebar01']=$arrTopNaviClass01;
+		$arrData['sidebar02']=$arrTopNaviClass02;
+		$arrData['sidebar03']=$arrTopNaviClass03;
+		return $arrData;
+	}
+	function fnSideBar1() {
+		$arrPageNavi=array(
 			array("/customers/consultHistorylist","1","","1"),
-			array("/customers/alltRfidList","2","","2"),
-			array("/customers/alltRfidBackup","2","","3"),
-			array("/dashboard/dashboard","2","","3"),
+			array("/products/productList","2","","2"),
+			// array("/orders/alltRfidBackup","2","","3"),
+			// array("/dashboard/dashboard","2","","3"),
 		);
 		$sNowPage=$_SERVER["REQUEST_URI"];
 		$sSideBar01="";
