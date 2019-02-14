@@ -11,7 +11,7 @@
 	<h1 class="page-header"> 업체 정보</h1>
 	<!-- end page-header -->
 	<div class="profile-container" align="center">
-        <form action="/products/modifySaveProduct" method="post">
+        <form action="/prices/modifySavePrice" method="post">
 			<div class="row">
 				<div class="table-responsive">
 					<table class="table table-bordered table-hover table-td-valign-middle">
@@ -22,7 +22,7 @@
                                 <input name ="idx" type="hidden" value=<?=$idx?> />
                                 <tr>
                                     <th class="text-center">품명</th>
-                                    <td><input name="productname" type="text" value="<?=$row["productname"]?>"/></td>
+                                    <td><input name="pricename" type="text" value="<?=$row["pricename"]?>"/></td>
                                 </tr>
                                 <tr>
                                     <th class="text-center">규격</th>
@@ -52,7 +52,7 @@
 				<div class="col-md-12">
 					<div class="pull-center">
                         <button type="submit" class="btn btn-success btn-sm" >저장</button>
-                        <a href="/products/productList"class="btn btn-danger btn-sm ">취소</a>
+                        <a href="/prices/priceList"class="btn btn-danger btn-sm ">취소</a>
 					</div>
 				</div>
 			</div>

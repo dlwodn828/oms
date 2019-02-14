@@ -27,7 +27,7 @@ class Authmodel extends CI_Model {
 			if ($oResult->userpwd==$this->AdminPwd) { //로그인시
 						$newdata = array('AdminLoginYn' =>true,'AdminIdx'=>$oResult->idx,'AdminName'=>$oResult->companyname,'AdminId'=>$this->AdminId);
 						$this->session->set_userdata($newdata);
-					  $arrRetMessage=array('sRetCode'=>'01','sMessage'=>' 로그인이 완료되었습니다.','sRetUrl'=>'/customers');
+					  $arrRetMessage=array('sRetCode'=>'01','sMessage'=>' 로그인이 완료되었습니다.','sRetUrl'=>'/prices');
 				} else {
 				$arrRetMessage=array('sRetCode'=>'03','sMessage'=>'비밀번호가 틀립니다.');
 			}
@@ -48,10 +48,11 @@ class Authmodel extends CI_Model {
 		return $this->arrSidebar;
 	}
 	function checkLogin02() {
-		if ($this->session->userdata("AdminLoginYn")) { redirect('/customers','refresh'); }
+		if ($this->session->userdata("AdminLoginYn")) { redirect('/prices','refresh'); }
 	}
 	function fnSideBar() {
 		$arrPageNavi=array(
+			// array("/prices/pricelist","1","","1"),
 			array("/customers/consulthistorylist","1","","1"),
 			array("/products/productlist","2","","2"),
 			// array("/customers/alltRfidBackup","2","","3"),

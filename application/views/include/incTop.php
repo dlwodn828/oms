@@ -34,9 +34,9 @@
 <link href="/assets/lumino/css/font-awesome.min.css" rel="stylesheet">
 <link href="/assets/lumino/css/datepicker3.css" rel="stylesheet"> -->
 
-<link href="/assets/lumino/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<!-- <link href="/assets/lumino/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"> -->
 <!-- Page level plugin CSS-->
-<link href="/assets/lumino/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">	
+<!-- <link href="/assets/lumino/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">	 -->
 <!--Custom Font-->
 <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
@@ -129,47 +129,31 @@
 				<li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
 
 
-				<li class="nav-header bg-black-lighter">OMS 관리</li>
+				<li class="nav-header bg-black-lighter">OMS</li>
 
-				<li class="<?=$sidebar01[1]?>"> 
-					<a href="/customers/consultHistoryList">
-						<!-- <b class="caret pull-right"></b> -->
-						<i class="fa fa-user"></i>
-						<span>업체정보</span>
-					</a>
-					<!-- <ul class="sub-menu">
-						<li class="<?=$sidebar03[1]?>"><a href="/customers/consultHistoryList">업체정보</a></li>
-					</ul> -->
-				</li>
-
-				<li class="<?=$sidebar01[2]?>">
-					<a href="/products/productList">
-						<!-- <b class="caret pull-right"></b> -->
-						<i class="fa fa-list"></i>
-						<span>품목 관리</span>
-					</a>
-					<!-- <ul class="sub-menu">
-						<li class="<?=$sidebar03[1]?>"><a href="/products/productList">품목정보</a></li>
-					</ul> -->
-				</li>
-				<li class="<?=$sidebar01[3]?> has-sub">
-					<a href="javascript:;">
-						<!-- <b class="caret pull-right"></b> -->
-						<i class="fa fa-truck"></i>
-						<span>주문 관리</span>
-					</a>
-					<!-- <ul class="sub-menu">
-						<li class="<?=$sidebar03[1]?>"><a href="/dashboard/dash">주문정보</a></li>
-					</ul> -->
-				</li>
-				<li class="<?=$sidebar01[4]?> has-sub">
+				
+				<li class="<?=$sidebar01[1]?> has-sub">
 					<a href="javascript:;">
 						<b class="caret pull-right"></b>
-						<i class="fa fa-plus"></i>
-						<span>업체/품목 등록</span>
+						<i class="fa fa-list"></i>
+						<span>업체 및 품목</span>
 					</a>
 					<ul class="sub-menu">
-						<li class="<?=$sidebar03[4]?>"><a href="/dashboard/dash">주문정보</a></li>
+						<li class="<?=$sidebar03[1]?>"><a href="/prices/priceList">업체별 품목 및 단가</a></li>
+						<li class="<?=$sidebar03[1]?>"><a href="/customers/consultHistoryList">업체 관리</a></li>
+						<li class="<?=$sidebar03[1]?>"><a href="/products/productList">품목 관리</a></li>
+					</ul>
+				</li>
+
+				
+				<li class="<?=$sidebar01[2]?> has-sub">
+					<a href="javascript:;">
+						<b class="caret pull-right"></b>
+						<i class="fa fa-truck"></i>
+						<span>주문</span>
+					</a>
+					<ul class="sub-menu">
+						<li class="<?=$sidebar03[2]?>"><a href="/dashboard/dash">주문정보</a></li>
 					</ul>
 				</li>
 

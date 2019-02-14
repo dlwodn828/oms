@@ -18,44 +18,52 @@
 						<thead>
                             <? foreach($arrResult as $index => $row){ ?>
                                 <? if($row["idx"]==$idx){ ?>
+                                <input name ="idx" type="hidden" value=<?=$idx?> />
                                 <tr><th class="text-center tb_top">항목</th><th class="text-center tb_top">정보</th></tr>
                                 <tr>
-                                    <th class="text-center">No</th>
-                                    <input name ="idx" type="hidden" value=<?=$idx?> />
-                                    <td class="text-center "><b><?=$row["idx"]?></b></td>
+                                    <th class="text-center">거래처명</th>
+                                    <td><input name="companyname" type="text" value="<?=$row["companyname"]?>"/></td>
                                 </tr>
                                 <tr>
                                     <th class="text-center">ID</th>
-                                    <td><input name="userid" class="i30" type="text" value="<?=$row["userid"]?>"/></td>
+                                    <td><input name="userid" type="text" value="<?=$row["userid"]?>"/></td>
                                 </tr>
                                 <tr>
                                     <th class="text-center">Password</th>
-                                    <td><input name="userpwd" class="i30" type="text" value="<?=$row["userpwd"]?>"/></td>
-                                </tr>
-                                <tr>
-                                    <th class="text-center">업체명</th>
-                                    <td><input name="companyname" class="i30" type="text" value="<?=$row["companyname"]?>"/></td>
+                                    <td><input name="userpwd" type="text" value="<?=$row["userpwd"]?>"/></td>
                                 </tr>
                                 <tr>
                                     <th class="text-center">대표자명</th>
-                                    <td><input name="managername" class="i30" type="text" value="<?=$row["managername"]?>"/></td>
+                                    <td><input name="managername" type="text" value="<?=$row["managername"]?>"/></td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">업태</th>
+                                    <td><input name="maincategory" type="text" value="<?=$row["maincategory"]?>"/></td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">종목</th>
+                                    <td><input name="subcategory" type="text" value="<?=$row["subcategory"]?>"/></td>
                                 </tr>
                                 <tr>
                                     <th class="text-center">주소</th>
-                                    <td><input name="companyaddr" class="i80" type="text" value="<?=$row["companyaddr"]?>"/></td>
+                                    <td><input name="companyaddr" type="text" value="<?=$row["companyaddr"]?>"/></td>
                                 </tr>
                                 <tr>
                                     <th class="text-center">전화번호</th>
-                                    <td><input name="companytel" class="i30" type="text" value="<?=$row["companytel"]?>"/></td>
+                                    <td><input name="companytel" type="text" value="<?=$row["companytel"]?>"/></td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">FAX</th>
+                                    <td><input name="fax" type="text" value="<?=$row["fax"]?>"/></td>
                                 </tr>
                                 <tr>
                                     <th width="20%" class="text-center">HP</th>
-                                    <td><input name="managertel" class="i30" type="text" value="<?=$row["managertel"]?>"/></td>
+                                    <td><input name="managertel" type="text" value="<?=$row["managertel"]?>"/></td>
                                 </tr>
-                                <!-- <tr>
-                                    <th width="6%" class="text-center">등록일</th>
-                                    <td><input type="text" value="<?=$row["regdate"]?>"/></td>
-                                </tr> -->
+                                <tr>
+                                    <th class="text-center">Email</th>
+                                    <td><input name="email"  type="text" value="<?=$row["email"]?>"/></td>
+                                </tr>
                                 <? } ?>
                             <? } ?>
 						</thead>
@@ -87,8 +95,7 @@ $(document).ready(function() {
     $("table").css("width","40%");
     $("tr").css("height","45px");
     $(".tb_top").css("background-color","#e3e9f2");
-    $(".i30").css("width", "30%");
-    $(".i80").css("width", "100%");
+    $("input").css("width", "100%");
 });
 
 </script>

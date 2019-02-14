@@ -1,3 +1,14 @@
+<style> 
+.table > tbody > tr > th, 
+.table > tfoot > tr > th, 
+.table > thead > tr > td, 
+.table > tbody > tr > td, 
+.table > tfoot > tr > td {
+    border-color: #e2e7eb;
+    padding: 15px 3px;
+    background: #fff;
+}
+</style>
 <!-- begin #content -->
 <div id="content" class="content">
 	<!-- begin breadcrumb
@@ -15,48 +26,41 @@
 				<div class="table-responsive">
 					<table class="table table-bordered table-hover table-td-valign-middle">
 						<thead>
-							<!--tr>
-								<th width="4%" class="text-center">No</th>
+							<tr>
+								<th width="2%" class="text-center">No</th>
 								<th width="10%" class="text-center">업체명</th>
-								<th width="7%" class="text-center">ID</th>
-								<th width="7%" class="text-center">Password</th>
+								<th width="6%" class="text-center">ID</th>
+								<th width="6%" class="text-center">Password</th>
 								<th width="5%" class="text-center">대표자명</th>
 								<th width="5%" class="text-center">업태</th>
-								<th width="5%" class="text-center">종목</th>
-								<th width="20%" class="text-center">주소</th>
+								<th width="10%" class="text-center">종목</th>
+								<th width="15%" class="text-center">주소</th>
 								<th width="6%" class="text-center">전화번호</th>
 								<th width="6%" class="text-center">FAX</th>
 								<th width="6%" class="text-center">H.P</th>
 								<th width="5%" class="text-center">Email</th>
-								<th width="5%" class="text-center">수정</th>
-								<th width="5%" class="text-center">삭제</th>
-							</tr-->
-							<tr>
-								<th width="5%" class="text-center">No</th>
-								<th width="7%" class="text-center">ID</th>
-								<th width="7%" class="text-center">Password</th>
-								<th width="5%" class="text-center">업체명</th>
-								<th width="20%" class="text-center">주소</th>
-								<th width="6%" class="text-center">전화번호</th>
-								<th width="5%" class="text-center">대표자명</th>
-								<th width="6%" class="text-center">HP</th>
-								<th width="6%" class="text-center">등록일</th>
-								<th width="5%" class="text-center">수정</th>
-								<th width="5%" class="text-center">삭제</th>
+								<th width="5%" class="text-center">등록일</th>
+								<th width="4%" class="text-center">수정</th>
+								<th width="4%" class="text-center">삭제</th>
 							</tr>
 						</thead>
 						<tbody>
 						
 							<? foreach ($arrResult as $index => $row) { ?>
+								
 							<tr>
-								<td class="text-center"><?=$row["idx"]?></td>
+								<td class="text-center"><?=++$no?></td>
+								<td class="text-center"><?=$row["companyname"]?></td>
 								<td class="text-center"><?=$row["userid"]?></td>
 								<td class="text-center"><?=$row["userpwd"]?></td>
-								<td class="text-center"><?=$row["companyname"]?></td>
+								<td class="text-center"><?=$row["managername"]?></td>
+								<td class="text-center"><?=$row["maincategory"]?></td>
+								<td class="text-center"><?=$row["subcategory"]?></td>
 								<td class="text-center"><?=$row["companyaddr"]?></td>
 								<td class="text-center"><?=$row["companytel"]?></td>
-								<td class="text-center"><?=$row["managername"]?></td>
+								<td class="text-center"><?=$row["fax"]?></td>
 								<td class="text-center"><?=$row["managertel"]?></td>
+								<td class="text-center"><?=$row["email"]?></td>
 								<td class="text-center"><?=$row["regdate"]?></td>
 								<td class="text-center "><form action="/customers/modifyCompany" method="post"><button name="idx" value="<?=$row["idx"]?>" class="btn btn-warning btn-sm modify" type="submit">수정</button></form></td>
 								<td class="text-center ">
@@ -69,7 +73,7 @@
 						
 						</tbody>
 					</table>
-				</div>
+				</div>	
 			</div>
 			<!-- pagination -->
 			<div class="panel-body">

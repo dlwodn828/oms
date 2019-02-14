@@ -13,36 +13,59 @@
 	<div class="profile-container">
 			<div class="row">
 				<div class="table-responsive">
+					<div class="p-b-10">
+						<form class="form-inline" role="form" id="actForm" method="get">
+							<input type="hidden" name="sPage" id="sPage" value="">
+							<div class="form-inline">
+							<div class="form-group">
+								<select class="form-control width-150" id="companyidx" name="companyidx">
+									<option value="">전체(업체명)</option>
+									<? foreach($arrResult02 as $row) { ?>
+										<option value="<?=$row["idx"]?>" <?=checkSelect($companyidx,$row["idx"],"s")?>>
+											<?=$row["companyname"]?>
+										</option>
+									<? } ?>
+								</select>
+							</div>
+		<!--
+								<div class="form-group" >
+									<div class="input-group ">
+										<input type="text" class="form-control" placeholder="Search" name="sSearchWord" id="sSearchWord" value="<?=$sSearchWord?>">
+										<div class="input-group-btn">
+											<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+										</div>
+									</div>
+								</div>
+		-->
+							</div>
+						</form>
+					</div>
 					<table class="table table-bordered table-hover table-td-valign-middle">
 						<thead>
 							<tr>
 								<th width="3%" class="text-center">No</th>
-								<th width="15%" class="text-center">품목명</th>
+								<th width="12%" class="text-center">거래처명</th>
+								<th width="12%" class="text-center">사용품목</th>
 								<th width="8%" class="text-center">규격</th>
 								<th width="8%" class="text-center">재질</th>
 								<th width="8%" class="text-center">도금</th>
-								<th width="4%" class="text-center">세트번호</th>
-								<th width="5%" class="text-center">등록일</th>
-								<th width="5%" class="text-center">수정</th>
-								<th width="5%" class="text-center">삭제</th>
+								<th width="5%" class="text-center">세트번호</th>
+								<th width="10%" class="text-center">단가</th>
+								<th width="3%" class="text-center">저장</th>
 							</tr>
 						</thead>
 						<tbody>
 							<? foreach ($arrResult as $index => $row) { ?>
 							<tr>
 								<td class="text-center"><?=++$no?></td>
+								<td class="text-center"><?=$row["companyname"]?></td>
 								<td class="text-center"><?=$row["productname"]?></td>
 								<td class="text-center"><?=$row["size"]?></td>
 								<td class="text-center"><?=$row["material"]?></td>
 								<td class="text-center"><?=$row["plated"]?></td>
 								<td class="text-center"><?=$row["setnumber"]?></td>
-								<td class="text-center"><?=$row["regdate"]?></td>
-								<td class="text-center "><form action="/products/modifyProduct" method="post"><button name="idx" value="<?=$row["idx"]?>" class="btn btn-warning btn-sm modify" type="submit">수정</button></form></td>
-								<td class="text-center ">
-									<form action="/products/deleteProduct" method="post">
-										<button name="idx2" value="<?=$row["idx"]?>" id="delete" class="btn btn-danger btn-sm delete" onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</button>
-									</form>
-								</td>
+								<td class="text-center"><input class="form-control text-center" type="text" value="<?=$row["price"]?>"/></td>
+								<td class="text-center "><form action="/prices/modifySavePrice" method="post"><button name="idx" value="<?=$row["idx"]?>" class="btn btn-default btn-sm modify" type="submit">저장</button></form></td>
 							</tr>
 							<? } ?>
 						</tbody>
