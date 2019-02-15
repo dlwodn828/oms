@@ -11,12 +11,23 @@ class Customers extends CI_Controller {
 		redirect('/customers/consultHistoryList','refresh');
 	}
 
+	// url이 바뀌는 페이지만 새로운 함수가 필요함!!
+
 	public function consultHistoryList() {
 		$sSideBar = $this->authmodel->checkLogin01();
-		//$this->authmodel->fnAdminAuthCheck($this->session->userdata("AdminIdx"),$this->session->userdata("AdminRole"),"4-2","N");
-		// $this->authmodel->checkSession();
 		$this->load->view('include/incTop',$sSideBar);
-		$arrData=$this->customersmodel->consultHistoryList();
+		if($this->input->post('idx2')){//delete
+			$arrData=$this->customersmodel->deleteCompany();
+		}
+		else if($this->input->post('save1')){
+			$arrData=$this->customersmodel->modifySaveCompany();
+		}
+		else if($this->input->post('save2')){
+			$arrData=$this->customersmodel->addSaveCompany();
+		}
+		else{
+			$arrData=$this->customersmodel->consultHistoryList();
+		}
 		$this->load->view('customers/consultHistoryList',$arrData);
 		$this->load->view('include/incBottom');
 	}
@@ -29,30 +40,14 @@ class Customers extends CI_Controller {
 		$this->load->view('include/incBottom');
 	}
 
-	public function modifySaveCompany(){
+	public function addCompany(){
 		$sSideBar = $this->authmodel->checkLogin01();
 		$this->load->view('include/incTop',$sSideBar);
-		$arrData=$this->customersmodel->modifySaveCompany();
-		$this->load->view('customers/consultHistoryList',$arrData);
+		$this->load->view('customers/addCompany');
 		$this->load->view('include/incBottom');
 	}
 
-	public function deleteCompany(){
-		$sSideBar = $this->authmodel->checkLogin01();
-		$this->load->view('include/incTop',$sSideBar);
-		$arrData=$this->customersmodel->deleteCompany();
-		$this->load->view('customers/consultHistoryList',$arrData);
-		$this->load->view('include/incBottom');
-	}
 
-	//alltRfidList
-	public function alltRfidList() {
-		$sSideBar = $this->authmodel->checkLogin01();
-		$this->load->view('include/incTop',$sSideBar);
-		$arrData = $this->customersmodel->alltRfidList();
-		$this->load->view('customers/alltRfidList',$arrData);
-		$this->load->view('include/incBottom');
-	}
 
 	//mailWithdrawal
 	public function mailWithdrawal() {

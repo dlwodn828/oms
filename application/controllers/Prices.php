@@ -14,24 +14,38 @@ class Prices extends CI_Controller {
 	public function priceList() {
 		$sSideBar = $this->authmodel->checkLogin01();
 		$this->load->view('include/incTop',$sSideBar);
-		$arrData=$this->pricesmodel->priceList();
+
+		if($this->idx=$this->input->post('idx')){
+			$arrData=$this->pricesmodel->modifySavePrice();
+		}
+		else{
+			$arrData=$this->pricesmodel->priceList();
+		}
+		
 		$this->load->view('prices/priceList',$arrData);
 		$this->load->view('include/incBottom');
 	}
 
-	public function modifyPrice(){
-		$sSideBar = $this->authmodel->checkLogin01();
-		$this->load->view('include/incTop',$sSideBar);
-		$arrData=$this->pricesmodel->modifyPrice();
-		$this->load->view('prices/modifyPrice',$arrData);
-		$this->load->view('include/incBottom');
-	}
+	// public function modifyPrice(){
+	// 	$sSideBar = $this->authmodel->checkLogin01();
+	// 	$this->load->view('include/incTop',$sSideBar);
+	// 	$arrData=$this->pricesmodel->modifyPrice();
+	// 	$this->load->view('prices/modifyPrice',$arrData);
+	// 	$this->load->view('include/incBottom');
+	// }
 
-	public function modifySavePrice(){
+	// public function modifySavePrice(){
+	// 	$sSideBar = $this->authmodel->checkLogin01();
+	// 	$this->load->view('include/incTop',$sSideBar);
+	// 	$arrData=$this->pricesmodel->modifySavePrice();
+	// 	$this->load->view('prices/priceList',$arrData);
+	// 	$this->load->view('include/incBottom');
+	// }
+
+	public function addPrice(){
 		$sSideBar = $this->authmodel->checkLogin01();
 		$this->load->view('include/incTop',$sSideBar);
-		$arrData=$this->pricesmodel->modifySavePrice();
-		$this->load->view('prices/priceList',$arrData);
+		$this->load->view('prices/addPrice');
 		$this->load->view('include/incBottom');
 	}
 

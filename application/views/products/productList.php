@@ -39,7 +39,7 @@
 								<td class="text-center"><?=$row["regdate"]?></td>
 								<td class="text-center "><form action="/products/modifyProduct" method="post"><button name="idx" value="<?=$row["idx"]?>" class="btn btn-warning btn-sm modify" type="submit">수정</button></form></td>
 								<td class="text-center ">
-									<form action="/products/deleteProduct" method="post">
+									<form action="/products/productList" method="post">
 										<button name="idx2" value="<?=$row["idx"]?>" id="delete" class="btn btn-danger btn-sm delete" onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</button>
 									</form>
 								</td>

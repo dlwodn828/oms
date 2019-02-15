@@ -69,7 +69,7 @@ class Productsmodel extends CI_Model {
 		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
 		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
 	
-		$this->sQuery="UPDATE tbl_stock SET productname='".$this->productname."',material='".$this->material."',plated='".$this->plated."',size='".$this->size."',setnumber='".$this->setnumber."' WHERE tbl_stock.idx='".$this->idx."'";
+		$this->sQuery="UPDATE tbl_stock SET productname='".$this->productname."',size='".$this->size."',material='".$this->material."',plated='".$this->plated."',setnumber='".$this->setnumber."' WHERE tbl_stock.idx='".$this->idx."'";
 		$this->sQuery2="SELECT tbl1.* from tbl_stock as tbl1";
 		$this->db->query($this->sQuery);
 

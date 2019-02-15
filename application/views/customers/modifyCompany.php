@@ -11,7 +11,7 @@
 	<h1 class="page-header"> 업체 정보</h1>
 	<!-- end page-header -->
 	<div class="profile-container" align="center">
-        <form action="/customers/modifySaveCompany" method="post">
+        <form action="/customers/consultHistoryList" method="post">
 			<div class="row">
 				<div class="table-responsive">
 					<table class="table table-bordered table-hover table-td-valign-middle">
@@ -75,7 +75,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="pull-center">
-                        <button type="submit" class="btn btn-success btn-sm" >저장</button>
+                        <button type="submit"name="save1" value="save1" class="btn btn-success btn-sm" >저장</button>
                         <a href="/customers/consultHistoryList"class="btn btn-danger btn-sm ">취소</a>
 					</div>
 				</div>

@@ -1,3 +1,9 @@
+<style>
+#addbtn{
+	margin-right : 10px;
+	margin-bottom: 30px;
+}
+</style>
 <!-- begin #content -->
 <div id="content" class="content">
 	<!-- begin breadcrumb
@@ -8,7 +14,7 @@
 	</ol>
 	 end breadcrumb -->
 	<!-- begin page-header -->
-	<h1 class="page-header"> 품목 정보</h1>
+	<h1 class="page-header"> 업체별 품목 단가 정보</h1>
 	<!-- end page-header -->
 	<div class="profile-container">
 			<div class="row">
@@ -50,7 +56,7 @@
 								<th width="8%" class="text-center">재질</th>
 								<th width="8%" class="text-center">도금</th>
 								<th width="5%" class="text-center">세트번호</th>
-								<th width="10%" class="text-center">단가</th>
+								<th width="10%" class="text-center">단가(원)</th>
 								<th width="3%" class="text-center">저장</th>
 							</tr>
 						</thead>
@@ -64,15 +70,17 @@
 								<td class="text-center"><?=$row["material"]?></td>
 								<td class="text-center"><?=$row["plated"]?></td>
 								<td class="text-center"><?=$row["setnumber"]?></td>
-								<td class="text-center"><input class="form-control text-center" type="text" value="<?=$row["price"]?>"/></td>
-								<td class="text-center "><form action="/prices/modifySavePrice" method="post"><button name="idx" value="<?=$row["idx"]?>" class="btn btn-default btn-sm modify" type="submit">저장</button></form></td>
+								<td class="text-center"><form action="/prices/priceList" method="post"><input name="price" class="form-control text-center" type="text" value="<?=$row["price"]?>"/></td>
+								<td class="text-center "><button name="idx" value="<?=$row["idx"]?>" class="btn btn-default btn-sm modify" type="submit">저장</button></form></td>
 							</tr>
 							<? } ?>
 						</tbody>
 					</table>
 				</div>
 			</div>
-
+			<div align="right" >
+				<form action="/prices/addPrice" method="post"><button id="addbtn" name="add" value="add" class="btn btn-success btn-md modify" type="submit">등록</button>
+			</div>
 			<!-- pagination -->
 			<div class="panel-body">
 				<!--<div class="dataTables_info" id="data-table_info">
@@ -115,7 +123,7 @@
 <script>
 $(document).ready(function() {
 	App.init();
-
+	
 });
 
 // function delok(code){
@@ -231,9 +239,9 @@ $(document).ready(function() {
 // 	});
 // });
 
-// $(document).on("change","#companyidx",function(e) {
-// 	$("#actForm").submit();
-// });
+$(document).on("change","#companyidx",function(e) {
+	$("#actForm").submit();
+});
 // $(document).on("change","#warehouseidx",function(e) {
 // 	$("#actForm").submit();
 // });

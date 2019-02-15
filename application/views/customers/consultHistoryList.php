@@ -64,7 +64,7 @@
 								<td class="text-center"><?=$row["regdate"]?></td>
 								<td class="text-center "><form action="/customers/modifyCompany" method="post"><button name="idx" value="<?=$row["idx"]?>" class="btn btn-warning btn-sm modify" type="submit">수정</button></form></td>
 								<td class="text-center ">
-									<form action="/customers/deleteCompany" method="post">
+									<form action="/customers/consultHistoryList" method="post">
 										<button name="idx2" value="<?=$row["idx"]?>" id="delete" class="btn btn-danger btn-sm delete" onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</button>
 									</form>
 								</td>
@@ -74,6 +74,9 @@
 						</tbody>
 					</table>
 				</div>	
+			</div>
+			<div align="right" >
+				<form action="/customers/addCompany" method="post"><button name="add" value="add" class="btn btn-success btn-md modify" type="submit">등록</button>
 			</div>
 			<!-- pagination -->
 			<div class="panel-body">

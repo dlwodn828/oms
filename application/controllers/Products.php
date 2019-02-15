@@ -14,7 +14,15 @@ class Products extends CI_Controller {
 	public function productList() {
 		$sSideBar = $this->authmodel->checkLogin01();
 		$this->load->view('include/incTop',$sSideBar);
-		$arrData=$this->productsmodel->productList();
+		if($this->idx=$this->input->post('delete')){
+			$arrData=$this->productsmodel->deleteProduct();
+		}
+		else if($this->idx=$this->input->post('save')){
+			$arrData=$this->productsmodel->modifySaveProduct();
+		}
+		else{
+			$arrData=$this->productsmodel->productList();
+		}
 		$this->load->view('products/productList',$arrData);
 		$this->load->view('include/incBottom');
 	}
@@ -27,19 +35,19 @@ class Products extends CI_Controller {
 		$this->load->view('include/incBottom');
 	}
 
-	public function modifySaveProduct(){
-		$sSideBar = $this->authmodel->checkLogin01();
-		$this->load->view('include/incTop',$sSideBar);
-		$arrData=$this->productsmodel->modifySaveProduct();
-		$this->load->view('products/productList',$arrData);
-		$this->load->view('include/incBottom');
-	}
+	// public function modifySaveProduct(){
+	// 	$sSideBar = $this->authmodel->checkLogin01();
+	// 	$this->load->view('include/incTop',$sSideBar);
+	// 	$arrData=$this->productsmodel->modifySaveProduct();
+	// 	$this->load->view('products/productList',$arrData);
+	// 	$this->load->view('include/incBottom');
+	// }
 
-	public function deleteProduct(){
-		$sSideBar = $this->authmodel->checkLogin01();
-		$this->load->view('include/incTop',$sSideBar);
-		$arrData=$this->productsmodel->deleteProduct();
-		$this->load->view('products/productList',$arrData);
-		$this->load->view('include/incBottom');
-	}
+	// public function deleteProduct(){
+	// 	$sSideBar = $this->authmodel->checkLogin01();
+	// 	$this->load->view('include/incTop',$sSideBar);
+	// 	$arrData=$this->productsmodel->deleteProduct();
+	// 	$this->load->view('products/productList',$arrData);
+	// 	$this->load->view('include/incBottom');
+	// }
 }
