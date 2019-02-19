@@ -14,8 +14,19 @@ class Orders extends CI_Controller {
 	public function orderList() {
 		$sSideBar = $this->authmodel->checkLogin01();
 		$this->load->view('include/incTop',$sSideBar);
-		$arrData=$this->ordersmodel->orderList();
-		$this->load->view('orders/orderList',$arrData);
+		if($this->input->post('idx2')){//delete
+			$arrData=$this->customersmodel->deleteCompany();
+		}
+		else if($this->input->post('save1')){
+			$arrData=$this->customersmodel->modifySaveCompany();
+		}
+		else if($this->input->post('save2')){
+			$arrData=$this->customersmodel->addSaveCompany();
+		}
+		else{
+			$arrData=$this->customersmodel->consultHistoryList();
+		}
+		$this->load->view('customers/consultHistoryList',$arrData);
 		$this->load->view('include/incBottom');
 	}
 

@@ -48,7 +48,11 @@ class Authmodel extends CI_Model {
 		return $this->arrSidebar;
 	}
 	function checkLogin02() {
-		if ($this->session->userdata("AdminLoginYn")) { redirect('/prices','refresh'); }
+		if ($this->session->userdata("AdminLoginYn")) { 
+			redirect('/prices','refresh');
+		}else{
+			redirect('/c_orders','refresh');
+		}
 	}
 	function fnSideBar() {
 		$arrPageNavi=array(
