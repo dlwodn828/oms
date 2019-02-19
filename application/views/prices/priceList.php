@@ -97,7 +97,7 @@
 	
 </div>
 <!-- #modal-dialog -->
-<div class="modal fade" id="modal-email">
+<!-- <div class="modal fade" id="modal-email">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -117,7 +117,7 @@
 	</div>
 </div>
 <!-- purchase form for printing-->
-<div class="hidden print" id="orderForm"></div>
+<!-- <div class="hidden print" id="orderForm"></div> --> -->
 
 <!-- end #content -->
 <script>

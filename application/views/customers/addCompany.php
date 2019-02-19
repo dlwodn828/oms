@@ -70,8 +70,8 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="pull-center">
-                        <button type="submit" id="save2" name="save2" value="save2" class="btn btn-success btn-sm" onclick="check_blank()">저장</button>
-                        <a href="/customers/consultHistoryList"class="btn btn-danger btn-sm ">취소</a>
+                            <button type="submit" id="save2" name="save2" value="save2" class="btn btn-success btn-sm" onclick="check_blank()">저장</button>
+                            <a href="/customers/consultHistoryList"class="btn btn-danger btn-sm ">취소</a>
 					</div>
 				</div>
 			</div>

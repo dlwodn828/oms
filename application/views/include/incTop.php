@@ -132,28 +132,28 @@
 				<li class="nav-header bg-black-lighter">OMS</li>
 
 				
-				<li class="<?=$sidebar01[1]?> has-sub">
+				<li class=" has-sub">
 					<a href="javascript:;">
 						<b class="caret pull-right"></b>
 						<i class="fa fa-list"></i>
 						<span>업체 및 품목</span>
 					</a>
 					<ul class="sub-menu">
-						<li class="<?=$sidebar03[1]?>"><a href="/prices/priceList">업체별 품목 및 단가</a></li>
-						<li class="<?=$sidebar03[1]?>"><a href="/customers/consultHistoryList">업체 관리</a></li>
-						<li class="<?=$sidebar03[1]?>"><a href="/products/productList">품목 관리</a></li>
+						<li class=""><a href="/prices/priceList">업체별 품목 및 단가</a></li>
+						<li class=""><a href="/customers/consultHistoryList">업체 관리</a></li>
+						<li class=""><a href="/products/productList">품목 관리</a></li>
 					</ul>
 				</li>
 
 				
-				<li class="<?=$sidebar01[2]?> has-sub">
+				<li class=" has-sub">
 					<a href="javascript:;">
 						<b class="caret pull-right"></b>
 						<i class="fa fa-truck"></i>
 						<span>주문</span>
 					</a>
 					<ul class="sub-menu">
-						<li class="<?=$sidebar03[2]?>"><a href="/dashboard/dash">주문정보</a></li>
+						<li class=""><a href="/dashboard/dash">주문정보</a></li>
 					</ul>
 				</li>
 

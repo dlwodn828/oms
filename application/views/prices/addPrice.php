@@ -16,7 +16,7 @@
 	<h1 class="page-header"> 업체 등록</h1>
 	<!-- end page-header -->
 	<div class="profile-container" align="center">
-        <form action="/customers/consultHistoryList" method="post">
+        <form action="/prices/priceList" method="post">
 			<div class="row">
 				<div class="table-responsive">
 					<table class="table table-bordered table-hover table-td-valign-middle">
@@ -24,11 +24,19 @@
                             <tr><th class="text-center tb_top">항목</th><th class="text-center tb_top">정보</th></tr>
                             <tr>
                                 <th class="text-center">거래처명*</th>
-                                <td>
-                                    <form class="form-inline" role="form" id="actForm" method="get">
+                                <td >
+                                <div align="center">
+                                    <div class="fm fm-top"> 
+                                            <!-- <form class="fm" action="/customers/addCompany"> -->
+                                                <!-- <form action="/customers/addCompany" method="post"><input type="hidden" name="addpricepage" value="addpricepage"/></form> -->
+                                                <a href="/customers/addCompany" id="addbtn"class="btn btn-md btn-primary">새로운 업체 등록하기</a>
+                                            <!-- <form> -->
+                                    </div>
+                                    <div class="fm or">또는</div>
+                                    <form class="" role="form" id="actForm" method="get">
                                         <input type="hidden" name="sPage" id="sPage" value="">
-                                        <div class="form-inline">
-                                            <div class="form-group">
+                                        <div class="fm slct">
+                                            <div class="">
                                                 <select class="form-control width-150" id="companyidx" name="companyidx">
                                                     <option value="">전체(업체명)</option>
                                                     <? foreach($arrResult02 as $row) { ?>
@@ -40,36 +48,34 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <div class=""> 
-                                        <form action="">
-                                            <button id="addbtn"class="btn btn-md btn-default">새로운 업체 등록하기</button>
-                                        <form>
-                                    </div>
+                                </div>    
+                                    
+                                    
                                 </td>
                             </tr>
                             <tr>
                                 <th class="text-center">사용품목*</th>
-                                <td><input class="form-control" id="userid" name="userid" type="text" /></td>
+                                <td><input class="form-control" id="procuctname" name="productname" type="text" /></td>
                             </tr>
                             <tr>
                                 <th class="text-center">규격*</th>
-                                <td><input class="form-control" id="userpwd" name="userpwd" type="text" /></td>
+                                <td><input class="form-control" id="size" name="size" type="text" /></td>
                             </tr>
                             <tr>
                                 <th class="text-center">재질</th>
-                                <td><input class="form-control" name="managername" type="text" /></td>
+                                <td><input class="form-control" name="material" type="material" /></td>
                             </tr>
                             <tr>
                                 <th class="text-center">도금</th>
-                                <td><input class="form-control" name="maincategory" type="text" /></td>
+                                <td><input class="form-control" name="plated" type="plated" /></td>
                             </tr>
                             <tr>
                                 <th class="text-center">세트번호*</th>
-                                <td><input class="form-control" name="subcategory" type="text" /></td>
+                                <td><input class="form-control" name="setnumber" type="setnumber" /></td>
                             </tr>
                             <tr>
                                 <th class="text-center">단가(원)*</th>
-                                <td><input class="form-control" name="companyaddr" type="text" /></td>
+                                <td><input class="form-control" name="price" type="price" /></td>
                             </tr>
 						</thead>
 						<tbody>
@@ -80,7 +86,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="pull-center">
-                        <button type="submit" id="save2" name="save2" value="save2" class="btn btn-success btn-sm" onclick="check_blank()">저장</button>
+                        <button type="submit" id="saveprice" name="saveprice" value="saveprice" class="btn btn-success btn-sm" onclick="check_blank()">저장</button>
                         <a href="/prices/priceList"class="btn btn-danger btn-sm ">취소</a>
 					</div>
 				</div>
@@ -101,12 +107,19 @@ $(document).ready(function() {
     $("tr").css("height","45px");
     $(".tb_top").css("background-color","#e3e9f2");
     $("input").css("width", "100%");
-    
+    $(".fm").css("display","inline-block").css("float","left");
+    $(".fm-top").css("margin-top","7px").css("margin-left","80px");
+    $(".or").css("margin-top","7px").css("margin-left","15px");
+    $(".slct").css("margin-left","15px");
 });
 function check_blank(){
     if($(".form-control").val()==""){
         alert("필수 입력란이 비어있습니다.");
         $("form").attr("action", "/prices/addPrice");
+     
     }
+    // if(<?=$row['$isAlreadyExistCpuse']?>==null){
+    //     alert("해당 업체에 이미 등록된 품목입니다.");
+    // }
 }
 </script>

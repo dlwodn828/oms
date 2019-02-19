@@ -11,17 +11,17 @@ class Prices extends CI_Controller {
 		redirect('/prices/priceList','refresh');
 	}
 
-	public function priceList() {
+	public function priceList() {	
 		$sSideBar = $this->authmodel->checkLogin01();
 		$this->load->view('include/incTop',$sSideBar);
-
-		if($this->idx=$this->input->post('idx')){
+		if($this->input->post('idx')){
 			$arrData=$this->pricesmodel->modifySavePrice();
-		}
-		else{
+		}else if($this->input->post('saveprice')){
+			$arrData=$this->pricesmodel->addSavePrice();
+			// $this->pricesmodel->priceList();
+		}else{
 			$arrData=$this->pricesmodel->priceList();
 		}
-		
 		$this->load->view('prices/priceList',$arrData);
 		$this->load->view('include/incBottom');
 	}
@@ -45,7 +45,8 @@ class Prices extends CI_Controller {
 	public function addPrice(){
 		$sSideBar = $this->authmodel->checkLogin01();
 		$this->load->view('include/incTop',$sSideBar);
-		$this->load->view('prices/addPrice');
+		$arrData=$this->pricesmodel->priceList();
+		$this->load->view('prices/addPrice',$arrData);
 		$this->load->view('include/incBottom');
 	}
 
