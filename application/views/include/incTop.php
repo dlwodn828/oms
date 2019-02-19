@@ -131,32 +131,44 @@
 
 				<li class="nav-header bg-black-lighter">OMS</li>
 
-				
-				<li class=" has-sub">
-					<a href="javascript:;">
-						<b class="caret pull-right"></b>
-						<i class="fa fa-list"></i>
-						<span>업체 및 품목</span>
-					</a>
-					<ul class="sub-menu">
-						<li class=""><a href="/prices/priceList">업체별 품목 및 단가</a></li>
-						<li class=""><a href="/customers/consultHistoryList">업체 관리</a></li>
-						<li class=""><a href="/products/productList">품목 관리</a></li>
-					</ul>
-				</li>
+				<?if($this->session->userdata("AdminIdx")=="1"){?>
+					<li class=" has-sub">
+						<a href="javascript:;">
+							<b class="caret pull-right"></b>
+							<i class="fa fa-list"></i>
+							<span>업체 및 품목</span>
+						</a>
+						<ul class="sub-menu">
+							<li class=""><a href="/prices/priceList">업체별 품목 및 단가</a></li>
+							<li class=""><a href="/customers/consultHistoryList">업체 관리</a></li>
+							<li class=""><a href="/products/productList">품목 관리</a></li>
+						</ul>
+					</li>
 
-				
-				<li class=" has-sub">
-					<a href="javascript:;">
-						<b class="caret pull-right"></b>
-						<i class="fa fa-truck"></i>
-						<span>주문</span>
-					</a>
-					<ul class="sub-menu">
-						<li class=""><a href="/orders/orderList">주문정보</a></li>
-					</ul>
-				</li>
-
+					
+					<li class=" has-sub">
+						<a href="javascript:;">
+							<b class="caret pull-right"></b>
+							<i class="fa fa-truck"></i>
+							<span>주문</span>
+						</a>
+						<ul class="sub-menu">
+							<li class=""><a href="/orders/orderList">주문정보</a></li>
+						</ul>
+					</li>
+				<?}else{?>
+					<li class=" has-sub">
+						<a href="javascript:;">
+							<b class="caret pull-right"></b>
+							<i class="fa fa-list"></i>
+							<span>주문 관리</span>
+						</a>
+						<ul class="sub-menu">
+							<li class=""><a href="/c_orders/c_ordering">주문하기</a></li>
+							<li class=""><a href="/c_orders/c_orderList">주문내역</a></li>
+						</ul>
+					</li>
+				<?} ?>
 				<li class="nav-header">&nbsp;</li>
 				<!-- begin sidebar minify button -->
 				<li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>

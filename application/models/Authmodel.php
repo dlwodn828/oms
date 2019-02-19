@@ -23,16 +23,17 @@ class Authmodel extends CI_Model {
 		$this->AdminPwd=addslashes(trim($this->input->post('AdminPwd')));
 		$this->sQuery="SELECT idx,userid,userpwd,companyname FROM ".sTableName01." where userid='".$this->AdminId."'";
 		$oResult = $this->db->query($this->sQuery)->row();
-		if ($oResult) {
-			if ($oResult->userpwd==$this->AdminPwd) { //로그인시
-						$newdata = array('AdminLoginYn' =>true,'AdminIdx'=>$oResult->idx,'AdminName'=>$oResult->companyname,'AdminId'=>$this->AdminId);
-						$this->session->set_userdata($newdata);
-					  $arrRetMessage=array('sRetCode'=>'01','sMessage'=>' 로그인이 완료되었습니다.','sRetUrl'=>'/prices');
-				} else {
+		
+		if ($oResult) { // 정보가 일치해서 유저테이블에 값이 있으면 
+			if ($oResult->userpwd==$this->AdminPwd) { // 패스워드 일치 여부 확인
+				$newdata = array('AdminLoginYn' =>true,'AdminIdx'=>$oResult->idx,'AdminName'=>$oResult->companyname,'AdminId'=>$this->AdminId);
+				$this->session->set_userdata($newdata); // session값으로 위의 배열을 저장.
+				$arrRetMessage=array('sRetCode'=>'01','sMessage'=>' 로그인이 완료되었습니다.','sRetUrl'=>'/auth');
+			} else {
 				$arrRetMessage=array('sRetCode'=>'03','sMessage'=>'비밀번호가 틀립니다.');
 			}
 		} else { //회원이 아닐때
-		$arrRetMessage=array('sRetCode'=>'02','sMessage'=>'회원정보를 찾을 수 없습니다.');
+			$arrRetMessage=array('sRetCode'=>'02','sMessage'=>'회원정보를 찾을 수 없습니다.');
 		}
 		return json_encode($arrRetMessage);
 	}
@@ -40,19 +41,24 @@ class Authmodel extends CI_Model {
 		$this->session->sess_destroy();
 		redirect('/auth','refresh');
 	}
-	function checkLogin01() {
+	function checkLogin01() { // 로그인 유지 확인하고 정상이면 사이드바 인자값들 넘긴다.
+		// 로그인이 안되어 있을 때
 		if (!$this->session->userdata("AdminLoginYn")) {
-			redirect('/auth','refresh');
+			redirect('/auth','refresh'); //auth->index()로 보내어 checkLogin02()하게 한다.
 		}
 		$this->arrSidebar = $this->fnSideBar();
 		return $this->arrSidebar;
 	}
-	function checkLogin02() {
+	function checkLogin02() { // 로그인 된 정보 있으면 바로 메인페이지로 넘긴다.
 		if ($this->session->userdata("AdminLoginYn")) { 
-			redirect('/prices','refresh');
-		}else{
-			redirect('/c_orders','refresh');
-		}
+			if($this->session->userdata("AdminIdx")=="1"){
+				redirect('/prices','refresh');	
+			}else{
+				redirect('/c_orders', 'refresh');	
+				// redirect('/c_orders','refresh');	
+			}
+			// redirect('/prices', 'refresh');
+   		}
 	}
 	function fnSideBar() {
 		$arrPageNavi=array(

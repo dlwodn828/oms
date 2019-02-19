@@ -192,6 +192,10 @@
 				"AdminId": {required: true,maxlength:50},
 				"AdminPwd": {required: true,minlength:6,maxlength:255},
 			},
+			messages: {
+				"AdminId": {required : "아이디를 입력해주세요."},
+				"AdminPwd": {required : "비밀번호를 입력해주세요."},
+			},
 			highlight: function(element) {
 				$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
 			},
@@ -214,7 +218,7 @@
 						dataType:"json",
 						success:function(data) {
 							alert(data.sMessage);
-							$("#csrf").val(data.sToken);
+							// $("#csrf").val(data.sToken);
 							if (data.sRetCode=="01") { //로그인 성공시
 								document.location.href=data.sRetUrl;
 							} else { //실패시
