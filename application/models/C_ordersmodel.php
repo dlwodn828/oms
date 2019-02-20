@@ -11,7 +11,7 @@ class C_ordersmodel extends CI_Model {
 	// 업체별 품목 및 단가 페이지 출력
 	function showOrderQuery($where, $start, $pageScale){         
         $this->sid=$this->session->userdata("AdminIdx");
-		$this->sQuery="SELECT tbl3.idx, tbl2.setnumber, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl3.price from tbl_stock as tbl2 join tbl_cpuse as tbl3 on tbl3.company='".$this->sid."' and tbl2.idx=tbl3.product".$where." order by tbl3.idx asc, tbl2.setnumber LIMIT ".$start.", ".$pageScale;
+		$this->sQuery="SELECT tbl3.idx, tbl2.setnumber, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl3.price from tbl_stock as tbl2 join tbl_cpuse as tbl3 on tbl3.company='".$this->sid."' and tbl2.idx=tbl3.product ".$where." order by tbl3.idx asc, tbl2.setnumber, tbl2.idx desc LIMIT ".$start.", ".$pageScale;
 		$this->arrData = $this->db->query($this->sQuery)->result_array();
 		return $this->arrData;
 	}
@@ -30,10 +30,14 @@ class C_ordersmodel extends CI_Model {
 		return $this->arrData;
 	}
 
+	
+	
+
 	// 기본 값 설정
 	function defaultSetting(){
 		$this->no = 0; // 표의 인덱스
 		$this->sPage=addslashes(trim($this->input->get('sPage')));
+		
 		$this->iPageScale = 10;
 		$this->iStepScale = 5;
 		$this->sWhere="where 1=1 ";
@@ -41,7 +45,7 @@ class C_ordersmodel extends CI_Model {
 		$this->iStart=($this->sPage-1)*$this->iPageScale;
 		$this->sQuery="SELECT count(tbl1.idx) as iCnt FROM tbl_cpuse as tbl1 ".$this->sWhere;
         $this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
-        
+		
 
 		// SelectBox에서 체크한 company만 출력
 		$this->setnumber=addslashes(trim($this->input->get('setnumber'))); 
@@ -56,13 +60,24 @@ class C_ordersmodel extends CI_Model {
 		return $arrData;
 	}
 
+	function getOrderedPriceQuery($companyidx){
+		$this->sQuery="SELECT product, orderquantity FROM tbl_order WHERE company='".$companyidx."' and orderdate = (SELECT MAX(orderdate) FROM tbl_order GROUP BY product)";
+		$this->arrData=$this->db->query($this->sQuery)->result_array();
+		
+		return $this->arrData;
+	}
 
     function c_ordering(){
-        $arrData=$this->defaultSetting();
+		
+		$arrData=$this->defaultSetting();
+		$this->companyidx=$this->session->userdata("AdminIdx");
         $arrData['arrResult02']= $this->showSelectBoxQuery();
-        $arrData['arrResult'] = $this->showOrderQuery($this->sWhere,$this->iStart,$this->iPageScale);
+		$arrData['arrResult'] = $this->showOrderQuery($this->sWhere,$this->iStart,$this->iPageScale);
+		// $arrData['orderquantity']=$this->getOrderedPriceQuery($this->companyidx);
         return $arrData;
     }
+
+	
 
 	// 단가 - 메인
 	function priceList() {
