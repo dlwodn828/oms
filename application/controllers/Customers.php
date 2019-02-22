@@ -57,4 +57,12 @@ class Customers extends CI_Controller {
 		$arrData = $this->customersmodel->printOrder();
 		echo $arrData;
 	}
+
+	//cancelStageProc
+	public function cancelStageProc() {
+		$this->authmodel->checkLogin01();
+		//$this->authmodel->fnAdminAuthCheck($this->session->userdata("AdminIdx"),$this->session->userdata("AdminRole"),"4-1","N");
+		$arrData=$this->customersmodel->cancelStageProc();
+		echo $arrData;
+	}
 }
