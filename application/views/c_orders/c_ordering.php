@@ -342,7 +342,7 @@ $(document).on('click', '.mailOrder', function (e) {
 		$.ajax({
 			type: "post",
 			url: "/c_orders/sendEmail",
-			data: {arrIdx: arrIdx, arrBasequantity: arrBasequantity, duedate:duedate,destination:destination},
+			data: {arrIdx: arrIdx, arrBasequantity: arrBasequantity, duedate: duedate, destination: destination},
 			dataType:"json",
 		}).done(function (data) {
 			alert(data.sMessage);
@@ -351,7 +351,6 @@ $(document).on('click', '.mailOrder', function (e) {
 				
 			} else {
 				$('#modal-delete').modal('hide');
-				alert('hi');
 			}
 			// data_html = $.parseHTML(data)
 			// d = JSON.stringify(data, null, 4);

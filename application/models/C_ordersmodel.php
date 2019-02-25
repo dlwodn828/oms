@@ -77,22 +77,6 @@ class C_ordersmodel extends CI_Model {
         return $arrData;
     }
 
-	function saveOrder(){
-		$this->duedate=$this->input->post('duedate');
-		$this->destination=$this->input->post('destination');
-
-		$arrData=$this->defaultSetting();
-		//주문 내용 DB에 저장
-		$this->sQuery1="SELECT price from tbl_cpuse where idx='".$this->idx."'";
-        $this->arrData = $this->db->query($this->sQuery1)->result_array();
-		$this->sQuery="INSERT into tbl_order(company, product, orderquantity, orderprice, orderdate, duedate, destination) values ('".$this->idx."', '".$this->quantity."','".$this->quantity."')";
-		//이메일 보내기
-		$this->sendEmail();
-
-
-
-
-	}
 
 	// 단가 - 메인
 	function priceList() {
@@ -194,6 +178,37 @@ class C_ordersmodel extends CI_Model {
 	}
 
 
+	function saveOrder($iCnt,$arrCpuse, $arrBasequantity, $duedate, $destination){
+
+		// $this->duedate=$this->input->post('duedate');
+		// $this->destination=$this->input->post('destination');
+
+		// $arrData=$this->defaultSetting();
+
+		//주문 내용 DB에 저장
+		// $this->sQuery1="SELECT price from tbl_cpuse where idx='".$this->idx."'";
+        // $this->arrData = $this->db->query($this->sQuery1)->result_array();
+		// $this->sQuery="INSERT into tbl_order(company, product, orderquantity, orderprice, orderdate, duedate, destination) values ('".$this->idx."', '".$this->quantity."','".$this->quantity."')";
+		//이메일 보내기
+
+		for($i=0;$i<$iCnt;$i++){
+			$this->sQuery="INSERT into tbl_order(company, product, orderprice) values ('".$arrCpuse[$i]['company']."' ,'".$arrCpuse[$i]['product']."','".$arrCpuse[$i]['price']."')";
+			$this->db->query($this->sQuery);
+			$this->sQuery2="SELECT MAX(idx) as ridx from tbl_order";
+			$this->recentOrder=$this->db->query($this->sQuery2)->row()->ridx;
+			$this->sQuery3="UPDATE tbl_order set orderquantity='".$arrBasequantity[$i]."', duedate='".$duedate."', destination='".$destination."' where idx='".$this->recentOrder."')";
+			$this->db->query($this->sQuery3);
+		}
+		// foreach ($arrBasequantity as $key=>$value) {
+		// 	$this->sQuery="UPDATE tbl_order set orderquantity='".$value."', duedate='".$duedate."', destination='".$destination."' where idx='".$recentOrder[$key]."')";
+		// 	$this->db->query($this->sQuery);
+		// }
+		
+		
+
+
+
+	}
 
 	function sendEmail() {
 		// alert('no');
@@ -202,8 +217,8 @@ class C_ordersmodel extends CI_Model {
 			$arrBasequantity[] = addslashes(trim($this->input->post('arrBasequantity')[$index]));
 		}
 
-		$this->duedate = $this->input->post('duedate');
-		$this->destination = $this->input->post('destination');
+		$duedate =  addslashes(trim($this->input->post('duedate')));
+		$destination =  addslashes(trim($this->input->post('destination')));
 		
 		if (empty($arrBasequantity) || empty($arrIdx)) {
 			$arrRetMessage=array('sRetCode'=>'02','sMessage'=>'잘못된 접근입니다.');
@@ -213,20 +228,21 @@ class C_ordersmodel extends CI_Model {
 			
 
 			if($this->iCnt01!=0){
-				$this->sQuery="SELECT tbl.* from tbl_cpuse as tbl where tbl.idx IN (".implode(',',$arrIdx).") order by idx desc";
+				$this->sQuery="SELECT tbl.* from tbl_cpuse as tbl where tbl.idx IN (".implode(',',$arrIdx).") order by idx asc"; //desc
 				$arrData['arrResult'] = $this->db->query($this->sQuery)->result_array();
 				
-				$this->sQuery="SELECT tbl.company, tbl.product, tbl.price from tbl_cpuse as tbl where tbl.idx IN (".implode(',',$arrIdx).")";
+				// $this->sQuery="SELECT tbl.company, tbl.product, tbl.price from tbl_cpuse as tbl where tbl.idx IN (".implode(',',$arrIdx).") order by idx asc";
+				$this->sQuery="SELECT tbl.* from tbl_cpuse as tbl where tbl.idx IN (".implode(',',$arrIdx).") order by idx asc";
 				$arrCpuse=$this->db->query($this->sQuery)->result_array();
 
 				if ($arrCpuse) {
-					$arrRetMessage=array('sRetCode'=>'01','sMessage'=>'이메일 주문이 완료되었습니다.', 'data'=>$arrCpuse);
+					$arrRetMessage=array('sRetCode'=>'01','sMessage'=>'이메일 주문이 완료되었습니다.', 'data'=>$arrData['arrResult']);
 				} else {
 					$arrRetMessage=array('sRetCode'=>'02','sMessage'=>'model에서 오류가 발생하였습니다. 해당 문제가 지속될시 관리자에게 문의주세요.');
 				}
 
 
-				$data['arrItem'] = $arrData['arrResult'];
+				$data['arrItem'] =$arrData['arrResult'];
 
 				$this->load->library('email');
 				//SMTP & mail configuration
@@ -261,15 +277,18 @@ class C_ordersmodel extends CI_Model {
 				}
 
 
-
+				$this->saveOrder($this->iCnt01,$arrCpuse,$arrBasequantity,$duedate, $destination);
 
 
 			}
-			// $arrRetMessage=array('sRetCode'=>'01', 'sMessage'=>'성공!');
 		}
 		return json_encode($arrRetMessage);	
 		
 	}
+
+
+
+
 //cancelStageProc
 	function sendEmail1() {
 		foreach ($this->input->post('arrIdx') as $index => $idx) {
