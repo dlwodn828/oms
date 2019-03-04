@@ -178,7 +178,7 @@ h4{
 			<div class="row">
 				<div class="col-md-12">
 					<div class="pull-right bottom_form">
-						<h4>납기일</h4><input id="duedate" class="form-control bf" type="date">
+						<h4>납기일</h4><input id="duedate" class="form-control bf" type="text"> // date
 					</div>
 				</div>
 				<div class="col-md-12">
@@ -342,7 +342,7 @@ $(document).on('click', '.mailOrder', function (e) {
 		$.ajax({
 			type: "post",
 			url: "/c_orders/sendEmail",
-			data: {arrIdx: arrIdx, arrBasequantity: arrBasequantity, duedate: duedate, destination: destination},
+			data: {arrIdx: arrIdx, arrBasequantity: arrBasequantity, duedate:duedate, destination:destination},
 			dataType:"json",
 		}).done(function (data) {
 			alert(data.sMessage);
@@ -361,6 +361,7 @@ $(document).on('click', '.mailOrder', function (e) {
 			console.log(errorThrown);
 			// $('#modal-delete').modal('hide');
 			alert('view에서 오류가 발생하였습니다. 해당 문제가 지속될시 관리자에게 문의주세요.');
+			console.warn(jqXHR.responseText);
 		}).error(function(request,status,error){
 			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		});

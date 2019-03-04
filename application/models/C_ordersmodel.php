@@ -5,6 +5,8 @@ class C_ordersmodel extends CI_Model {
 		parent::__construct();
 		$this->load->database();
 		$this->load->model('utilmodel');
+		
+
 	}
 
 
@@ -196,7 +198,7 @@ class C_ordersmodel extends CI_Model {
 			$this->db->query($this->sQuery);
 			$this->sQuery2="SELECT MAX(idx) as ridx from tbl_order";
 			$this->recentOrder=$this->db->query($this->sQuery2)->row()->ridx;
-			$this->sQuery3="UPDATE tbl_order set orderquantity='".$arrBasequantity[$i]."', duedate='".$duedate."', destination='".$destination."' where idx='".$this->recentOrder."')";
+			$this->sQuery3="UPDATE tbl_order set orderquantity=".$arrBasequantity[$i].", duedate=".$duedate.", destination='".$destination."' where idx='".$this->recentOrder."'";
 			$this->db->query($this->sQuery3);
 		}
 		// foreach ($arrBasequantity as $key=>$value) {
@@ -215,6 +217,7 @@ class C_ordersmodel extends CI_Model {
 		foreach ($this->input->post('arrIdx') as $index => $idx) {
 			$arrIdx[] = addslashes(trim($idx));
 			$arrBasequantity[] = addslashes(trim($this->input->post('arrBasequantity')[$index]));
+			
 		}
 
 		$duedate =  addslashes(trim($this->input->post('duedate')));
@@ -241,9 +244,10 @@ class C_ordersmodel extends CI_Model {
 					$arrRetMessage=array('sRetCode'=>'02','sMessage'=>'model에서 오류가 발생하였습니다. 해당 문제가 지속될시 관리자에게 문의주세요.');
 				}
 
-
+				foreach ($arrData['arrResult'] as $index => $value) {
+					$arrData['arrResult'][$index]['basequantity'] = $arrBasequantity[$index];
+				}
 				$data['arrItem'] =$arrData['arrResult'];
-
 				$this->load->library('email');
 				//SMTP & mail configuration
 				$config = array(
@@ -252,12 +256,20 @@ class C_ordersmodel extends CI_Model {
 					'smtp_port' => 465,
 					'smtp_user' => 'alltcpc@gmail.com',
 					'smtp_pass' => 'alltcpc0712',
-					'mailtype'  => 'html',
+					'mailtype'  => 'text',
 					'charset'   => 'utf-8'
 				);
 				$this->email->initialize($config);
 				$this->email->set_mailtype("html");
 				$this->email->set_newline("\r\n");
+				// $this->email->set_crlf("\r\n");
+
+				/*
+					Unable to send email using PHP SMTP. Your server might not be configured to send mail using this method.
+				*/
+
+
+
 
 				//Email content
 				$htmlContent = $this->load->view('forms/purchaseFormA4', $data, TRUE);
@@ -268,13 +280,47 @@ class C_ordersmodel extends CI_Model {
 				$this->email->to('dlwodn828@gmail.com');
 				$this->email->from('allt@allt.kr','ALLT');
 				$this->email->subject('주문서가 도착했습니다.');
-				$this->email->message($htmlContent);
+				$this->email->message("hihi");
 				// $arrRetMessage['data'] = $arrBasequantity;
 				//Send email
 				if (!$this->email->send(TRUE)) {
-					// fnAlertMsg($this->email->print_debugger(array('headers', 'subject', 'body')));
-					fnAlertMsg("메일발송이 실패하였습니다. 해당 문제가 지속될시 관리자에게 연락주세요");
+					fnAlertMsg($this->email->print_debugger(array('headers', 'subject', 'body')));
+					// fnAlertMsg("메일발송이 실패하였습니다. 해당 문제가 지속될시 관리자에게 연락주세요");
+
 				}
+				// $data['arrItem'] =$arrData['arrResult'];
+
+				// $this->load->library('email');
+				// //SMTP & mail configuration
+				// $config = array(
+				// 	'protocol'  => 'smtp',
+				// 	'smtp_host' => 'ssl://smtp.googlemail.com',
+				// 	'smtp_port' => 465,
+				// 	'smtp_user' => 'alltcpc@gmail.com',
+				// 	'smtp_pass' => 'alltcpc0712',
+				// 	'mailtype'  => 'html',
+				// 	'charset'   => 'utf-8'
+				// );
+				// $this->email->initialize($config);
+				// $this->email->set_mailtype("html");
+				// $this->email->set_newline("\r\n");
+
+				// //Email content
+				// $htmlContent = $this->load->view('forms/purchaseFormA4', $data, TRUE);
+				// // TEST
+				// // $datajson = json_encode($arrBasequantity);
+				// // $htmlContent = $datajson;
+
+				// $this->email->to('dlwodn828@gmail.com');
+				// $this->email->from('allt@allt.kr','ALLT');
+				// $this->email->subject('주문서가 도착했습니다.');
+				// $this->email->message($htmlContent);
+				// // $arrRetMessage['data'] = $arrBasequantity;
+				// //Send email
+				// if (!$this->email->send(TRUE)) {
+				// 	// fnAlertMsg($this->email->print_debugger(array('headers', 'subject', 'body')));
+				// 	fnAlertMsg("메일발송이 실패하였습니다. 해당 문제가 지속될시 관리자에게 연락주세요");
+				// }
 
 
 				$this->saveOrder($this->iCnt01,$arrCpuse,$arrBasequantity,$duedate, $destination);

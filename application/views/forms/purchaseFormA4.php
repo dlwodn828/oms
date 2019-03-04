@@ -132,11 +132,11 @@
                     </tr>
                     <?php foreach ($arrItem as $item): ?>
                         <tr>
-                            <td><?=$item['productname']?></td>
+                            <!-- <td><?=$item['productname']?></td>
                             <td><?=$item['size1']?> / <?=$item['size2']?> / <?=$item['size3']?></td>
                             <td><?=$item['material']?></td>
                             <td><?=$item['plated']?></td>
-                            <td><?=$item['basequantity']?></td>
+                            <td><?=$item['basequantity']?></td> -->
                             <td></td>
                             <td></td>
                             <td></td>
