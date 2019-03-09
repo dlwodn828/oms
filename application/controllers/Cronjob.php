@@ -34,8 +34,8 @@ class Cronjob extends CI_Controller{
                     'protocol'  => 'smtp',
                     'smtp_host' => 'ssl://smtp.googlemail.com',
                     'smtp_port' => 465,
-                    'smtp_user' => 'alltcpc@gmail.com',
-                    'smtp_pass' => 'alltcpc0712',
+                    'smtp_user' => 'dlwodn828@gmail.com',
+                    'smtp_pass' => 'dl94585854',
                     'mailtype'  => 'html',
                     'charset'   => 'utf-8'
                 );

@@ -182,17 +182,6 @@ class C_ordersmodel extends CI_Model {
 
 	function saveOrder($iCnt,$arrCpuse, $arrBasequantity, $duedate, $destination){
 
-		// $this->duedate=$this->input->post('duedate');
-		// $this->destination=$this->input->post('destination');
-
-		// $arrData=$this->defaultSetting();
-
-		//주문 내용 DB에 저장
-		// $this->sQuery1="SELECT price from tbl_cpuse where idx='".$this->idx."'";
-        // $this->arrData = $this->db->query($this->sQuery1)->result_array();
-		// $this->sQuery="INSERT into tbl_order(company, product, orderquantity, orderprice, orderdate, duedate, destination) values ('".$this->idx."', '".$this->quantity."','".$this->quantity."')";
-		//이메일 보내기
-
 		for($i=0;$i<$iCnt;$i++){
 			$this->sQuery="INSERT into tbl_order(company, product, orderprice) values ('".$arrCpuse[$i]['company']."' ,'".$arrCpuse[$i]['product']."','".$arrCpuse[$i]['price']."')";
 			$this->db->query($this->sQuery);
@@ -200,16 +189,19 @@ class C_ordersmodel extends CI_Model {
 			$this->recentOrder=$this->db->query($this->sQuery2)->row()->ridx;
 			$this->sQuery3="UPDATE tbl_order set orderquantity=".$arrBasequantity[$i].", duedate=".$duedate.", destination='".$destination."' where idx='".$this->recentOrder."'";
 			$this->db->query($this->sQuery3);
+			$this->sQuery4="SELECT * from tbl_order as tbl1 JOIN tbl_stock as tbl2 JOIN tbl_company as tbl3 on tbl1.product=tbl2.idx and tbl1.company=tbl3.idx where tbl1.idx='".$this->recentOrder."'";
+			$orderlist[$i]=$this->db->query($this->sQuery4)->result_array();
 		}
-		// foreach ($arrBasequantity as $key=>$value) {
-		// 	$this->sQuery="UPDATE tbl_order set orderquantity='".$value."', duedate='".$duedate."', destination='".$destination."' where idx='".$recentOrder[$key]."')";
-		// 	$this->db->query($this->sQuery);
-		// }
 		
-		
+		return $orderlist;
 
+	}
 
-
+	function mailCompany(){
+		$this->sid=$this->session->userdata("AdminIdx");
+		$this->sQuery="SELECT * from tbl_company where idx='".$this->sid."'";
+		$this->companyInfo = $this->db->query($this->sQuery)->result_array();
+		return $this->companyInfo;
 	}
 
 	function sendEmail() {
@@ -247,15 +239,24 @@ class C_ordersmodel extends CI_Model {
 				foreach ($arrData['arrResult'] as $index => $value) {
 					$arrData['arrResult'][$index]['basequantity'] = $arrBasequantity[$index];
 				}
-				$data['arrItem'] =$arrData['arrResult'];
+				// $data['arrItem'] =$arrData['arrResult'];
+
+
+				$this->orderlist=$this->saveOrder($this->iCnt01,$arrCpuse,$arrBasequantity,$duedate, $destination);
+				$data['arrItem']=$this->orderlist;
+				$this->companyInfo=$this->mailCompany();
+				$data['arrItem']=$this->companyInfo;
+				
+
+
 				$this->load->library('email');
 				//SMTP & mail configuration
 				$config = array(
 					'protocol'  => 'smtp',
 					'smtp_host' => 'ssl://smtp.googlemail.com',
 					'smtp_port' => 465,
-					'smtp_user' => 'alltcpc@gmail.com',
-					'smtp_pass' => 'alltcpc0712',
+					'smtp_user' => 'dlwodn828@gmail.com',
+					'smtp_pass' => 'dl94585854',
 					'mailtype'  => 'text',
 					'charset'   => 'utf-8'
 				);
@@ -280,7 +281,7 @@ class C_ordersmodel extends CI_Model {
 				$this->email->to('dlwodn828@gmail.com');
 				$this->email->from('allt@allt.kr','ALLT');
 				$this->email->subject('주문서가 도착했습니다.');
-				$this->email->message("hihi");
+				$this->email->message($htmlContent);
 				// $arrRetMessage['data'] = $arrBasequantity;
 				//Send email
 				if (!$this->email->send(TRUE)) {
@@ -288,154 +289,18 @@ class C_ordersmodel extends CI_Model {
 					// fnAlertMsg("메일발송이 실패하였습니다. 해당 문제가 지속될시 관리자에게 연락주세요");
 
 				}
-				// $data['arrItem'] =$arrData['arrResult'];
-
-				// $this->load->library('email');
-				// //SMTP & mail configuration
-				// $config = array(
-				// 	'protocol'  => 'smtp',
-				// 	'smtp_host' => 'ssl://smtp.googlemail.com',
-				// 	'smtp_port' => 465,
-				// 	'smtp_user' => 'alltcpc@gmail.com',
-				// 	'smtp_pass' => 'alltcpc0712',
-				// 	'mailtype'  => 'html',
-				// 	'charset'   => 'utf-8'
-				// );
-				// $this->email->initialize($config);
-				// $this->email->set_mailtype("html");
-				// $this->email->set_newline("\r\n");
-
-				// //Email content
-				// $htmlContent = $this->load->view('forms/purchaseFormA4', $data, TRUE);
-				// // TEST
-				// // $datajson = json_encode($arrBasequantity);
-				// // $htmlContent = $datajson;
-
-				// $this->email->to('dlwodn828@gmail.com');
-				// $this->email->from('allt@allt.kr','ALLT');
-				// $this->email->subject('주문서가 도착했습니다.');
-				// $this->email->message($htmlContent);
-				// // $arrRetMessage['data'] = $arrBasequantity;
-				// //Send email
-				// if (!$this->email->send(TRUE)) {
-				// 	// fnAlertMsg($this->email->print_debugger(array('headers', 'subject', 'body')));
-				// 	fnAlertMsg("메일발송이 실패하였습니다. 해당 문제가 지속될시 관리자에게 연락주세요");
-				// }
-
-
-				$this->saveOrder($this->iCnt01,$arrCpuse,$arrBasequantity,$duedate, $destination);
-
-
 			}
 		}
 		return json_encode($arrRetMessage);	
 		
 	}
 
-
-
-
-//cancelStageProc
-	function sendEmail1() {
-		foreach ($this->input->post('arrIdx') as $index => $idx) {
-			$arrIdx[] = addslashes(trim($idx));
-			$arrBasequantity[] = addslashes(trim($this->input->post('arrBasequantity')[$index]));
-		}
-
-		$this->duedate = $this->input->post('duedate');
-		$this->destination = $this->input->post('destination');
-		
-		if (empty($arrBasequantity) || empty($arrIdx)) {
-			$arrRetMessage=array('sRetCode'=>'02','sMessage'=>'잘못된 접근입니다.');
-		} else {
- 			// foreach ($arrIdx as $idx) {
-			// }
-			$this->sQuery="SELECT count(idx) as iCnt01 FROM tbl_cpuse where idx IN (".implode(',',$arrIdx).")";
-			$this->iCnt01=$this->db->query($this->sQuery)->row()->iCnt01;
-			
-			if ($this->iCnt01!=0) {
-				$this->sQuery="SELECT tbl.* from tbl_cpuse as tbl where tbl.idx IN (".implode(',',$arrIdx).") order by idx desc";
-				$arrData['arrResult'] = $this->db->query($this->sQuery)->result_array();
-				
-				$this->sQuery="SELECT tbl.company, tbl.product, tbl.price from tbl_cpuse as tbl where tbl.idx IN (".implode(',',$arrIdx).") order by idx acs";
-				$arrCpuse=$this->db->query($this->sQuery)->result_array();
-
-				if ($arrData['arrResult']) {
-					$arrRetMessage=array('sRetCode'=>'01','sMessage'=>'이메일 주문이 완료되었습니다.', 'data'=>$arrData['arrResult']);
-				} else {
-					$arrRetMessage=array('sRetCode'=>'02','sMessage'=>'model에서 오류가 발생하였습니다. 해당 문제가 지속될시 관리자에게 문의주세요.');
-				}
-				
-				// foreach ($arrData['arrResult'] as $index => $value) {
-				// 	$arrData['arrResult'][$index]['basequantity'] = $arrBasequantity[$index];
-				// }
-
-
-
-				// $this->sQuery="SELECT tbl.company, tbl.product, tbl.price from tbl_cpuse as tbl where tbl.idx IN (".implode(',',$arrIdx).") order by idx acs";
-				
-				// for($i=0;$i<$this->iCnt01;$i++){
-				
-
-
-
-				// $arrData['arrResult'][0]['basequantity'] = $this->basequantity;
-				// $arrRetMessage['data'] = ;
-				// $data['arrItem'] = $arrData['arrResult'];
-				//sendmail 진행
-				//Load email library
-				$this->load->library('email');
-				//SMTP & mail configuration
-				$config = array(
-					'protocol'  => 'smtp',
-					'smtp_host' => 'ssl://smtp.googlemail.com',
-					'smtp_port' => 465,
-					'smtp_user' => 'alltcpc@gmail.com',
-					'smtp_pass' => 'alltcpc0712',
-					'mailtype'  => 'html',
-					'charset'   => 'utf-8'
-				);
-				$this->email->initialize($config);
-				$this->email->set_mailtype("html");
-				$this->email->set_newline("\r\n");
-
-				//Email content
-				$htmlContent = $this->load->view('forms/purchaseFormA4', $data, TRUE);
-				// TEST
-				// $datajson = json_encode($arrBasequantity);
-				// $htmlContent = $datajson;
-
-				$this->email->to('dlwodn828@gmail.com');
-				$this->email->from('allt@allt.kr','ALLT');
-				$this->email->subject('주문서가 도착했습니다.');
-				$this->email->message($htmlContent);
-				// $arrRetMessage['data'] = $arrBasequantity;
-				//Send email
-				if (!$this->email->send(TRUE)) {
-					// fnAlertMsg($this->email->print_debugger(array('headers', 'subject', 'body')));
-					fnAlertMsg("메일발송이 실패하였습니다. 해당 문제가 지속될시 관리자에게 연락주세요");
-				}else{
-					//DB저장
-
-					$arrData=$this->defaultSetting();
-					//주문 내용 DB에 저장
-					$this->sQuery1="SELECT price from tbl_cpuse where idx IN (".implode(',',$arrIdx).")";
-					$this->arrData = $this->db->query($this->sQuery1)->result_array();
-
-					foreach($arrCpuse as $index=>$value){
-						$this->sQuery="INSERT into tbl_order (company,product,orderprice) values ('".$arrCpuse."'[0]['".$value."'], '".$arrCpuse."'[1]['".$value."'], '".$arrCpuse."'[2]['".$value."'])";
-						// "INSERT into tbl_order(company,product,orderprice) values ($arrData['arrResult'][0][$value],$arrData['arrResult'][0][$value],$arrData['arrResult'][0][$value],$arrData['arrResult'][0][$value])
-						$this->db->query($this->sQuery);
-					}
-
-					// $this->sQuery
-					// $this->sQuery="INSERT into tbl_order(orderquantity, duedate, destination) values ('".$this->idx."', '".$this->quantity."','".$this->quantity."')";
-					
-					
-				}
-			}
-		return json_encode($arrRetMessage);
-		}
+	function c_orderList(){
+		$arrData=$this->defaultSetting();
+		$this->sid=$this->session->userdata("AdminIdx");
+		$this->sQuery="select idx, companyname, productname, size, material, plated, orderquantity, orderprice, setnumber, orderdate, duedate, destination from order_view where idx='".$this->sid."' order by setnumber asc, orderdate desc LIMIT ".$this->iStart.", ".$this->iPageScale;
+		$arrData['arrResult']=$this->db->query($this->sQuery)->result_array();
+		return $arrData;
 	}
 	
 }

@@ -81,22 +81,27 @@
                 </table>
 
                 <table width="329" height="163" class="table-contact">
-                    <tr>
-                        <td>사업자등록번호</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>회사명/대표</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>주소</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>담당/연락처</td>
-                        <td></td>
-                    </tr>
+                
+                            <tr>
+                                <td>사업자등록번호</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>회사명</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>대표</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>주소</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>담당/연락처</td>
+                                <td></td>
+                            </tr>
                 </table>
             </div>
             <div class="row">
@@ -126,22 +131,22 @@
                         <td>도금</td>
                         <td>수량</td>
                         <td>단가</td>
-                        <td>Note</td>
                         <td>납기일</td>
                         <td>Total</td>
                     </tr>
                     <?php foreach ($arrItem as $item): ?>
-                        <tr>
-                            <!-- <td><?=$item['productname']?></td>
-                            <td><?=$item['size1']?> / <?=$item['size2']?> / <?=$item['size3']?></td>
-                            <td><?=$item['material']?></td>
-                            <td><?=$item['plated']?></td>
-                            <td><?=$item['basequantity']?></td> -->
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                        <?php foreach ($item as $row): ?>
+                            <tr>
+                                <td><?=$row['productname']?></td>
+                                <td><?=$row['size']?></td>
+                                <td><?=$row['material']?></td>
+                                <td><?=$row['plated']?></td>
+                                <td><?=$row['orderquantity']?></td>
+                                <td><?=$row['orderprice']?></td>
+                                <td><?=$row['duedate']?></td>
+                                <td><?=$row['productname']?></td>
+                            </tr>
+                        <?php endforeach; ?>
                     <?php endforeach; ?>
                 </table>
             </div>

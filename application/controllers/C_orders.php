@@ -27,6 +27,13 @@ class C_orders extends CI_Controller {
 		$this->load->view('include/incBottom');
 	}
 
+	public function c_orderList(){
+		$sSideBar=$this->authmodel->checkLogin01();
+		$this->load->view('include/incTop',$sSideBar);
+		$arrData=$this->c_ordersmodel->c_orderList();
+		$this->load->view('c_orders/c_orderList',$arrData);
+		$this->load->view('include/incBottom');
+	}
 
 
 	// public function modifyPrice(){

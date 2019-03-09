@@ -153,7 +153,7 @@
 							<span>주문</span>
 						</a>
 						<ul class="sub-menu">
-							<li class=""><a href="/orders/orderList">주문정보</a></li>
+							<li class=""><a href="/orders/orderList">주문내역</a></li>
 						</ul>
 					</li>
 				<?}else{?>

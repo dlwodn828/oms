@@ -70,7 +70,7 @@
 								<td class="text-center"><?=$row["material"]?></td>
 								<td class="text-center"><?=$row["plated"]?></td>
 								<td class="text-center"><?=$row["setnumber"]?></td>
-								<td class="text-center"><form action="/prices/priceList" method="post"><input name="price" class="form-control text-center" type="text" value="<?=$row["price"]?>"/></td>
+								<td class="text-center"><form action="/prices/priceList" method="post"><input name="productidx" type="hidden" value="<?=$row['sidx']?>"><input name="price" class="form-control text-center" type="text" value="<?=$row["price"]?>"/></td>
 								<td class="text-center "><button name="idx" value="<?=$row["idx"]?>" class="btn btn-default btn-sm modify" type="submit">저장</button></form></td>
 							</tr>
 							<? } ?>
@@ -79,7 +79,7 @@
 				</div>
 			</div>
 			<div align="right" >
-				<form action="/prices/addPrice" method="post"><button id="addbtn" name="add" value="add" class="btn btn-success btn-md modify" type="submit">등록</button>
+				<form action="/prices/addPrice" method="post"><button id="addbtn" name="add" value="add" class="btn btn-success btn-md modify" type="submit">업체가 사용할 품목 등록하기</button>
 			</div>
 			<!-- pagination -->
 			<div class="panel-body">

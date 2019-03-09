@@ -14,7 +14,7 @@ class Prices extends CI_Controller {
 	public function priceList() {	
 		$sSideBar = $this->authmodel->checkLogin01();
 		$this->load->view('include/incTop',$sSideBar);
-		if($this->input->post('idx')){
+		if($this->input->post('price')){
 			$arrData=$this->pricesmodel->modifySavePrice();
 		}else if($this->input->post('saveprice')){
 			$arrData=$this->pricesmodel->addSavePrice();

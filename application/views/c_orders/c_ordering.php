@@ -178,7 +178,7 @@ h4{
 			<div class="row">
 				<div class="col-md-12">
 					<div class="pull-right bottom_form">
-						<h4>납기일</h4><input id="duedate" class="form-control bf" type="text"> // date
+						<h4>납기일</h4><input id="duedate" class="form-control bf" type="text">
 					</div>
 				</div>
 				<div class="col-md-12">

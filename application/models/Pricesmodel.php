@@ -10,14 +10,14 @@ class Pricesmodel extends CI_Model {
 
 	// 업체별 품목 및 단가 페이지 출력
 	function showPriceQuery($where, $start, $pageScale){ 
-		$this->sQuery = "SELECT tbl1.idx, tbl1.companyname, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl2.setnumber, tbl3.price from tbl_cpuse as tbl3 join tbl_company as tbl1 on tbl3.company=tbl1.idx join tbl_stock as tbl2 on tbl3.product=tbl2.idx ".$where." order by tbl3.idx asc, tbl2.setnumber LIMIT ".$start.", ".$pageScale;
+		$this->sQuery = "SELECT tbl1.idx, tbl2.idx as sidx, tbl1.companyname, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl2.setnumber, tbl3.price from tbl_cpuse as tbl3 join tbl_company as tbl1 join tbl_stock as tbl2 on tbl3.company=tbl1.idx and tbl3.product=tbl2.idx ".$where." order by tbl3.idx asc, tbl2.setnumber LIMIT ".$start.", ".$pageScale;
 		$this->arrData = $this->db->query($this->sQuery)->result_array();
 		return $this->arrData;
 	}
 
 	// 바뀐 단가 Update
-	function updatePriceQuery($idx, $price){
-		$this->sQuery="UPDATE tbl_cpuse SET price='".$price."' WHERE tbl_cpuse.idx='".$idx."'";
+	function updatePriceQuery($idx, $price, $product){
+		$this->sQuery="UPDATE tbl_cpuse SET price='".$price."' WHERE company='".$idx."' and product='".$product."'";
 		$this->db->query($this->sQuery);
 	}
 
@@ -89,11 +89,12 @@ class Pricesmodel extends CI_Model {
 		$this->no = 0;
 		$this->idx=$this->input->post('idx');
 		$this->price=$this->input->post('price');
+		$this->product=$this->input->post('productidx');
 			
 		// SelectBox 내용 출력
 		$arrData['arrResult02']= $this->showSelectBoxQuery();
 		// 바뀐 단가 Update
-		$this->updatePriceQuery($this->idx, $this->price);
+		$this->updatePriceQuery($this->idx, $this->price, $this->product);
 		// 단가 페이지 출력
 		$arrData['arrResult'] = $this->showPriceQuery($this->sWhere,$this->iStart,$this->iPageScale);
 		return $arrData;
