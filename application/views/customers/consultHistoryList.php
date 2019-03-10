@@ -76,7 +76,7 @@
 				</div>	
 			</div>
 			<div align="right" >
-				<form action="/customers/addCompany" method="post"><button name="add" value="add" class="btn btn-success btn-md modify" type="submit">등록</button>
+				<form action="/customers/addCompany" method="post"><button name="add" value="add" class="btn btn-success btn-md modify" type="submit">등록</button></form>
 			</div>
 			<!-- pagination -->
 			<div class="panel-body">

@@ -33,21 +33,21 @@
                                             <!-- <form> -->
                                     </div>
                                     <div class="fm or">또는</div>
-                                    <form class="" role="form" id="actForm" method="get">
+                                    
                                         <input type="hidden" name="sPage" id="sPage" value="">
                                         <div class="fm slct">
                                             <div class="">
                                                 <select class="form-control width-150" id="companyidx" name="companyidx">
                                                     <option value="">전체(업체명)</option>
                                                     <? foreach($arrResult02 as $row) { ?>
-                                                        <option value="<?=$row["idx"]?>" <?=checkSelect($companyidx,$row["idx"],"s")?>>
+                                                        <option value="<?=$row["idx"]?>">
                                                             <?=$row["companyname"]?>
                                                         </option>
                                                     <? } ?>
                                                 </select>
                                             </div>
                                         </div>
-                                    </form>
+                                    
                                 </div>    
                                     
                                     
@@ -63,19 +63,19 @@
                             </tr>
                             <tr>
                                 <th class="text-center">재질</th>
-                                <td><input class="form-control" name="material" type="material" /></td>
+                                <td><input class="form-control" name="material" type="text" /></td>
                             </tr>
                             <tr>
                                 <th class="text-center">도금</th>
-                                <td><input class="form-control" name="plated" type="plated" /></td>
+                                <td><input class="form-control" name="plated" type="text" /></td>
                             </tr>
                             <tr>
                                 <th class="text-center">세트번호*</th>
-                                <td><input class="form-control" name="setnumber" type="setnumber" /></td>
+                                <td><input class="form-control" name="setnumber" type="text" /></td>
                             </tr>
                             <tr>
                                 <th class="text-center">단가(원)*</th>
-                                <td><input class="form-control" name="price" type="price" /></td>
+                                <td><input class="form-control" name="price1" type="text" /></td>
                             </tr>
 						</thead>
 						<tbody>
@@ -118,8 +118,6 @@ function check_blank(){
         $("form").attr("action", "/prices/addPrice");
      
     }
-    // if(<?=$row['$isAlreadyExistCpuse']?>==null){
-    //     alert("해당 업체에 이미 등록된 품목입니다.");
-    // }
+
 }
 </script>

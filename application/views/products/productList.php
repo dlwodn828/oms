@@ -11,8 +11,15 @@
 	<h1 class="page-header"> 품목 정보</h1>
 	<!-- end page-header -->
 	<div class="profile-container">
+		<div class="table-responsive">
 			<div class="row">
-				<div class="table-responsive">
+				<div class="p-b-10">
+					<form class="form-inline" role="form" id="actForm" method="get">
+						<input type="hidden" name="sPage" id="sPage" value="">
+					</form>
+				</div>
+				<? ?>
+
 					<table class="table table-bordered table-hover table-td-valign-middle">
 						<thead>
 							<tr>
@@ -28,9 +35,10 @@
 							</tr>
 						</thead>
 						<tbody>
+						
 							<? foreach ($arrResult as $index => $row) { ?>
 							<tr>
-								<td class="text-center"><?=++$no?></td>
+								<td class="text-center"><?=$row["idx"]?></td>
 								<td class="text-center"><?=$row["productname"]?></td>
 								<td class="text-center"><?=$row["size"]?></td>
 								<td class="text-center"><?=$row["material"]?></td>

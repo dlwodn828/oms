@@ -48,7 +48,7 @@ h4{
 	</ol>
 	 end breadcrumb -->
 	<!-- begin page-header -->
-	<h1 class="page-header"> 주문하기</h1>
+	<h1 class="page-header">주문내역</h1>
 	<!-- end page-header -->
 	<div class="profile-container">
 			<div class="row">

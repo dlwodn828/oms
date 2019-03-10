@@ -57,50 +57,30 @@ h4{
 						<form class="form-inline" role="form" id="actForm" method="get">
 							<input type="hidden" name="sPage" id="sPage" value="">
 							<div class="form-inline">
-							<div class="form-group">
-								<select class="form-control width-150" id="companyidx" name="companyidx">
-									<option value="">전체(업체명)</option>
-									<? foreach($arrResult02 as $row) { ?>
-										<option value="<?=$row["idx"]?>" <?=checkSelect($companyidx,$row["idx"],"s")?>>
-											<?=$row["companyname"]?>
-										</option>
-									<? } ?>
-								</select>
-							</div>
-		<!--
-								<div class="form-group" >
-									<div class="input-group ">
-										<input type="text" class="form-control" placeholder="Search" name="sSearchWord" id="sSearchWord" value="<?=$sSearchWord?>">
-										<div class="input-group-btn">
-											<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-										</div>
-									</div>
+								<div class="form-group">
+									<select class="form-control width-150" id="companyidx" name="companyidx">
+										<option value="">전체(업체명)</option>
+										<? foreach($arrResult02 as $row) { ?>
+											<option value="<?=$row["idx"]?>" <?=checkSelect($companyidx,$row["idx"],"s")?>>
+												<?=$row["companyname"]?>
+											</option>
+										<? } ?>
+									</select>
 								</div>
-		-->
-							</div>
-						</form>
-					</div>
-							<!-- <div class="form-group">
-								<select class="form-control width-150" id="setnumber" name="setnumber">
-									<option value="">세트 번호</option>
-									<? foreach($arrResult02 as $row) { ?>
-									<option value="<?=$row["setnumber"]?>" <?=checkSelect($setnumber,$row["setnumber"],"s")?>><?=$row["setnumber"]?></option>
-									<? } ?>
-								</select>
-							</div> -->
-<!-- 		
-								<div class="form-group" >
-									<div class="input-group ">
-										<input type="text" class="form-control" placeholder="Search" name="sSearchWord" id="sSearchWord" value="<?=$sSearchWord?>">
-										<div class="input-group-btn">
-											<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+			<!--
+									<div class="form-group" >
+										<div class="input-group ">
+											<input type="text" class="form-control" placeholder="Search" name="sSearchWord" id="sSearchWord" value="<?=$sSearchWord?>">
+											<div class="input-group-btn">
+												<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+											</div>
 										</div>
 									</div>
-								</div> -->
-		
+			-->
 							</div>
 						</form>
 					</div>
+							
 					<table class="table table-bordered table-hover table-td-valign-middle">
 						<thead>
 							<tr>
@@ -191,7 +171,7 @@ h4{
 		<!-- end #table-responsive -->
 	</div>
 	<!-- end #profile-container -->
-	
+	</div>
 </div>
 <!-- #modal-dialog -->
 <!-- purchase form for printing-->

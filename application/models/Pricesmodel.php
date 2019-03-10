@@ -10,7 +10,7 @@ class Pricesmodel extends CI_Model {
 
 	// 업체별 품목 및 단가 페이지 출력
 	function showPriceQuery($where, $start, $pageScale){ 
-		$this->sQuery = "SELECT tbl1.idx, tbl2.idx as sidx, tbl1.companyname, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl2.setnumber, tbl3.price from tbl_cpuse as tbl3 join tbl_company as tbl1 join tbl_stock as tbl2 on tbl3.company=tbl1.idx and tbl3.product=tbl2.idx ".$where." order by tbl3.idx asc, tbl2.setnumber LIMIT ".$start.", ".$pageScale;
+		$this->sQuery = "SELECT tbl1.idx, tbl2.idx as sidx, tbl1.companyname, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl3.setnumber, tbl3.price from tbl_cpuse as tbl3 join tbl_company as tbl1 join tbl_stock as tbl2 on tbl3.company=tbl1.idx and tbl3.product=tbl2.idx ".$where." order by tbl3.idx asc, tbl3.setnumber LIMIT ".$start.", ".$pageScale;
 		$this->arrData = $this->db->query($this->sQuery)->result_array();
 		return $this->arrData;
 	}
@@ -23,7 +23,7 @@ class Pricesmodel extends CI_Model {
 
 	// SelectBox 내용 출력
 	function showSelectBoxQuery(){
-		$this->sQuery="SELECT tbl1.* from tbl_company as tbl1 order by tbl1.idx";
+		$this->sQuery="SELECT tbl1.* from tbl_company as tbl1 ".$this->sWhere." order by tbl1.Idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
 		$this->arrData = $this->db->query($this->sQuery)->result_array();
 		return $this->arrData;
 	}
@@ -101,8 +101,8 @@ class Pricesmodel extends CI_Model {
 		// $this->sQuery="UPDATE tbl_cpuse SET price='".$this->price."' WHERE tbl_cpuse.idx='".$this->idx."'";
 		// $this->sQuery2="SELECT tbl3.idx, tbl1.companyname, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl2.setnumber, tbl3.price from tbl_cpuse as tbl3 join tbl_company as tbl1 on tbl3.company=tbl1.idx join tbl_stock as tbl2 on tbl3.product=tbl2.idx ".$this->sWhere." order by tbl3.idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
 	}
-	function insertCpuseQuery($companyidx,$productidx,$price){
-		$this->sQuery="INSERT into tbl_cpuse (company,product,price) values ('".$companyidx."','".$productidx."','".$price."')";
+	function insertCpuseQuery($companyidx,$productidx,$price,$setnumber){
+		$this->sQuery="INSERT into tbl_cpuse (company,product,price,setnumber) values ('".$companyidx."','".$productidx."','".$price."', '".$setnumber."')";
 		$this->db->query($this->sQuery);
 	}   	
 	// function insertProuctQuery(){
@@ -111,19 +111,48 @@ class Pricesmodel extends CI_Model {
 	// }
 
 	function checkExistence($companyidx, $productname, $size, $material, $plated, $setnumber, $price){
-		$this->sQuery="select idx as pidx from tbl_stock where productname='".$productname."' and size='".$size."' and material='".$material."' and plated='".$plated."'";
+		// 품목 테이블에 있는 건지 확인 (중복되는 품목이 생기는 것을 방지)
+		$this->sQuery="select count(idx) as pidx from tbl_stock where productname='".$productname."' and size='".$size."' and material='".$material."' and plated='".$plated."'";
 		$this->productIdx = $this->db->query($this->sQuery)->row()->pidx;
+		//중복되는 것이 없으면 
 		if(!$this->productIdx){
+			//품목 테이블에 등록
 			$this->sQuery="INSERT into tbl_stock (productname,size,material,plated) values ('".$productname."','".$size."','".$material."','".$plated."')";
 			$this->db->query($this->sQuery);
 			$this->sQuery2="SELECT MAX(idx) as newidx from tbl_stock";
 			$this->newidx=$this->db->query($this->sQuery2)->row()->newidx;
-			$this->insertCpuseQuery($companyidx,$this->newidx,$price);
-		}else{
-			$this->sQuery="SELECT idx from tbl_cpuse where company='".$companyidx."' and product=".$this->productIdx." and price='".$price."'";
-			if(!$this->db->query($this->sQuery)){
-				$this->insertCpuseQuery($companyidx,$this->productIdx,$price);
+			
+			//사용 테이블에 등록
+			$this->insertCpuseQuery($companyidx,$this->newidx,$price,$setnumber);
+			
+			// // 저장할때 세트번호를 확인하고 없으면 세트번호 추가
+			// $this->sQuery3="SELECT count(idx) as sidx from tbl_cpuse where company='".$companyidx."' and setnumber='".$setnumber."'";
+			// $this->sidx=$this->db->query($this->sQuery3)->row()->sidx;
+			// if(!$this->sidx) {
+			// 	$this->sQuery4="INSERT into tbl_cpuse(companyidx,setnumber) values ('".$companyidx."', '".$setnumber."')";
+			// 	$this->db->query($this->sQuery4);
+			// }
+		// 등록할때는 무조건 세트번호를 등록해야하기 때문에 위와같은 절차가 필요없고 그냥 저장만하면된다.
+
+
+		}
+		//중복되는 것이 있으면
+		else{
+
+			//사용 테이블에 등록
+			$this->sQuery="SELECT count(idx) as cidx from tbl_cpuse where company='".$companyidx."' and product=".$this->productIdx." and price='".$price."'";
+			$this->companyIdx=$this->db->query($this->sQuery)->row()->cidx;
+			if(!$this->companyIdx){
+				$this->insertCpuseQuery($companyidx,$this->productIdx,$price,$setnumber);
 			}
+
+			// // 저장할때 세트번호를 확인하고 없으면 세트번호 추가
+			// $this->sQuery3="SELECT count(idx) as sidx from tbl_set where companyidx='".$companyidx."' and setnumber='".$setnumber."'";
+			// $this->sidx=$this->db->query($this->sQuery3)->row()->sidx;
+			// if(!$this->sidx) {
+			// 	$this->sQuery4="INSERT into tbl_set(companyidx,setnumber) values ('".$companyidx."', '".$setnumber."')";
+			// 	$this->db->query($this->sQuery4);
+			// }
 		}
 		return null;
 		// return 값을 줘서 view로 뿌려준다음 자바스크립트로 false가 들어오면 alert창이 (이미 있다고) 뜨게
@@ -142,7 +171,7 @@ class Pricesmodel extends CI_Model {
 		$this->material=$this->input->post('material');
 		$this->plated=$this->input->post('plated');
 		$this->setnumber=$this->input->post('setnumber');
-		$this->price=$this->input->post('price');
+		$this->price=$this->input->post('price1');
 		$this->checkExistence($this->companyidx, $this->productname, $this->size, $this->material, $this->plated, $this->setnumber, $this->price);
 		// $this->isnull=$this->checkExistence($this->companyidx, $this->productname, $this->size, $this->material, $this->plated, $this->setnumber, $this->price);
 		// $arrData['isAlreadyExistCpuse']=$this->isnull;

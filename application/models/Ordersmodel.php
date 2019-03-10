@@ -15,32 +15,27 @@ class Ordersmodel extends CI_Model {
 	function orderList() {
 		$this->no = 0; // 표의 인덱스
 		$this->sPage=addslashes(trim($this->input->get('sPage')));
-		
 		$this->iPageScale = 10;
 		$this->iStepScale = 5;
 		$this->sWhere="where 1=1 ";
+
 		if(!$this->sPage){ $this->sPage = 1;}
 		$this->iStart=($this->sPage-1)*$this->iPageScale;
 		$this->sQuery="SELECT count(tbl1.idx) as iCnt FROM tbl_cpuse as tbl1 ".$this->sWhere;
         $this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
-		
+		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
+		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
+
 		$this->companyidx=addslashes(trim($this->input->get('companyidx'))); 
 		if ($this->companyidx) { $this->sWhere.=" and idx='".$this->companyidx."' ";  }
 		$arrData['companyidx']=$this->companyidx;
 
-		
-        
-		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
-		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
 		$arrData['no']=$this->no;
-		$arrData['sPage']=$this->sPage;
-		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
-		
 		$arrData['arrResult02']=$this->showSelectBoxQuery();
-		// if($this->session->userdata("AdminIdx")==1){
-			$this->sQuery="select idx, companyname, productname, size, material, plated, setnumber, orderquantity, orderprice, orderdate, duedate, destination from order_view ".$this->sWhere." order by idx asc, orderdate desc LIMIT ".$this->iStart.", ".$this->iPageScale;
-			$arrData['arrResult']=$this->db->query($this->sQuery)->result_array();	
-		// }
+		$this->sQuery="select DISTINCT idx, companyname, productname, size, material, plated, setnumber, orderquantity, orderprice, orderdate, duedate, destination from order_view ".$this->sWhere." order by idx asc, orderdate desc ";//LIMIT ".$this->iStart.", ".$this->iPageScale
+		$arrData['arrResult']=$this->db->query($this->sQuery)->result_array();	
+		$arrData['sPage']=$this->sPage;
+		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],10,5,1);
 		
 		return $arrData;
 	}

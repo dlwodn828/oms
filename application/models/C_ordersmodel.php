@@ -13,7 +13,7 @@ class C_ordersmodel extends CI_Model {
 	// 업체별 품목 및 단가 페이지 출력
 	function showOrderQuery($where, $start, $pageScale){         
         $this->sid=$this->session->userdata("AdminIdx");
-		$this->sQuery="SELECT tbl3.idx, tbl2.setnumber, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl3.price from tbl_stock as tbl2 join tbl_cpuse as tbl3 on tbl3.company='".$this->sid."' and tbl2.idx=tbl3.product ".$where." order by tbl3.idx asc, tbl2.setnumber, tbl2.idx desc LIMIT ".$start.", ".$pageScale;
+		$this->sQuery="SELECT tbl3.idx, tbl3.setnumber, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl3.price from tbl_stock as tbl2 join tbl_cpuse as tbl3 on tbl3.company='".$this->sid."' and tbl2.idx=tbl3.product ".$where." order by tbl3.idx asc, tbl3.setnumber, tbl2.idx desc LIMIT ".$start.", ".$pageScale;
 		$this->arrData = $this->db->query($this->sQuery)->result_array();
 		return $this->arrData;
 	}
@@ -27,7 +27,7 @@ class C_ordersmodel extends CI_Model {
 	// SelectBox 내용 출력
 	function showSelectBoxQuery(){
         $this->sid=$this->session->userdata("AdminIdx");
-        $this->sQuery="select setnumber from tbl_set where companyidx='".$this->sid."'";
+        $this->sQuery="SELECT DISTINCT setnumber from tbl_cpuse where company='".$this->sid."'";
         $this->arrData = $this->db->query($this->sQuery)->result_array();
 		return $this->arrData;
 	}
@@ -51,7 +51,7 @@ class C_ordersmodel extends CI_Model {
 
 		// SelectBox에서 체크한 company만 출력
 		$this->setnumber=addslashes(trim($this->input->get('setnumber'))); 
-		if ($this->setnumber) { $this->sWhere.=" and tbl2.setnumber='".$this->setnumber."' ";  }
+		if ($this->setnumber) { $this->sWhere.=" and tbl3.setnumber='".$this->setnumber."' ";  }
 		$arrData['setnumber']=$this->setnumber;
         
 		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
@@ -298,7 +298,7 @@ class C_ordersmodel extends CI_Model {
 	function c_orderList(){
 		$arrData=$this->defaultSetting();
 		$this->sid=$this->session->userdata("AdminIdx");
-		$this->sQuery="select idx, companyname, productname, size, material, plated, orderquantity, orderprice, setnumber, orderdate, duedate, destination from order_view where idx='".$this->sid."' order by setnumber asc, orderdate desc LIMIT ".$this->iStart.", ".$this->iPageScale;
+		$this->sQuery="select distinct idx, companyname, productname, size, material, plated, orderquantity, orderprice, setnumber, orderdate, duedate, destination from order_view where idx='".$this->sid."' order by setnumber asc, orderdate desc LIMIT ".$this->iStart.", ".$this->iPageScale;
 		$arrData['arrResult']=$this->db->query($this->sQuery)->result_array();
 		return $arrData;
 	}

@@ -79,7 +79,9 @@
 				</div>
 			</div>
 			<div align="right" >
-				<form action="/prices/addPrice" method="post"><button id="addbtn" name="add" value="add" class="btn btn-success btn-md modify" type="submit">업체가 사용할 품목 등록하기</button>
+				<form action="/prices/addPrice" method="post">
+					<button id="addbtn" name="add" value="add" class="btn btn-success btn-md modify" type="submit">업체가 사용할 품목 등록하기</button>
+				</form>
 			</div>
 			<!-- pagination -->
 			<div class="panel-body">

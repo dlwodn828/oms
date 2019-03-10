@@ -42,6 +42,13 @@ class Prices extends CI_Controller {
 	// 	$this->load->view('include/incBottom');
 	// }
 
+	// public function addPrice(){
+	// 	$sSideBar = $this->authmodel->checkLogin01();
+	// 	$this->load->view('include/incTop',$sSideBar);
+	// 	// $arrData=$this->pricesmodel->priceList();
+	// 	$this->load->view('prices/addPrice');
+	// 	$this->load->view('include/incBottom');
+	// }
 	public function addPrice(){
 		$sSideBar = $this->authmodel->checkLogin01();
 		$this->load->view('include/incTop',$sSideBar);
@@ -49,7 +56,6 @@ class Prices extends CI_Controller {
 		$this->load->view('prices/addPrice',$arrData);
 		$this->load->view('include/incBottom');
 	}
-
 	public function deletePrice(){
 		$sSideBar = $this->authmodel->checkLogin01();
 		$this->load->view('include/incTop',$sSideBar);
