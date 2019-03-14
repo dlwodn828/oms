@@ -23,6 +23,9 @@
 	<!-- end page-header -->
 	<div class="profile-container">
 			<div class="row">
+				<form class="form-inline" role="form" id="actForm" method="get">
+						<input type="hidden" name="sPage" id="sPage" value="">
+					</form>
 				<div class="table-responsive">
 					<table class="table table-bordered table-hover table-td-valign-middle">
 						<thead>

@@ -10,7 +10,7 @@ class Pricesmodel extends CI_Model {
 
 	// 업체별 품목 및 단가 페이지 출력
 	function showPriceQuery($where, $start, $pageScale){ 
-		$this->sQuery = "SELECT tbl1.idx, tbl2.idx as sidx, tbl1.companyname, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl3.setnumber, tbl3.price from tbl_cpuse as tbl3 join tbl_company as tbl1 join tbl_stock as tbl2 on tbl3.company=tbl1.idx and tbl3.product=tbl2.idx ".$where." order by tbl3.idx asc, tbl3.setnumber LIMIT ".$start.", ".$pageScale;
+		$this->sQuery = "SELECT tbl1.idx, tbl2.idx as sidx, tbl1.companyname, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl3.setnumber, tbl3.price from tbl_cpuse as tbl3 join tbl_company as tbl1 join tbl_stock as tbl2 on tbl3.company=tbl1.idx and tbl3.product=tbl2.idx ".$where." order by tbl1.idx asc, tbl3.setnumber asc LIMIT ".$start.", ".$pageScale;
 		$this->arrData = $this->db->query($this->sQuery)->result_array();
 		return $this->arrData;
 	}
@@ -23,7 +23,7 @@ class Pricesmodel extends CI_Model {
 
 	// SelectBox 내용 출력
 	function showSelectBoxQuery(){
-		$this->sQuery="SELECT tbl1.* from tbl_company as tbl1 ".$this->sWhere." order by tbl1.Idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
+		$this->sQuery="SELECT tbl1.* from tbl_company as tbl1 ".$this->sWhere." order by tbl1.Idx asc";
 		$this->arrData = $this->db->query($this->sQuery)->result_array();
 		return $this->arrData;
 	}
@@ -37,14 +37,14 @@ class Pricesmodel extends CI_Model {
 		$this->sWhere="where 1=1 ";
 		if(!$this->sPage){ $this->sPage = 1;}
 		$this->iStart=($this->sPage-1)*$this->iPageScale;
-		$this->sQuery="SELECT count(tbl1.idx) as iCnt FROM tbl_cpuse as tbl1 ".$this->sWhere;
-		$this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
-
+		
 		// SelectBox에서 체크한 company만 출력
 		$this->companyidx=addslashes(trim($this->input->get('companyidx'))); 
 		if ($this->companyidx) { $this->sWhere.=" and tbl1.idx='".$this->companyidx."' ";  }
 		$arrData['companyidx']=$this->companyidx;
-
+		
+		$this->sQuery="SELECT count(tbl1.idx) as iCnt FROM tbl_cpuse as tbl1 ".$this->sWhere;
+		$this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
 		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
 		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
 		$arrData['no']=$this->no;
@@ -119,11 +119,11 @@ class Pricesmodel extends CI_Model {
 			//품목 테이블에 등록
 			$this->sQuery="INSERT into tbl_stock (productname,size,material,plated) values ('".$productname."','".$size."','".$material."','".$plated."')";
 			$this->db->query($this->sQuery);
-			$this->sQuery2="SELECT MAX(idx) as newidx from tbl_stock";
-			$this->newidx=$this->db->query($this->sQuery2)->row()->newidx;
+			$this->sQuery2="SELECT MAX(idx) as recentidx from tbl_stock";
+			$this->recentidx=$this->db->query($this->sQuery2)->row()->recentidx;
 			
 			//사용 테이블에 등록
-			$this->insertCpuseQuery($companyidx,$this->newidx,$price,$setnumber);
+			$this->insertCpuseQuery($companyidx,$this->recentidx,$price,$setnumber);
 			
 			// // 저장할때 세트번호를 확인하고 없으면 세트번호 추가
 			// $this->sQuery3="SELECT count(idx) as sidx from tbl_cpuse where company='".$companyidx."' and setnumber='".$setnumber."'";
@@ -164,7 +164,27 @@ class Pricesmodel extends CI_Model {
 
 	function addSavePrice(){
 		
-		$arrData=$this->defaultSetting();
+		$this->no = 0; // 표의 인덱스
+		$this->sPage=addslashes(trim($this->input->get('sPage')));
+		$this->iPageScale = 10;
+		$this->iStepScale = 5;
+		$this->sWhere="where 1=1 ";
+		if(!$this->sPage){ $this->sPage = 1;}
+		$this->iStart=($this->sPage-1)*$this->iPageScale;
+		
+		// SelectBox에서 체크한 company만 출력
+		$this->companyidx=addslashes(trim($this->input->get('companyidx'))); 
+		if ($this->companyidx) { $this->sWhere.=" and tbl1.idx='".$this->companyidx."' ";  }
+		$arrData['companyidx']=$this->companyidx;
+		
+		$this->sQuery="SELECT count(tbl1.idx) as iCnt FROM tbl_cpuse as tbl1 ".$this->sWhere;
+		$this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
+		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
+		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
+		$arrData['no']=$this->no;
+		$arrData['sPage']=$this->sPage;
+		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
+
 		$this->companyidx=$this->input->post('companyidx');
 		$this->productname=$this->input->post('productname');
 		$this->size=$this->input->post('size');
@@ -181,33 +201,44 @@ class Pricesmodel extends CI_Model {
 		$arrData['arrResult'] = $this->showPriceQuery($this->sWhere,$this->iStart,$this->iPageScale);
 		return $arrData;
 	}
-	// function deletePrice(){
-	// 	// 표의 인덱스
-	// 	$this->no = 0;
-	// 	$arrData['no']=$this->no;
+	function deletePrice(){
+		// 표의 인덱스
+		$this->no = 0;
+		$arrData['no']=$this->no;
 
-	// 	$this->sPage=addslashes(trim($this->input->get('sPage')));
-	// 	$this->iPageScale = 10;
-	// 	$this->iStepScale = 5;
-	// 	$this->sWhere="where 1=1 ";
+		$this->sPage=addslashes(trim($this->input->get('sPage')));
+		$this->iPageScale = 10;
+		$this->iStepScale = 5;
+		$this->sWhere="where 1=1 ";
 
-	// 	$this->idx=$this->input->post('idx2');
-	// 	$this->sQuery="DELETE FROM tbl_stock WHERE idx='".$this->idx."'";
-	// 	$this->db->query($this->sQuery);
-	// 	$this->sQuery2="SELECT tbl1.* from tbl_stock as tbl1";
-	// 	$arrData['arrResult']=$this->db->query($this->sQuery2)->result_array();
+		$this->idx=$this->input->post('idx2');
+		$this->productidx=$this->input->post('productidx');
+		$this->sQuery="DELETE FROM tbl_cpuse WHERE company='".$this->idx."' and product='".$this->productidx."'";
+		$this->db->query($this->sQuery);
 
-	// 	if(!$this->sPage){ $this->sPage = 1;}
-	// 	$this->iStart=($this->sPage-1)*$this->iPageScale;
-	// 	$this->sQuery="SELECT count(tbl1.Idx) as iCnt FROM tbl_stock as tbl1 ".$this->sWhere;
-	// 	$this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
-	// 	$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
-	// 	$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
-	// 	$arrData['sPage']=$this->sPage;
-	// 	$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
+		$this->sQuery="SELECT count(*) as c from tbl_cpuse where product='".$this->productidx."'";
+		$this->isProductUsed=$this->db->query($this->sQuery)->row()->c;
+		if(!$this->isProductUsed){
+			$this->sQuery="DELETE FROM tbl_stock WHERE idx='".$this->productidx."'";
+			$this->db->query($this->sQuery);
 
-	// 	return $arrData;
-	// }
+		}
+
+		$arrData = $this->priceList();
+
+		
+		// if(!$this->sPage){ $this->sPage = 1;}
+		// $this->iStart=($this->sPage-1)*$this->iPageScale;
+		// $this->sQuery="SELECT count(tbl1.Idx) as iCnt FROM tbl_stock as tbl1 ".$this->sWhere;
+		// $this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
+		// $arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
+		// $arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
+		// $arrData['sPage']=$this->sPage;
+		// $arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
+		
+		// $arrData['arrResult']=$this->showPriceQuery();
+		return $arrData;
+	}
 
 	
 	// // 업체 - 수정 버튼 눌렀을 때

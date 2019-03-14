@@ -114,7 +114,7 @@ h4{
 								<td class="text-center vat<?=$row["idx"]?>"></td>
 								<td class="text-center total<?=$row["idx"]?>"></td>					
 								<td class="text-center ">
-									<input class="cb" name="basequantity<?=$row["idx"]?>" type="checkbox" data-idx="<?=$row["idx"]?>" data-basequantity-name="basequantity_<?=$row["idx"]?>">
+									<input class="cb" name="basequantity<?=$row["idx"]?>" type="checkbox" data-total="" data-idx="<?=$row["idx"]?>" data-basequantity-name="basequantity_<?=$row["idx"]?>">
 								</td>
 							</tr>
 							
@@ -168,12 +168,21 @@ h4{
 						</tbody>
 					</table>
 				</div>
-				<div class="pull-right tpf">
+				<script>
+				$('.cb:checked').each(function() {
+					var sumofOrderPrice=[];
+
+					sumofOrderPrice.push($(this).data('idx'));
+					
+					arrBasequantity.push($("input[name="+'"'+"quantity"+$(this).data('idx')+'"'+"]").val()); // input[name="ddd"]
+				});
+				</script>
+				<!-- <div class="pull-right tpf">
 					<h4>총 주문 금액</h4>
 					<h4 class="totalprice format-money"></h4>
 					<script>$('.totalprice').html(totalprice);</script>
 					<h4> 원</h4>
-				</div>
+				</div> -->
 			</div>
 			<div class="row">
 				<div class="col-md-12">
@@ -189,7 +198,7 @@ h4{
 				<div class="col-md-12">
 					<div class="pull-right bftop">
 						<a href="#modal-email" data-toggle="modal" class="btn btn-success btn-sm mailOrder" data-toggle="modal"><i class="fa fa-edit"></i> 이메일주문</a>
-						<a href="#modal-edit" data-toggle="modal" class="btn btn-success btn-sm printOrder" ><i class="fa fa-edit"></i> 인쇄</a>
+						<!-- <a href="#modal-edit" data-toggle="modal" class="btn btn-success btn-sm printOrder" ><i class="fa fa-edit"></i> 인쇄</a> -->
 					</div>
 				</div>
 			</div>

@@ -58,6 +58,7 @@
 								<th width="5%" class="text-center">세트번호</th>
 								<th width="10%" class="text-center">단가(원)</th>
 								<th width="3%" class="text-center">저장</th>
+								<th width="3%" class="text-center">삭제</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -71,7 +72,8 @@
 								<td class="text-center"><?=$row["plated"]?></td>
 								<td class="text-center"><?=$row["setnumber"]?></td>
 								<td class="text-center"><form action="/prices/priceList" method="post"><input name="productidx" type="hidden" value="<?=$row['sidx']?>"><input name="price" class="form-control text-center" type="text" value="<?=$row["price"]?>"/></td>
-								<td class="text-center "><button name="idx" value="<?=$row["idx"]?>" class="btn btn-default btn-sm modify" type="submit">저장</button></form></td>
+								<td class="text-center "><button name="idx" value="<?=$row["idx"]?>" class="btn btn-primary btn-sm modify" type="submit">저장</button></form></td>
+								<td class="text-center "><form action="/prices/deletePrice" method="post"><input name="productidx" type="hidden" value="<?=$row['sidx']?>"><button name="idx2" value="<?=$row["idx"]?>" class="btn btn-danger btn-sm modify" type="submit">삭제</button></form></td>
 							</tr>
 							<? } ?>
 						</tbody>

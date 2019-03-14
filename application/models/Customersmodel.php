@@ -25,7 +25,7 @@ class Customersmodel extends CI_Model {
 		
 		$arrData['iTotalCnt']=$this->iNum;
 		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale;
-		$this->sQuery="SELECT tbl1.* from tbl_company as tbl1";
+		$this->sQuery="SELECT tbl1.* from tbl_company as tbl1 order by tbl1.Idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
 		$arrData['arrResult']= $this->db->query($this->sQuery)->result_array();
 		$arrData['sPage']=$this->sPage;
 		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
@@ -56,26 +56,23 @@ class Customersmodel extends CI_Model {
 		$this->fax=$this->input->post('fax');
 		$this->managertel=$this->input->post('managertel');
 		$this->email=$this->input->post('email');
-		if($this->companyname==""||$this->userid==""||$this->userpwd==""){
-			return "";
-		}
+		$this->sQuery2="SELECT count(tbl1.idx) as c from tbl_company as tbl1 where tbl1.companyname='".$this->companyname."' and tbl1.userid='".$this->userid."'";
+		$this->isRedundant=$this->db->query($this->sQuery2)->row()->c;
+		if(!$this->isRedundant){
+			$this->sQuery="INSERT INTO tbl_company(companyname ,userid, userpwd, managername, maincategory, subcategory, companyaddr, companytel, fax, managertel, email) VALUES('".$this->companyname."','".$this->userid."','".$this->userpwd."','".$this->managername."','".$this->maincategory."','".$this->subcategory."','".$this->companyaddr."','".$this->companytel."','".$this->fax."','".$this->managertel."','".$this->email."')";
+			$this->db->query($this->sQuery);	
+		}			
 		if(!$this->sPage){ $this->sPage = 1;}
 		$this->iStart=($this->sPage-1)*$this->iPageScale;
 		$this->sQuery="SELECT count(tbl1.Idx) as iCnt FROM tbl_company as tbl1 ".$this->sWhere;
 		$this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
 		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
 		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
-
-		
-		$this->sQuery="INSERT INTO tbl_company(companyname ,userid, userpwd, managername, maincategory, subcategory, companyaddr, companytel, fax, managertel, email) VALUES('".$this->companyname."','".$this->userid."','".$this->userpwd."','".$this->managername."','".$this->maincategory."','".$this->subcategory."','".$this->companyaddr."','".$this->companytel."','".$this->fax."','".$this->managertel."','".$this->email."')";
-		$this->sQuery2="SELECT tbl1.* from tbl_company as tbl1";
-		$this->db->query($this->sQuery);
-
-		$arrData['arrResult']=$this->db->query($this->sQuery2)->result_array();
-
 		$arrData['sPage']=$this->sPage;
 		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
-
+		$this->sQuery2="SELECT tbl1.* from tbl_company as tbl1 order by tbl1.Idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
+		$arrData['arrResult']=$this->db->query($this->sQuery2)->result_array();
+		
 		return $arrData;
 	}
 
@@ -125,7 +122,7 @@ class Customersmodel extends CI_Model {
 
 		
 		$this->sQuery="UPDATE tbl_company SET companyname='".$this->companyname."',userid='".$this->userid."',userpwd='".$this->userpwd."',managername='".$this->managername."',maincategory='".$this->maincategory."',subcategory='".$this->subcategory."',companyaddr='".$this->companyaddr."',companytel='".$this->companytel."',fax='".$this->fax."',managertel='".$this->managertel."',email='".$this->email."' WHERE tbl_company.idx='".$this->idx."'";
-		$this->sQuery2="SELECT tbl1.* from tbl_company as tbl1";
+		$this->sQuery2="SELECT tbl1.* from tbl_company as tbl1 order by tbl1.Idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
 		$this->db->query($this->sQuery);
 
 		$arrData['arrResult']=$this->db->query($this->sQuery2)->result_array();

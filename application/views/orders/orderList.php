@@ -92,13 +92,16 @@ h4{
 								<th width="6%" class="text-center">도금</th>
 								<th width="1%" class="text-center">set</th>
 								<th width="6%" class="text-center">주문수량</th>
-								<th width="4%" class="text-center">단가(원)</th>
+								<th width="3%" class="text-center">단가(원)</th>
 								<th width="7%" class="text-center">주문금액</th>
 								<th width="5%" class="text-center">주문일자</th>
 								<th width="5%" class="text-center">납기일</th>
 								<th width="8%" class="text-center">배송지</th>
+								<th width="3%" class="text-center">수정</th>
+								<th width="3%" class="text-center">삭제</th>
 							</tr>
 						</thead>
+						<?$i=0;$count=0;?>
 						<tbody>
 							<? foreach ($arrResult as $index => $row) { ?>
 							
@@ -116,6 +119,12 @@ h4{
 								<td class="text-center"><?=$row["orderdate"]?></td>
 								<td class="text-center"><?=$row["duedate"]?></td>
 								<td class="text-center"><?=$row["destination"]?></td>
+								<td class="text-center "><form action="/orders/modifyOrder" method="post"><input type="hidden" value="<?=$row["idx"]?>"><button name="idx" value="<?=$row["oidx"]?>" class="btn btn-warning btn-sm modify" type="submit">수정</button></form></td>
+								<td class="text-center ">
+									<form action="/orders/deleteOrder" method="post">
+										<button name="idx2" value="<?=$row["oidx"]?>" id="delete" class="btn btn-danger btn-sm delete" onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</button>
+									</form>
+								</td>
 							</tr>
 							
 							<script>

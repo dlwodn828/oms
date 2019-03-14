@@ -29,10 +29,11 @@
                                     <div class="fm fm-top"> 
                                             <!-- <form class="fm" action="/customers/addCompany"> -->
                                                 <!-- <form action="/customers/addCompany" method="post"><input type="hidden" name="addpricepage" value="addpricepage"/></form> -->
-                                                <a href="/customers/addCompany" id="addbtn"class="btn btn-md btn-primary">새로운 업체 등록하기</a>
+                                        <a href="/customers/addCompany" id="addbtn"class="btn btn-md btn-primary">새로운 업체 등록하기</a>
                                             <!-- <form> -->
                                     </div>
-                                    <div class="fm or">또는</div>
+                                    <span>또는</span>
+                                    <!-- <div class="fm or">또는</div> -->
                                     
                                         <input type="hidden" name="sPage" id="sPage" value="">
                                         <div class="fm slct">
@@ -71,7 +72,7 @@
                             </tr>
                             <tr>
                                 <th class="text-center">세트번호*</th>
-                                <td><input class="form-control" name="setnumber" type="text" /></td>
+                                <td><input class="form-control" name="setnumber" type="text" value="1"/></td>
                             </tr>
                             <tr>
                                 <th class="text-center">단가(원)*</th>
@@ -103,14 +104,15 @@
 <script>
 $(document).ready(function() {
 	App.init();
-    $("table").css("width","40%");
+    $("table").css("width","45%");
     $("tr").css("height","45px");
     $(".tb_top").css("background-color","#e3e9f2");
     $("input").css("width", "100%");
     $(".fm").css("display","inline-block").css("float","left");
-    $(".fm-top").css("margin-top","7px").css("margin-left","80px");
+    $(".fm-top").css("margin-top","7px").css("margin-left","10px");
     $(".or").css("margin-top","7px").css("margin-left","15px");
-    $(".slct").css("margin-left","15px");
+    $(".slct").css("margin-left","15px").css("float","right");
+    $("span").css("margin-left","20px");
 });
 function check_blank(){
     if($(".form-control").val()==""){

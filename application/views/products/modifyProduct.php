@@ -8,7 +8,7 @@
 	</ol>
 	 end breadcrumb -->
 	<!-- begin page-header -->
-	<h1 class="page-header"> 업체 정보</h1>
+	<h1 class="page-header"> 품목 정보</h1>
 	<!-- end page-header -->
 	<div class="profile-container" align="center">
         <form action="/products/productList" method="post">

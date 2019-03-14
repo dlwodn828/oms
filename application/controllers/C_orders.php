@@ -58,19 +58,19 @@ class C_orders extends CI_Controller {
 		echo $arrData;
 	}
 
-	public function addPrice(){
-		$sSideBar = $this->authmodel->checkLogin01();
-		$this->load->view('include/incTop',$sSideBar);
-		$arrData=$this->pricesmodel->priceList();
-		$this->load->view('prices/addPrice',$arrData);
-		$this->load->view('include/incBottom');
-	}
+	// public function addPrice(){
+	// 	$sSideBar = $this->authmodel->checkLogin01();
+	// 	$this->load->view('include/incTop',$sSideBar);
+	// 	$arrData=$this->pricesmodel->priceList();
+	// 	$this->load->view('prices/addPrice',$arrData);
+	// 	$this->load->view('include/incBottom');
+	// }
 
-	public function deletePrice(){
-		$sSideBar = $this->authmodel->checkLogin01();
-		$this->load->view('include/incTop',$sSideBar);
-		$arrData=$this->pricesmodel->deletePrice();
-		$this->load->view('prices/priceList',$arrData);
-		$this->load->view('include/incBottom');
-	}
+	// public function deletePrice(){
+	// 	$sSideBar = $this->authmodel->checkLogin01();
+	// 	$this->load->view('include/incTop',$sSideBar);
+	// 	$arrData=$this->pricesmodel->deletePrice();
+	// 	$this->load->view('prices/priceList',$arrData);
+	// 	$this->load->view('include/incBottom');
+	// }
 }

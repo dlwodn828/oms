@@ -19,31 +19,35 @@ class Ordersmodel extends CI_Model {
 		$this->iStepScale = 5;
 		$this->sWhere="where 1=1 ";
 
-		if(!$this->sPage){ $this->sPage = 1;}
-		$this->iStart=($this->sPage-1)*$this->iPageScale;
-		$this->sQuery="SELECT count(tbl1.idx) as iCnt FROM tbl_cpuse as tbl1 ".$this->sWhere;
-        $this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
-		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
-		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
-
 		$this->companyidx=addslashes(trim($this->input->get('companyidx'))); 
 		if ($this->companyidx) { $this->sWhere.=" and idx='".$this->companyidx."' ";  }
 		$arrData['companyidx']=$this->companyidx;
 
+		if(!$this->sPage){ $this->sPage = 1;}
+		$this->iStart=($this->sPage-1)*$this->iPageScale;
+		$this->sQuery="SELECT count(tbl1.idx) as iCnt FROM order_view as tbl1 ".$this->sWhere;
+        $this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
+		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
+		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
+
+
 		$arrData['no']=$this->no;
 		$arrData['arrResult02']=$this->showSelectBoxQuery();
-		$this->sQuery="select DISTINCT idx, companyname, productname, size, material, plated, setnumber, orderquantity, orderprice, orderdate, duedate, destination from order_view ".$this->sWhere." order by idx asc, orderdate desc ";//LIMIT ".$this->iStart.", ".$this->iPageScale
+		$this->sQuery="select DISTINCT oidx, idx, companyname, productname, size, material, plated, setnumber, orderquantity, orderprice, orderdate, duedate, destination from order_view ".$this->sWhere." order by idx asc, orderdate desc LIMIT ".$this->iStart.", ".$this->iPageScale;
 		$arrData['arrResult']=$this->db->query($this->sQuery)->result_array();	
 		$arrData['sPage']=$this->sPage;
-		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],10,5,1);
+		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
 		
 		return $arrData;
 	}
 
 	// 업체 - 수정 버튼 눌렀을 때
 	function modifyOrder(){
+		$this->no = 0;
+		$arrData['no']=$this->no;
+		// $this->totalprice=$this->input->post('idx1');
 		$this->idx=$this->input->post('idx');
-		$this->sQuery="SELECT tbl1.* from tbl_order as tbl1";
+		$this->sQuery="SELECT tbl1.* from order_view as tbl1 where tbl1.oidx='".$this->idx."'";
 		$arrData['arrResult']= $this->db->query($this->sQuery)->result_array();
 		$arrData['idx']=$this->idx;
 		return $arrData;
@@ -87,6 +91,8 @@ class Ordersmodel extends CI_Model {
 	}
 
 	function deleteOrder(){
+		$this->no = 0;
+		$arrData['no']=$this->no;
 		$this->sPage=addslashes(trim($this->input->get('sPage')));
 		$this->iPageScale = 10;
 		$this->iStepScale = 5;
@@ -95,8 +101,7 @@ class Ordersmodel extends CI_Model {
 		$this->idx=$this->input->post('idx2');
 		$this->sQuery="DELETE FROM tbl_order WHERE idx='".$this->idx."'";
 		$this->db->query($this->sQuery);
-		$this->sQuery2="SELECT tbl1.* from tbl_order as tbl1";
-		$arrData['arrResult']=$this->db->query($this->sQuery2)->result_array();
+		
 
 		if(!$this->sPage){ $this->sPage = 1;}
 		$this->iStart=($this->sPage-1)*$this->iPageScale;
@@ -106,7 +111,8 @@ class Ordersmodel extends CI_Model {
 		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
 		$arrData['sPage']=$this->sPage;
 		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
-
+		$this->sQuery="select DISTINCT oidx, idx, companyname, productname, size, material, plated, setnumber, orderquantity, orderprice, orderdate, duedate, destination from order_view ".$this->sWhere." order by idx asc, orderdate desc LIMIT ".$this->iStart.", ".$this->iPageScale;
+		$arrData['arrResult']=$this->db->query($this->sQuery)->result_array();
 		return $arrData;
 	}
 	

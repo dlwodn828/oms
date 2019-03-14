@@ -20,11 +20,11 @@ class Productsmodel extends CI_Model {
 
 		if(!$this->sPage){ $this->sPage = 1;}
 		$this->iStart=($this->sPage-1)*$this->iPageScale;
-		$this->sQuery="SELECT count(tbl1.Idx) as iCnt FROM tbl_stock as tbl1 ".$this->sWhere;
+		$this->sQuery="SELECT count(tbl1.Idx) as iCnt from tbl_stock as tbl1 join tbl_cpuse as tbl2 on tbl1.idx=tbl2.product ".$this->sWhere;
 		$this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
 		$arrData['iTotalCnt']=$this->iNum;
 		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale;
-		$this->sQuery="SELECT tbl1.*, tbl2.setnumber from tbl_stock as tbl1 join tbl_cpuse as tbl2 ".$this->sWhere." order by tbl1.Idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
+		$this->sQuery="SELECT distinct tbl1.*, tbl2.setnumber from tbl_stock as tbl1 join tbl_cpuse as tbl2 on tbl1.idx=tbl2.product order by tbl1.Idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
 		$arrData['arrResult']= $this->db->query($this->sQuery)->result_array();
 		$arrData['sPage']=$this->sPage;
 		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
@@ -38,7 +38,7 @@ class Productsmodel extends CI_Model {
 		$arrData['no']=$this->no;
 
 		$this->idx=$this->input->post('idx');
-		$this->sQuery="SELECT tbl1.*,tbl2.setnumber from tbl_stock as tbl1 join tbl_cpuse as tbl2";
+		$this->sQuery="SELECT distinct tbl1.*,tbl2.setnumber from tbl_stock as tbl1 join tbl_cpuse as tbl2 on tbl1.idx=tbl2.product";
 		$arrData['arrResult']= $this->db->query($this->sQuery)->result_array();
 		$arrData['idx']=$this->idx;
 		return $arrData;
@@ -74,7 +74,7 @@ class Productsmodel extends CI_Model {
 		$this->sQuery="UPDATE tbl_cpuse SET setnumber='".$this->setnumber."'";
 		$this->db->query($this->sQuery);
 
-		$this->sQuery2="SELECT tbl1.*, tbl2.setnumber from tbl_stock as tbl1 join tbl_cpuse as tbl2";
+		$this->sQuery2="SELECT Distinct tbl1.*, tbl2.setnumber from tbl_stock as tbl1 join tbl_cpuse as tbl2 order by tbl1.Idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
 		$arrData['arrResult']=$this->db->query($this->sQuery2)->result_array();
 
 		$arrData['sPage']=$this->sPage;

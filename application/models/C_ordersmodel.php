@@ -13,7 +13,7 @@ class C_ordersmodel extends CI_Model {
 	// 업체별 품목 및 단가 페이지 출력
 	function showOrderQuery($where, $start, $pageScale){         
         $this->sid=$this->session->userdata("AdminIdx");
-		$this->sQuery="SELECT tbl3.idx, tbl3.setnumber, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl3.price from tbl_stock as tbl2 join tbl_cpuse as tbl3 on tbl3.company='".$this->sid."' and tbl2.idx=tbl3.product ".$where." order by tbl3.idx asc, tbl3.setnumber, tbl2.idx desc LIMIT ".$start.", ".$pageScale;
+		$this->sQuery="SELECT tbl3.idx, tbl3.setnumber, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl3.price from tbl_stock as tbl2 join tbl_cpuse as tbl3 on tbl3.company='".$this->sid."' and tbl2.idx=tbl3.product ".$where." order by tbl3.idx asc, tbl3.setnumber asc LIMIT ".$start.", ".$pageScale;
 		$this->arrData = $this->db->query($this->sQuery)->result_array();
 		return $this->arrData;
 	}
@@ -39,21 +39,21 @@ class C_ordersmodel extends CI_Model {
 	function defaultSetting(){
 		$this->no = 0; // 표의 인덱스
 		$this->sPage=addslashes(trim($this->input->get('sPage')));
-		
+		$this->companyidx=$this->session->userdata("AdminIdx");
 		$this->iPageScale = 10;
 		$this->iStepScale = 5;
 		$this->sWhere="where 1=1 ";
 		if(!$this->sPage){ $this->sPage = 1;}
 		$this->iStart=($this->sPage-1)*$this->iPageScale;
-		$this->sQuery="SELECT count(tbl1.idx) as iCnt FROM tbl_cpuse as tbl1 ".$this->sWhere;
-        $this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
-		
 
 		// SelectBox에서 체크한 company만 출력
 		$this->setnumber=addslashes(trim($this->input->get('setnumber'))); 
 		if ($this->setnumber) { $this->sWhere.=" and tbl3.setnumber='".$this->setnumber."' ";  }
 		$arrData['setnumber']=$this->setnumber;
         
+		$this->sQuery="SELECT count(tbl3.idx) as iCnt FROM tbl_cpuse as tbl3 ".$this->sWhere." and tbl3.company='".$this->companyidx."'";
+        $this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
+		
 		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
 		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
 		$arrData['no']=$this->no;
@@ -72,7 +72,7 @@ class C_ordersmodel extends CI_Model {
     function c_ordering(){
 		
 		$arrData=$this->defaultSetting();
-		$this->companyidx=$this->session->userdata("AdminIdx");
+		
         $arrData['arrResult02']= $this->showSelectBoxQuery();
 		$arrData['arrResult'] = $this->showOrderQuery($this->sWhere,$this->iStart,$this->iPageScale);
 		// $arrData['orderquantity']=$this->getOrderedPriceQuery($this->companyidx);
@@ -80,53 +80,53 @@ class C_ordersmodel extends CI_Model {
     }
 
 
-	// 단가 - 메인
-	function priceList() {
-		$arrData=$this->defaultSetting();
-		// SelectBox 내용 출력
-		$arrData['arrResult02']= $this->showSelectBoxQuery();
-		//단가 페이지 출력
-		$arrData['arrResult'] = $this->showPriceQuery($this->sWhere,$this->iStart,$this->iPageScale);
-		return $arrData;
-		// SelectBox에서 체크한 company를 보여주기 위한 쿼리문
-		// $this->sQuery="SELECT tbl1.* from tbl_company as tbl1 order by tbl1.idx";
-		// $arrData['arrResult02']= $this->db->query($this->sQuery)->result_array();
-		// $this->sQuery="SELECT tbl3.idx, tbl1.companyname, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl2.setnumber, tbl3.price from tbl_cpuse as tbl3 join tbl_company as tbl1 on tbl3.company=tbl1.idx join tbl_stock as tbl2 on tbl3.product=tbl2.idx ".$this->sWhere." order by tbl3.idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
-        // $arrData['arrResult']= $this->db->query($this->sQuery)->result_array();
-	}
+	// // 단가 - 메인
+	// function priceList() {
+	// 	$arrData=$this->defaultSetting();
+	// 	// SelectBox 내용 출력
+	// 	$arrData['arrResult02']= $this->showSelectBoxQuery();
+	// 	//단가 페이지 출력
+	// 	$arrData['arrResult'] = $this->showPriceQuery($this->sWhere,$this->iStart,$this->iPageScale);
+	// 	return $arrData;
+	// 	// SelectBox에서 체크한 company를 보여주기 위한 쿼리문
+	// 	// $this->sQuery="SELECT tbl1.* from tbl_company as tbl1 order by tbl1.idx";
+	// 	// $arrData['arrResult02']= $this->db->query($this->sQuery)->result_array();
+	// 	// $this->sQuery="SELECT tbl3.idx, tbl1.companyname, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl2.setnumber, tbl3.price from tbl_cpuse as tbl3 join tbl_company as tbl1 on tbl3.company=tbl1.idx join tbl_stock as tbl2 on tbl3.product=tbl2.idx ".$this->sWhere." order by tbl3.idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
+    //     // $arrData['arrResult']= $this->db->query($this->sQuery)->result_array();
+	// }
 
-	function addPrice() {
-		$arrData=$this->defaultSetting();
-		// SelectBox 내용 출력
-		$arrData['arrResult02']= $this->showSelectBoxQuery();
-		//단가 페이지 출력
-		return $arrData;
-		// SelectBox에서 체크한 company를 보여주기 위한 쿼리문
-		// $this->sQuery="SELECT tbl1.* from tbl_company as tbl1 order by tbl1.idx";
-		// $arrData['arrResult02']= $this->db->query($this->sQuery)->result_array();
-		// $this->sQuery="SELECT tbl3.idx, tbl1.companyname, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl2.setnumber, tbl3.price from tbl_cpuse as tbl3 join tbl_company as tbl1 on tbl3.company=tbl1.idx join tbl_stock as tbl2 on tbl3.product=tbl2.idx ".$this->sWhere." order by tbl3.idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
-        // $arrData['arrResult']= $this->db->query($this->sQuery)->result_array();
-	}
+	// function addPrice() {
+	// 	$arrData=$this->defaultSetting();
+	// 	// SelectBox 내용 출력
+	// 	$arrData['arrResult02']= $this->showSelectBoxQuery();
+	// 	//단가 페이지 출력
+	// 	return $arrData;
+	// 	// SelectBox에서 체크한 company를 보여주기 위한 쿼리문
+	// 	// $this->sQuery="SELECT tbl1.* from tbl_company as tbl1 order by tbl1.idx";
+	// 	// $arrData['arrResult02']= $this->db->query($this->sQuery)->result_array();
+	// 	// $this->sQuery="SELECT tbl3.idx, tbl1.companyname, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl2.setnumber, tbl3.price from tbl_cpuse as tbl3 join tbl_company as tbl1 on tbl3.company=tbl1.idx join tbl_stock as tbl2 on tbl3.product=tbl2.idx ".$this->sWhere." order by tbl3.idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
+    //     // $arrData['arrResult']= $this->db->query($this->sQuery)->result_array();
+	// }
 
 	
-	// 단가 - 저장 버튼 눌렀을 때
-	function modifySavePrice(){
-		// 표의 인덱스
-		$arrData=$this->defaultSetting();	
-		$this->no = 0;
-		$this->idx=$this->input->post('idx');
-		$this->price=$this->input->post('price');
+	// // 단가 - 저장 버튼 눌렀을 때
+	// function modifySavePrice(){
+	// 	// 표의 인덱스
+	// 	$arrData=$this->defaultSetting();	
+	// 	$this->no = 0;
+	// 	$this->idx=$this->input->post('idx');
+	// 	$this->price=$this->input->post('price');
 			
-		// SelectBox 내용 출력
-		$arrData['arrResult02']= $this->showSelectBoxQuery();
-		// 바뀐 단가 Update
-		$this->updatePriceQuery($this->idx, $this->price);
-		// 단가 페이지 출력
-		$arrData['arrResult'] = $this->showPriceQuery($this->sWhere,$this->iStart,$this->iPageScale);
-		return $arrData;
-		// $this->sQuery="UPDATE tbl_cpuse SET price='".$this->price."' WHERE tbl_cpuse.idx='".$this->idx."'";
-		// $this->sQuery2="SELECT tbl3.idx, tbl1.companyname, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl2.setnumber, tbl3.price from tbl_cpuse as tbl3 join tbl_company as tbl1 on tbl3.company=tbl1.idx join tbl_stock as tbl2 on tbl3.product=tbl2.idx ".$this->sWhere." order by tbl3.idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
-	}
+	// 	// SelectBox 내용 출력
+	// 	$arrData['arrResult02']= $this->showSelectBoxQuery();
+	// 	// 바뀐 단가 Update
+	// 	$this->updatePriceQuery($this->idx, $this->price);
+	// 	// 단가 페이지 출력
+	// 	$arrData['arrResult'] = $this->showPriceQuery($this->sWhere,$this->iStart,$this->iPageScale);
+	// 	return $arrData;
+	// 	// $this->sQuery="UPDATE tbl_cpuse SET price='".$this->price."' WHERE tbl_cpuse.idx='".$this->idx."'";
+	// 	// $this->sQuery2="SELECT tbl3.idx, tbl1.companyname, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl2.setnumber, tbl3.price from tbl_cpuse as tbl3 join tbl_company as tbl1 on tbl3.company=tbl1.idx join tbl_stock as tbl2 on tbl3.product=tbl2.idx ".$this->sWhere." order by tbl3.idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
+	// }
 	function insertCpuseQuery($companyidx,$productidx,$price){
 		$this->sQuery="INSERT into tbl_cpuse (company,product,price) values ('".$companyidx."','".$productidx."','".$price."')";
 		$this->db->query($this->sQuery);
@@ -296,8 +296,26 @@ class C_ordersmodel extends CI_Model {
 	}
 
 	function c_orderList(){
-		$arrData=$this->defaultSetting();
+		// $arrData=$this->defaultSetting();
+		$this->no = 0; // 표의 인덱스
+		$this->sPage=addslashes(trim($this->input->get('sPage')));
+		
+		$this->iPageScale = 10;
+		$this->iStepScale = 5;
+		$this->sWhere="where 1=1 ";
+		if(!$this->sPage){ $this->sPage = 1;}
+		$this->iStart=($this->sPage-1)*$this->iPageScale;
+		
 		$this->sid=$this->session->userdata("AdminIdx");
+        
+		$this->sQuery="SELECT count(tbl1.idx) as iCnt FROM order_view as tbl1 where tbl1.idx='".$this->sid."'";
+        $this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
+		
+		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
+		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
+		$arrData['no']=$this->no;
+		$arrData['sPage']=$this->sPage;
+		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
 		$this->sQuery="select distinct idx, companyname, productname, size, material, plated, orderquantity, orderprice, setnumber, orderdate, duedate, destination from order_view where idx='".$this->sid."' order by setnumber asc, orderdate desc LIMIT ".$this->iStart.", ".$this->iPageScale;
 		$arrData['arrResult']=$this->db->query($this->sQuery)->result_array();
 		return $arrData;
