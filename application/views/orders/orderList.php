@@ -106,16 +106,16 @@ h4{
 							<? foreach ($arrResult as $index => $row) { ?>
 							
 							<tr>
-								<td class="text-center"><?=++$no?></td>
+								<td class="text-center"><?=$iNum--?></td>
 								<td class="text-center"><?=$row["companyname"]?></td>
 								<td class="text-center"><?=$row["productname"]?></td>
 								<td class="text-center"><?=$row["size"]?></td>
 								<td class="text-center"><?=$row["material"]?></td>
 								<td class="text-center"><?=$row["plated"]?></td>
 								<td class="text-center"><?=$row["setnumber"]?></td>
-								<td class="text-center orderquantity<?=$no?>"><?=$row["orderquantity"]?></td>
-								<td class="text-center price<?=$no?>"><?=$row["orderprice"]?></td>
-								<td class="text-center total<?=$no?>"></td>					
+								<td class="text-center orderquantity<?=$iNum?>"><?=$row["orderquantity"]?></td>
+								<td class="text-center price<?=$iNum?>"><?=$row["orderprice"]?></td>
+								<td class="text-center total<?=$iNum?>"></td>					
 								<td class="text-center"><?=$row["orderdate"]?></td>
 								<td class="text-center"><?=$row["duedate"]?></td>
 								<td class="text-center"><?=$row["destination"]?></td>
@@ -138,26 +138,26 @@ h4{
 									return Number(data_value).toLocaleString('en');
 								}
 
-								var defaultPrice = $(".price<?=$no?>").html();
-								var orderquantity = $(".orderquantity<?=$no?>").html();
+								var defaultPrice = $(".price<?=$iNum?>").html();
+								var orderquantity = $(".orderquantity<?=$iNum?>").html();
 								var supplyPrice = defaultPrice * orderquantity;
 								var vat = Math.floor(supplyPrice * 0.1);
 								var total = supplyPrice + vat;
 								
-								// $('.total<?=$no?>').html(AddComma(total));
-								$('.supplyprice<?=$no?>').html(AddComma(supplyPrice));
-								$('.orderquantity<?=$no?>').html(AddComma(orderquantity));
-								$('.total<?=$no?>').html(AddComma(total));
-								$('.price<?=$no?>').html(AddComma(defaultPrice));
+								// $('.total<?=$iNum?>').html(AddComma(total));
+								$('.supplyprice<?=$iNum?>').html(AddComma(supplyPrice));
+								$('.orderquantity<?=$iNum?>').html(AddComma(orderquantity));
+								$('.total<?=$iNum?>').html(AddComma(total));
+								$('.price<?=$iNum?>').html(AddComma(defaultPrice));
 							</script>
 							<? } ?>		
 							<!-- <script>
 								$(document).on('click','.cb',function(){
 									if(this.checked){
-										totalprice+=$('.total<?=$no?>').html();
+										totalprice+=$('.total<?=$iNum?>').html();
 										$('.totalprice').html(totalprice);
 									}else{
-										totalprice-=$('.total<?=$no?>').html();
+										totalprice-=$('.total<?=$iNum?>').html();
 										$('.totalprice').html(totalprice);
 									}
 								});

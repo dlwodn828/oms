@@ -20,11 +20,11 @@ class Productsmodel extends CI_Model {
 
 		if(!$this->sPage){ $this->sPage = 1;}
 		$this->iStart=($this->sPage-1)*$this->iPageScale;
-		$this->sQuery="SELECT count(tbl1.Idx) as iCnt from tbl_stock as tbl1 join tbl_cpuse as tbl2 on tbl1.idx=tbl2.product ".$this->sWhere;
+		$this->sQuery="SELECT count(tbl1.Idx) as iCnt from tbl_stock as tbl1 left outer join tbl_cpuse as tbl2 on tbl1.idx=tbl2.product ".$this->sWhere;
 		$this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
 		$arrData['iTotalCnt']=$this->iNum;
 		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale;
-		$this->sQuery="SELECT distinct tbl1.*, tbl2.setnumber from tbl_stock as tbl1 join tbl_cpuse as tbl2 on tbl1.idx=tbl2.product order by tbl1.Idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
+		$this->sQuery="SELECT distinct tbl1.*, tbl2.setnumber from tbl_stock as tbl1 left outer join tbl_cpuse as tbl2 on tbl1.idx=tbl2.product order by tbl1.Idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
 		$arrData['arrResult']= $this->db->query($this->sQuery)->result_array();
 		$arrData['sPage']=$this->sPage;
 		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);

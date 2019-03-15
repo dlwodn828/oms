@@ -54,7 +54,7 @@ h4{
 			<div class="row">
 				<div class="table-responsive">
 					<div class="p-b-10">
-						<form class="form-inline" role="form" id="actForm1" method="get">
+						<form class="form-inline" role="form" id="actForm" method="get">
 							<input type="hidden" name="sPage" id="sPage" value="">
 							<div class="form-inline">
 							<!-- <div class="form-group">
@@ -100,15 +100,15 @@ h4{
 							<? foreach ($arrResult as $index => $row) { ?>
 							
 							<tr>
-								<td class="text-center"><?=++$no?></td>
+								<td class="text-center"><?=$iNum--?></td>
 								<td class="text-center"><?=$row["productname"]?></td>
 								<td class="text-center"><?=$row["size"]?></td>
 								<td class="text-center"><?=$row["material"]?></td>
 								<td class="text-center"><?=$row["plated"]?></td>
 								<td class="text-center"><?=$row["setnumber"]?></td>
-								<td class="text-center orderquantity<?=$no?>"><?=$row["orderquantity"]?></td>
-								<td class="text-center price<?=$no?>"><?=$row["orderprice"]?></td>
-								<td class="text-center total<?=$no?>"></td>					
+								<td class="text-center orderquantity<?=$iNum?>"><?=$row["orderquantity"]?></td>
+								<td class="text-center price<?=$iNum?>"><?=$row["orderprice"]?></td>
+								<td class="text-center total<?=$iNum?>"></td>					
 								<td class="text-center"><?=$row["orderdate"]?></td>
 								<td class="text-center"><?=$row["duedate"]?></td>
 								<td class="text-center"><?=$row["destination"]?></td>
@@ -121,44 +121,44 @@ h4{
 									return n;
 								}
 
-								// var defaultPrice = removeComma($(".price<?=$no?>").html());
-								// var orderquantity = removeComma($(".orderquantity<?=$no?>").val());
+								// var defaultPrice = removeComma($(".price<?=$iNum?>").html());
+								// var orderquantity = removeComma($(".orderquantity<?=$iNum?>").val());
 								// var supplyPrice = defaultPrice * orderquantity;
 								// var vat = Math.floor(supplyPrice * 0.1);
 								// var total = supplyPrice + vat;
 								
 
 								// //가격에도 콤마 추가하기 그전에 콤마 없애기
-								// $('.supplyprice<?=$no?>').html(AddComma(supplyPrice));
-								// // $('.vat<?=$no?>').html(AddComma(vat));
-								// $('.total<?=$no?>').html(AddComma(total));
-								// $('.price<?=$no?>').html(AddComma(defaultPrice));
+								// $('.supplyprice<?=$iNum?>').html(AddComma(supplyPrice));
+								// // $('.vat<?=$iNum?>').html(AddComma(vat));
+								// $('.total<?=$iNum?>').html(AddComma(total));
+								// $('.price<?=$iNum?>').html(AddComma(defaultPrice));
 								// });
 
 								function AddComma(data_value) {
 									return Number(data_value).toLocaleString('en');
 								}
 
-								var defaultPrice = $(".price<?=$no?>").html();
-								var orderquantity = $(".orderquantity<?=$no?>").html();
+								var defaultPrice = $(".price<?=$iNum?>").html();
+								var orderquantity = $(".orderquantity<?=$iNum?>").html();
 								var supplyPrice = defaultPrice * orderquantity;
 								var vat = Math.floor(supplyPrice * 0.1);
 								var total = supplyPrice + vat;
 								
-								// $('.total<?=$no?>').html(AddComma(total));
-								$('.supplyprice<?=$no?>').html(AddComma(supplyPrice));
-								$('.orderquantity<?=$no?>').html(AddComma(orderquantity));
-								$('.total<?=$no?>').html(AddComma(total));
-								$('.price<?=$no?>').html(AddComma(defaultPrice));
+								// $('.total<?=$iNum?>').html(AddComma(total));
+								$('.supplyprice<?=$iNum?>').html(AddComma(supplyPrice));
+								$('.orderquantity<?=$iNum?>').html(AddComma(orderquantity));
+								$('.total<?=$iNum?>').html(AddComma(total));
+								$('.price<?=$iNum?>').html(AddComma(defaultPrice));
 							</script>
 							<? } ?>		
 							<!-- <script>
 								$(document).on('click','.cb',function(){
 									if(this.checked){
-										totalprice+=$('.total<?=$no?>').html();
+										totalprice+=$('.total<?=$iNum?>').html();
 										$('.totalprice').html(totalprice);
 									}else{
-										totalprice-=$('.total<?=$no?>').html();
+										totalprice-=$('.total<?=$iNum?>').html();
 										$('.totalprice').html(totalprice);
 									}
 								});

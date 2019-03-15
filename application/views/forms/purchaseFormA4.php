@@ -18,6 +18,7 @@
         table {
             border-collapse: collapse;
             margin: 5px;
+            text-align:center;
         }
         td{
             min-width: 40px;
@@ -42,7 +43,9 @@
         .table-delivery td, .table-item td{
             min-height: 24px;
         }
-
+        /* .right{
+            float:right;
+        } */
     </style>
 </head>
 
@@ -53,80 +56,61 @@
         </div>
         <form class="" action="index.html" method="post">
             <div class="row">
-                <table width="230" class="table-basic-info">
-                    <tr>
-                        <td>일련번호</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>수 신</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>참 조</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>TEL</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>FAX</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>납기일자</td>
-                        <td></td>
-                    </tr>
+                <table width="270" height="163" class="table-contact">
+                    <? foreach ($arrItem as $index => $row) { ?>
+                        <tr>
+                            <td>주문일</td>
+                            <td><?=$row['orderdate']?></td>
+                        </tr>
+                        <tr>
+                            <td>H.P</td>
+                            <td><?=$row['managertel']?></td>
+                        </tr>
+                        <tr>
+                            <td>TEL</td>
+                            <td><?=$row['companytel']?></td>
+                        </tr>
+                        <tr>
+                            <td>FAX</td>
+                            <td><?=$row['fax']?></td>
+                        </tr>
+                        
+                    <? break;} ?>
                 </table>
-
-                <table width="329" height="163" class="table-contact">
-                
-                            <tr>
-                                <td>사업자등록번호</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>회사명</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>대표</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>주소</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>담당/연락처</td>
-                                <td></td>
-                            </tr>
+                <table width="580" height="163" class="table-contact">
+                    <? foreach ($arrItem as $index => $row) { ?>
+                        <tr>
+                            <td>거래처명</td>
+                            <td><?=$row['companyname']?></td>
+                        </tr>
+                        <tr>
+                            <td>대표자명</td>
+                            <td><?=$row['managername']?></td>
+                        </tr>
+                        <tr>
+                            <td>주소</td>
+                            <td><?=$row['companyaddr']?></td>
+                        </tr>
+                        <tr>
+                            <td>납기일</td>
+                            <td><?=$row['duedate']?></td>
+                        </tr>
+                        <tr>
+                            <td>배송지</td>
+                            <td><?=$row['destination']?></td>
+                        </tr>
+                    <? break;} ?>
                 </table>
             </div>
-            <div class="row">
-                <table width="580" class="table-delivery">
-                    <tr>
-                        <td>화 물</td>
-                        <td>방 법</td>
-                        <td>업체명</td>
-                        <td>주 소</td>
-                        <td>연락처</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
+            <script>
+                var arrSupplyPrice=[];
+            </script>
             <div class="row">
                 <table width="580" class="table-item">
                     <tr >
+                        <td>번호</td>
                         <td>품명</td>
-                        <td>굵기/길이/피치</td>
+                        <td>규격</td>
                         <td>재질</td>
                         <td>도금</td>
                         <td>수량</td>
@@ -134,38 +118,81 @@
                         <td>납기일</td>
                         <td>Total</td>
                     </tr>
-                    <?php foreach ($arrItem as $item): ?>
-                        <?php foreach ($item as $row): ?>
+                    <? foreach ($arrItem as $index => $row) { ?>
+                        
                             <tr>
+                                <td><?=++$no ?></td>
                                 <td><?=$row['productname']?></td>
                                 <td><?=$row['size']?></td>
                                 <td><?=$row['material']?></td>
                                 <td><?=$row['plated']?></td>
-                                <td><?=$row['orderquantity']?></td>
-                                <td><?=$row['orderprice']?></td>
+                                <td class="orderquantity<?=$row['idx']?>"><?=$row['orderquantity']?></td>
+                                <td class="price<?=$row['idx']?>"><?=$row['orderprice']?></td>
                                 <td><?=$row['duedate']?></td>
-                                <td><?=$row['productname']?></td>
+                                <td class="total<?=$row['idx']?>"><?=floor($row['orderprice']*$row['orderquantity']*1.1)?></td>
                             </tr>
-                        <?php endforeach; ?>
-                    <?php endforeach; ?>
+                            <script>
+                                // var defaultPrice = $(".price<?=$row['idx']?>").html();
+                                // var orderquantity = $(".orderquantity<?=$row['idx']?>").html();
+                                // var supplyPrice = defaultPrice * orderquantity;
+                                // var vat = Math.floor(supplyPrice * 0.1);
+                                // var total = supplyPrice + vat;
+                                // $('.total<?=$row['idx']?>').html(total);
+                                // arrSupplyPrice.push($(".total<?$row['idx']?>").html());
+                                var t = $('.total<?=$row['idx']?>').html();
+                                $('.totalPrice').html(t);
+                            </script>
+                    <? } ?>
                 </table>
             </div>
-            <div class="row">
-                <table width="580" class="table-total">
+            <div class="row right">
+                <table width="580" class="right table-total">
+                    <?$tt=0;$sp=0;$v=0;?>
                     <tr>
-                        <td>수량</td>
-                        <td> </td>
-                        <td>공급가액</td>
-                        <td> </td>
+                        <td>총 공급가액</td>
+                        <td class="tot_supplyPrice">
+                            <? foreach($arrItem as $index=>$row){?>
+                            <? $sp+=$row['orderprice']*$row['orderquantity'];?>
+                            <? }?> 
+                            <?=$sp?>
+                        </td>
                         <td>VAT</td>
-                        <td> </td>
+                        <td class="tot_vat"> 
+                            <? foreach($arrItem as $index=>$row){?>
+                            <? $v+=floor($row['orderprice']*$row['orderquantity']*0.1);?>
+                            <? }?> 
+                            <?=$v?>
+                        </td>
                         <td>합계</td>
-                        <td> </td>
+                        <td class="totalPrice">
+                            <? foreach($arrItem as $index=>$row){?>
+                            <? $tt+=floor($row['orderprice']*$row['orderquantity']*1.1);?>
+                            <? }?> 
+                            <?=$tt?>
+                        </td>
+                        <td width="10">원</td>
                     </tr>
+                    <!-- <script>
+                        var tot_sp;
+                        var tot_vat;
+                        var total;
+                        for(var i in arrSupplyPrice){
+                            tot_sp+=arrSupplyPrice[i];
+                        }
+                        tot_vat=Math.floor(tot_sp * 0.1);
+                        total=tot_sp+tot_vat;
+                        $('.tot_supplyPrice').html(tot_sp);
+                        $('.tot_vat').html(tot_vat);
+                        $('.totalPrice').html(total);
+                    </script> -->
                 </table>
             </div>
         </form>
     </div>
+    <script>
+    
+        
+    </script>
 </body>
 
 </html>

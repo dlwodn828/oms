@@ -52,7 +52,7 @@
 							<? foreach ($arrResult as $index => $row) { ?>
 								
 							<tr>
-								<td class="text-center"><?=++$no?></td>
+								<td class="text-center"><?=$iNum--?></td>
 								<td class="text-center"><?=$row["companyname"]?></td>
 								<td class="text-center"><?=$row["userid"]?></td>
 								<td class="text-center"><?=$row["userpwd"]?></td>

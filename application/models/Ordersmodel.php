@@ -55,21 +55,18 @@ class Ordersmodel extends CI_Model {
 	
 	// 업체 - 저장 버튼 눌렀을 때
 	function modifySaveOrder(){
-		
+		$this->no = 0; 
+		$arrData['no']=$this->no;
 		$this->sPage=addslashes(trim($this->input->get('sPage')));
 		$this->iPageScale = 10;
 		$this->iStepScale = 5;
 		$this->sWhere="where 1=1 ";
 
-		$this->idx=$this->input->post('idx');
-		$this->ordername=$this->input->post('ordername');
-		$this->material=$this->input->post('material');
-		$this->plated=$this->input->post('plated');
-		$this->size1=$this->input->post('size1');
-		$this->size2=$this->input->post('size2');
-		$this->size3=$this->input->post('size3');
-		$this->setnumber=$this->input->post('setnumber');
-		
+		$this->oidx=$this->input->post('oidx');
+		$this->orderquantity=$this->input->post('orderquantity');
+		$this->duedate=$this->input->post('duedate');
+		$this->destination=$this->input->post('destination');
+
 		if(!$this->sPage){ $this->sPage = 1;}
 		$this->iStart=($this->sPage-1)*$this->iPageScale;
 		$this->sQuery="SELECT count(tbl1.Idx) as iCnt FROM tbl_order as tbl1 ".$this->sWhere;
@@ -77,11 +74,13 @@ class Ordersmodel extends CI_Model {
 		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
 		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
 	
-		$this->sQuery="UPDATE tbl_order SET ordername='".$this->ordername."',material='".$this->material."',plated='".$this->plated."',size1='".$this->size1."',size2='".$this->size2."',size3='".$this->size3."',setnumber='".$this->setnumber."' WHERE tbl_order.idx='".$this->idx."'";
-		$this->sQuery2="SELECT tbl1.* from tbl_order as tbl1";
+		$this->sQuery="UPDATE tbl_order SET orderquantity='".$this->orderquantity."', duedate='".$this->duedate."', destination='".$this->destination."' WHERE tbl_order.idx='".$this->oidx."'";
 		$this->db->query($this->sQuery);
-
-		$arrData['arrResult']=$this->db->query($this->sQuery2)->result_array();
+		
+		
+		$arrData['arrResult02']=$this->showSelectBoxQuery();
+		$this->sQuery="select DISTINCT oidx, idx, companyname, productname, size, material, plated, setnumber, orderquantity, orderprice, orderdate, duedate, destination from order_view ".$this->sWhere." order by idx asc, orderdate desc LIMIT ".$this->iStart.", ".$this->iPageScale;
+		$arrData['arrResult']=$this->db->query($this->sQuery)->result_array();
 
 		$arrData['sPage']=$this->sPage;
 		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);

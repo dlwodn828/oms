@@ -10,7 +10,7 @@ class Pricesmodel extends CI_Model {
 
 	// 업체별 품목 및 단가 페이지 출력
 	function showPriceQuery($where, $start, $pageScale){ 
-		$this->sQuery = "SELECT tbl1.idx, tbl2.idx as sidx, tbl1.companyname, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl3.setnumber, tbl3.price from tbl_cpuse as tbl3 join tbl_company as tbl1 join tbl_stock as tbl2 on tbl3.company=tbl1.idx and tbl3.product=tbl2.idx ".$where." order by tbl1.idx asc, tbl3.setnumber asc LIMIT ".$start.", ".$pageScale;
+		$this->sQuery = "SELECT tbl1.idx, tbl2.idx as sidx, tbl1.companyname, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl3.setnumber, tbl3.price from tbl_cpuse as tbl3 join tbl_company as tbl1 join tbl_stock as tbl2 on tbl3.company=tbl1.idx and tbl3.product=tbl2.idx ".$where." order by tbl1.idx asc,tbl2.idx asc, tbl3.setnumber asc LIMIT ".$start.", ".$pageScale;
 		$this->arrData = $this->db->query($this->sQuery)->result_array();
 		return $this->arrData;
 	}
@@ -55,11 +55,37 @@ class Pricesmodel extends CI_Model {
 
 	// 단가 - 메인
 	function priceList() {
-		$arrData=$this->defaultSetting();
+		$this->no = 0; // 표의 인덱스
+		$this->sPage=addslashes(trim($this->input->get('sPage')));
+		$this->iPageScale = 10;
+		$this->iStepScale = 5;
+		$this->sWhere="where 1=1 ";
+		if(!$this->sPage){ $this->sPage = 1;}
+		$this->iStart=($this->sPage-1)*$this->iPageScale;
+		
+		// SelectBox에서 체크한 company만 출력
+		$this->companyidx=addslashes(trim($this->input->get('companyidx'))); 
+		if ($this->companyidx) { $this->sWhere.=" and tbl1.idx='".$this->companyidx."' ";  }
+		$arrData['companyidx']=$this->companyidx;
+		
+		$this->sQuery="SELECT count(tbl1.idx) as iCnt FROM tbl_cpuse as tbl1 ".$this->sWhere;
+		$this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
+		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
+		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
+		$arrData['no']=$this->no;
+		$arrData['sPage']=$this->sPage;
+		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
 		// SelectBox 내용 출력
 		$arrData['arrResult02']= $this->showSelectBoxQuery();
 		//단가 페이지 출력
 		$arrData['arrResult'] = $this->showPriceQuery($this->sWhere,$this->iStart,$this->iPageScale);
+		$this->sQuery="SELECT count(tbl1.idx) as iCnt FROM tbl_cpuse as tbl1 ".$this->sWhere;
+		$this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
+		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
+		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
+		$arrData['no']=$this->no;
+		$arrData['sPage']=$this->sPage;
+		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
 		return $arrData;
 		// SelectBox에서 체크한 company를 보여주기 위한 쿼리문
 		// $this->sQuery="SELECT tbl1.* from tbl_company as tbl1 order by tbl1.idx";

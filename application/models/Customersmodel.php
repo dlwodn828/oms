@@ -145,6 +145,9 @@ class Customersmodel extends CI_Model {
 		$this->sWhere="where 1=1 ";
 
 		$this->idx=$this->input->post('idx2');
+		$this->sQuery="DELETE FROM tbl_company WHERE idx='".$this->idx."'";
+		$this->db->query($this->sQuery);
+		
 
 		if(!$this->sPage){ $this->sPage = 1;}
 		$this->iStart=($this->sPage-1)*$this->iPageScale;
@@ -152,12 +155,9 @@ class Customersmodel extends CI_Model {
 		$this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
 		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
 		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
-
-		
-		$this->sQuery="DELETE FROM tbl_company WHERE idx='".$this->idx."'";
-		$this->db->query($this->sQuery);
-		$this->sQuery2="SELECT tbl1.* from tbl_company as tbl1";
+		$this->sQuery2="SELECT tbl1.* from tbl_company as tbl1 order by tbl1.Idx asc LIMIT ".$this->iStart.", ".$this->iPageScale;
 		$arrData['arrResult']=$this->db->query($this->sQuery2)->result_array();
+		
 
 		$arrData['sPage']=$this->sPage;
 		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);

@@ -11,7 +11,7 @@
 	<h1 class="page-header">주문 정보 수정</h1>
 	<!-- end page-header -->
 	<div class="profile-container" align="center">
-        <form action="/orders/orderList" method="post">
+        <form action="/orders/modifySaveOrder" method="post">
 			<div class="row">
 				<div class="table-responsive">
 					<table class="table table-bordered table-hover table-td-valign-middle">
@@ -106,7 +106,8 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="pull-center">
-                        <button type="submit"name="save1" value="save1" class="btn btn-success btn-sm" >저장</button>
+                        <input type="hidden" name="">
+                        <button type="submit"name="oidx" value="<?=$row['oidx']?>" class="btn btn-success btn-sm" >저장</button>
                         <a href="/orders/orderList"class="btn btn-danger btn-sm ">취소</a>
 					</div>
 				</div>

@@ -74,7 +74,9 @@ class C_ordersmodel extends CI_Model {
 		$arrData=$this->defaultSetting();
 		
         $arrData['arrResult02']= $this->showSelectBoxQuery();
-		$arrData['arrResult'] = $this->showOrderQuery($this->sWhere,$this->iStart,$this->iPageScale);
+		$this->sid=$this->session->userdata("AdminIdx");
+		$this->sQuery="SELECT tbl3.idx, tbl3.setnumber, tbl2.productname, tbl2.size, tbl2.material, tbl2.plated, tbl3.price from tbl_stock as tbl2 join tbl_cpuse as tbl3 on tbl3.company='".$this->sid."' and tbl2.idx=tbl3.product ".$this->sWhere." order by tbl3.idx asc, tbl3.setnumber asc";
+		$arrData['arrResult']=$this->arrData = $this->db->query($this->sQuery)->result_array();
 		// $arrData['orderquantity']=$this->getOrderedPriceQuery($this->companyidx);
         return $arrData;
     }
@@ -197,12 +199,12 @@ class C_ordersmodel extends CI_Model {
 
 	}
 
-	function mailCompany(){
-		$this->sid=$this->session->userdata("AdminIdx");
-		$this->sQuery="SELECT * from tbl_company where idx='".$this->sid."'";
-		$this->companyInfo = $this->db->query($this->sQuery)->result_array();
-		return $this->companyInfo;
-	}
+	// function mailCompany(){
+	// 	$this->sid=$this->session->userdata("AdminIdx");
+	// 	$this->sQuery="SELECT * from tbl_company where idx='".$this->sid."'";
+	// 	$this->companyInfo = $this->db->query($this->sQuery)->result_array();
+	// 	return $this->companyInfo;
+	// }
 
 	function sendEmail() {
 		// alert('no');
@@ -240,12 +242,25 @@ class C_ordersmodel extends CI_Model {
 					$arrData['arrResult'][$index]['basequantity'] = $arrBasequantity[$index];
 				}
 				// $data['arrItem'] =$arrData['arrResult'];
-
+				$this->no=0;
+				$data['no']=$this->no;
 
 				$this->orderlist=$this->saveOrder($this->iCnt01,$arrCpuse,$arrBasequantity,$duedate, $destination);
-				$data['arrItem']=$this->orderlist;
-				$this->companyInfo=$this->mailCompany();
-				$data['arrItem']=$this->companyInfo;
+				$this->sQuery="SELECT * from email_view LIMIT ".$this->iCnt01;
+				$data['arrItem']=$this->db->query($this->sQuery)->result_array();
+				
+				
+				$arrPrice=[];
+				$i=0;
+				foreach($data['arrItem'] as $index=>$row){
+					$defaultPrice = $row['orderprice'];
+					$orderquantity = $row['orderquantity'];
+					$supplyPrice = $defaultPrice * $orderquantity;
+					$vat=$supplyPrice*0.1;
+					$total=$supplyPrice+$vat;
+					$arrPrice[$i]=$total;
+				}
+				$data['total']=$arrPrice;
 				
 
 
@@ -299,7 +314,6 @@ class C_ordersmodel extends CI_Model {
 		// $arrData=$this->defaultSetting();
 		$this->no = 0; // 표의 인덱스
 		$this->sPage=addslashes(trim($this->input->get('sPage')));
-		
 		$this->iPageScale = 10;
 		$this->iStepScale = 5;
 		$this->sWhere="where 1=1 ";
@@ -307,17 +321,19 @@ class C_ordersmodel extends CI_Model {
 		$this->iStart=($this->sPage-1)*$this->iPageScale;
 		
 		$this->sid=$this->session->userdata("AdminIdx");
-        
 		$this->sQuery="SELECT count(tbl1.idx) as iCnt FROM order_view as tbl1 where tbl1.idx='".$this->sid."'";
         $this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
 		
 		$arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
 		$arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
+		
+        $this->sQuery="select distinct idx, companyname, productname, size, material, plated, orderquantity, orderprice, setnumber, orderdate, duedate, destination from order_view where idx='".$this->sid."' order by setnumber asc, orderdate desc LIMIT ".$this->iStart.", ".$this->iPageScale;
+		$arrData['arrResult']=$this->db->query($this->sQuery)->result_array();
+
 		$arrData['no']=$this->no;
 		$arrData['sPage']=$this->sPage;
 		$arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
-		$this->sQuery="select distinct idx, companyname, productname, size, material, plated, orderquantity, orderprice, setnumber, orderdate, duedate, destination from order_view where idx='".$this->sid."' order by setnumber asc, orderdate desc LIMIT ".$this->iStart.", ".$this->iPageScale;
-		$arrData['arrResult']=$this->db->query($this->sQuery)->result_array();
+		
 		return $arrData;
 	}
 	

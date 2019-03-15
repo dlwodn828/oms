@@ -82,7 +82,7 @@ h4{
 						<thead>
 							<tr>
 								<th width="3%" class="text-center">No</th>
-								<th width="5%" class="text-center">세트번호</th>
+								<th width="5%" class="text-center">Set</th>
 								<th width="10%" class="text-center">품목명</th>
 								<th width="8%" class="text-center">규격</th>
 								<th width="8%" class="text-center">재질</th>
@@ -102,7 +102,7 @@ h4{
 							<? foreach ($arrResult as $index => $row) { ?>
 							
 							<tr>
-								<td class="text-center"><?=++$no?></td>
+								<td class="text-center"><?=$iNum--?></td>
 								<td class="text-center"><?=$row["setnumber"]?></td>
 								<td class="text-center"><?=$row["productname"]?></td>
 								<td class="text-center"><?=$row["size"]?></td>
@@ -204,14 +204,7 @@ h4{
 			</div>
 			</div>
 			<!-- pagination -->
-			<div class="panel-body">
-				<!--<div class="dataTables_info" id="data-table_info">
-					<a href="#none" class="btn btn-success btn-xs"><i class="fa fa-file-excel-o"></i> Excel </a>
-				</div>-->
-				<div class="dataTables_paginate paging_simple_numbers pull-right" id="data-table_paginate">
-					<?=$sPaging?>
-				</div>
-			</div>
+			
 		</div>
 		<!-- end #table-responsive -->
 	</div>
