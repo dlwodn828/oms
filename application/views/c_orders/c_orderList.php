@@ -121,20 +121,6 @@ h4{
 									return n;
 								}
 
-								// var defaultPrice = removeComma($(".price<?=$iNum?>").html());
-								// var orderquantity = removeComma($(".orderquantity<?=$iNum?>").val());
-								// var supplyPrice = defaultPrice * orderquantity;
-								// var vat = Math.floor(supplyPrice * 0.1);
-								// var total = supplyPrice + vat;
-								
-
-								// //가격에도 콤마 추가하기 그전에 콤마 없애기
-								// $('.supplyprice<?=$iNum?>').html(AddComma(supplyPrice));
-								// // $('.vat<?=$iNum?>').html(AddComma(vat));
-								// $('.total<?=$iNum?>').html(AddComma(total));
-								// $('.price<?=$iNum?>').html(AddComma(defaultPrice));
-								// });
-
 								function AddComma(data_value) {
 									return Number(data_value).toLocaleString('en');
 								}
@@ -152,17 +138,6 @@ h4{
 								$('.price<?=$iNum?>').html(AddComma(defaultPrice));
 							</script>
 							<? } ?>		
-							<!-- <script>
-								$(document).on('click','.cb',function(){
-									if(this.checked){
-										totalprice+=$('.total<?=$iNum?>').html();
-										$('.totalprice').html(totalprice);
-									}else{
-										totalprice-=$('.total<?=$iNum?>').html();
-										$('.totalprice').html(totalprice);
-									}
-								});
-							</script>					 -->
 						</tbody>
 					</table>
 				</div>
@@ -170,9 +145,6 @@ h4{
 			</div>
 			<!-- pagination -->
 			<div class="panel-body">
-				<!--<div class="dataTables_info" id="data-table_info">
-					<a href="#none" class="btn btn-success btn-xs"><i class="fa fa-file-excel-o"></i> Excel </a>
-				</div>-->
 				<div class="dataTables_paginate paging_simple_numbers pull-right" id="data-table_paginate">
 					<?=$sPaging?>
 				</div>
@@ -185,7 +157,7 @@ h4{
 </div>
 <!-- #modal-dialog -->
 <!-- purchase form for printing-->
-<!-- <div class="hidden print" id="orderForm"></div> --> -->
+<!-- <div class="hidden print" id="orderForm"></div> -->
 
 <!-- end #content -->
 <script>

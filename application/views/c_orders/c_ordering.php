@@ -240,55 +240,15 @@ h4{
 <script>
 $(document).ready(function() {
 	App.init();
-	// function numberWithCommas(x) {
-    // 	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	// }
-	// $('.format-money').text(function numberWithCommas(x) {
-    // 	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	// });
-
-	// 
-	//	location.href="/customers/cancelStageProc?idx=<?=$row['idx']?>&basequantity="+$("#basequantity").val();
-
-
-	
 	$( '.check-all' ).click( function() {
 		$( '.cb' ).prop( 'checked', this.checked );
 	});
 });
-// $( document ).ready( function() {
-	
-// });
-// function delok(code){
-//     result = confirm('삭제 하시겠습니까');
-//     if(result == true){
-//         location.href = "addlist_ok.asp?gubun=del&key=" + code;
-//     }else{
-//     return false;
-//     }
-// }
 
-// $(document).on('click', '#zzz', function (e) {
-// 	var arrIdx = [];
-// 	var arrBasequantity = [];
-// 	$('.cb:checked').each(function() {
-// 		// i++;
-// 		// index = i.toString();
-// 		arrIdx.push($(this).data('idx'));
-// 		// arrBasequantity.push($('input[name=').val()); // input[name="ddd"]
-// 		arrBasequantity.push($("input[name="+'"'+"quantity"+$(this).data('idx')+'"'+"]").val()); // input[name="ddd"]
-// 	});
-// 	alert(arrBasequantity[0]);
-
-// });
 
 //modal창 제어
 $(document).on('click', '.mailOrder', function (e) {
-	
 
-	// $("#pidx").val($(this).data("idx"));
-	// $("#basequantity").val($(this).data("basequantity"));
-	// $("#basequantity").val($("input[name=basequantity]").val());
 	var arrIdx = [];
 	var arrBasequantity = [];
 	var duedate="";
@@ -296,18 +256,12 @@ $(document).on('click', '.mailOrder', function (e) {
 	i = -1;
 
 	$('.cb:checked').each(function() {
-		// i++;
-		// index = i.toString();
+
 		arrIdx.push($(this).data('idx'));
-		// arrBasequantity.push($('input[name=').val()); // input[name="ddd"]
+
 		arrBasequantity.push($("input[name="+'"'+"quantity"+$(this).data('idx')+'"'+"]").val()); // input[name="ddd"]
 	});
-	// $('.cb:checked').each(function() {
-	// 	// i++;
-	// 	// index = i.toString();
-	// 	arrIdx.push($(this).data('idx'));
-	// 	arrBasequantity.push($("input[name="+'"'+"quantity"+$(this).data('idx')+'"'+"]").val());
-	// });
+
 	
 	duedate=$('#duedate').val();
 	destination=$('#destination').val();
@@ -340,7 +294,7 @@ $(document).on('click', '.mailOrder', function (e) {
 
 
 	$('.sendOrder').on('click', function(e) {
-	//	location.href="/customers/cancelStageProc?idx=<?=$row['idx']?>&basequantity="+$("#basequantity").val();
+
 		$.ajax({
 			type: "post",
 			url: "/c_orders/sendEmail",
@@ -354,8 +308,7 @@ $(document).on('click', '.mailOrder', function (e) {
 			} else {
 				$('#modal-delete').modal('hide');
 			}
-			// data_html = $.parseHTML(data)
-			// d = JSON.stringify(data, null, 4);
+
 			console.log(data);
 		}).fail(function (jqXHR, textStatus, errorThrown) {
 			// Request failed. Show error message to user.
@@ -374,63 +327,6 @@ $(document).on('click', '.mailOrder', function (e) {
 });
 
 
-
-// $('.printOrder').click(function(e) {
-// 	var arrIdx = [];
-// 	var arrBasequantity = [];
-// 	i = -1;
-// 	$('td input:checked').each(function() {
-// 		// i++;
-// 		// index = i.toString();
-// 	    arrIdx.push($(this).data('idx'));
-// 			arrBasequantity.push($("input[name="+'"'+$(this).data('basequantity-name')+'"'+"]").val());
-// 	});
-// 	if (arrIdx === undefined || arrIdx.length == 0) {
-// 		alert('인쇄하실 품명을 선택하세요!');
-// 		return;
-// 	} else {
-// 		console.log(arrIdx);
-// 		console.log(arrBasequantity);
-// 	}
-// 	$.ajax({
-// 		type: "post",
-// 		url: "/customers/printOrder",
-// 		data: {arrIdx: arrIdx, arrBasequantity: arrBasequantity},
-// 		dataType:"json",
-// 	}).done(function (data) {
-// 		//alert(data.sMessage);
-// 		$('#orderForm').html(data.data);
-// 		var divToPrint=document.getElementById('orderForm');
-// 		var newWin=window.open('','print window');
-// 		// var myWindow=window.open('','','width=200,height=100');
-// 		// newWin.document.open();
-// 		newWin.document.write(divToPrint.innerHTML);
-// 		newWin.focus();
-// 		newWin.print();
-// 		newWin.document.close();
-// 			// setTimeout(function(){newWin.close();},10);
-// 		// $('#orderForm').removeClass('hidden');
-// 		// data_html = $.parseHTML(data)
-// 		// d = JSON.stringify(data, null, 4);
-// 		console.log(data);
-// 	}).fail(function (jqXHR, textStatus, errorThrown) {
-// 		// Request failed. Show error message to user.
-// 		// errorThrown has error message, or "timeout" in case of timeout.
-// 		console.log(errorThrown);
-// 		// $('#modal-delete').modal('hide');
-// 		alert('view에서 오류가 발생하였습니다. 해당 문제가 지속될시 관리자에게 문의주세요.');
-// 	});
-// });
-
-
-		
-		
-
-
-
-	
-
-
 $(document).on("change","#setnumber",function(e) {
 	
 	// $('#supplyprice').html(supplayPrice);
@@ -439,16 +335,5 @@ $(document).on("change","#setnumber",function(e) {
 	$("#actForm1").submit();
 
 });
-
-
-
-
-
-
-
-	
-
-
-
 
 </script>

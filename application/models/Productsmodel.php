@@ -84,32 +84,6 @@ class Productsmodel extends CI_Model {
 
 	}
 
-	function deleteProduct(){
-		// 표의 인덱스
-		// $this->no = 0;
-		// $arrData['no']=$this->no;
 
-		// $this->sPage=addslashes(trim($this->input->get('sPage')));
-		// $this->iPageScale = 10;
-		// $this->iStepScale = 5;
-		// $this->sWhere="where 1=1 ";
-
-		// $this->idx=$this->input->post('idx2');
-		// $this->sQuery="DELETE FROM tbl_stock WHERE idx='".$this->idx."'";
-		// $this->db->query($this->sQuery);
-		// $this->sQuery2="SELECT tbl1.* from tbl_stock as tbl1";
-		// $arrData['arrResult']=$this->db->query($this->sQuery2)->result_array();
-
-		// if(!$this->sPage){ $this->sPage = 1;}
-		// $this->iStart=($this->sPage-1)*$this->iPageScale;
-		// $this->sQuery="SELECT count(tbl1.Idx) as iCnt FROM tbl_stock as tbl1 ".$this->sWhere;
-		// $this->iNum=$this->db->query($this->sQuery)->row()->iCnt;
-		// $arrData['iTotalCnt']=$this->iNum; // 총 몇 줄인지 
-		// $arrData['iNum']=$this->iNum-($this->sPage-1)*$this->iPageScale; 
-		// $arrData['sPage']=$this->sPage;
-		// $arrData['sPaging']=$this->utilmodel->fnPaging($arrData['iTotalCnt'],$this->iPageScale,$this->iStepScale,$this->sPage);
-
-		// return $arrData;
-	}
 	
 }

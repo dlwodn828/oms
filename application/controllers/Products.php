@@ -35,19 +35,4 @@ class Products extends CI_Controller {
 		$this->load->view('include/incBottom');
 	}
 
-	// public function modifySaveProduct(){
-	// 	$sSideBar = $this->authmodel->checkLogin01();
-	// 	$this->load->view('include/incTop',$sSideBar);
-	// 	$arrData=$this->productsmodel->modifySaveProduct();
-	// 	$this->load->view('products/productList',$arrData);
-	// 	$this->load->view('include/incBottom');
-	// }
-
-	// public function deleteProduct(){
-	// 	$sSideBar = $this->authmodel->checkLogin01();
-	// 	$this->load->view('include/incTop',$sSideBar);
-	// 	$arrData=$this->productsmodel->deleteProduct();
-	// 	$this->load->view('products/productList',$arrData);
-	// 	$this->load->view('include/incBottom');
-	// }
 }

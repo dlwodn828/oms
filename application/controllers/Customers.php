@@ -11,7 +11,7 @@ class Customers extends CI_Controller {
 		redirect('/customers/consultHistoryList','refresh');
 	}
 
-	// url이 바뀌는 페이지만 새로운 함수가 필요함!!
+	// url이 바뀌는 페이지만 새로운 함수가 필요함
 
 	public function consultHistoryList() {
 		$sSideBar = $this->authmodel->checkLogin01();
@@ -47,22 +47,4 @@ class Customers extends CI_Controller {
 		$this->load->view('include/incBottom');
 	}
 
-
-
-	//mailWithdrawal
-	public function mailWithdrawal() {
-		$this->load->view('customers/mailWithdrawal');
-	}
-	public function printOrder() {
-		$arrData = $this->customersmodel->printOrder();
-		echo $arrData;
-	}
-
-	//cancelStageProc
-	public function cancelStageProc() {
-		$this->authmodel->checkLogin01();
-		//$this->authmodel->fnAdminAuthCheck($this->session->userdata("AdminIdx"),$this->session->userdata("AdminRole"),"4-1","N");
-		$arrData=$this->customersmodel->cancelStageProc();
-		echo $arrData;
-	}
 }

@@ -151,17 +151,6 @@ h4{
 								$('.price<?=$iNum?>').html(AddComma(defaultPrice));
 							</script>
 							<? } ?>		
-							<!-- <script>
-								$(document).on('click','.cb',function(){
-									if(this.checked){
-										totalprice+=$('.total<?=$iNum?>').html();
-										$('.totalprice').html(totalprice);
-									}else{
-										totalprice-=$('.total<?=$iNum?>').html();
-										$('.totalprice').html(totalprice);
-									}
-								});
-							</script>					 -->
 						</tbody>
 					</table>
 				</div>
@@ -169,9 +158,6 @@ h4{
 			</div>
 			<!-- pagination -->
 			<div class="panel-body">
-				<!--<div class="dataTables_info" id="data-table_info">
-					<a href="#none" class="btn btn-success btn-xs"><i class="fa fa-file-excel-o"></i> Excel </a>
-				</div>-->
 				<div class="dataTables_paginate paging_simple_numbers pull-right" id="data-table_paginate">
 					<?=$sPaging?>
 				</div>
@@ -184,7 +170,6 @@ h4{
 </div>
 <!-- #modal-dialog -->
 <!-- purchase form for printing-->
-<!-- <div class="hidden print" id="orderForm"></div> --> -->
 
 <!-- end #content -->
 <script>

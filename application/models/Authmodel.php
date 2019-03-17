@@ -14,10 +14,7 @@ class Authmodel extends CI_Model {
 		}
 		return $arrData;
 	}
-	// function checkSession(){
-	// 	$savedUserdata = $this->session->userdata("AdminLoginYn");
-	// 	$this->sQuery="SELECT userid FROM tbl_company WHERE userid='".$this->
-	// }
+
 	function loginProc() {
 		$this->AdminId=addslashes(trim($this->input->post('AdminId')));
 		$this->AdminPwd=addslashes(trim($this->input->post('AdminPwd')));
@@ -55,9 +52,7 @@ class Authmodel extends CI_Model {
 				redirect('/prices','refresh');	
 			}else{
 				redirect('/c_orders', 'refresh');	
-				// redirect('/c_orders','refresh');	
 			}
-			// redirect('/prices', 'refresh');
    		}
 	}
 	function fnSideBar() {

@@ -16,9 +16,7 @@ class C_orders extends CI_Controller {
 		$this->load->view('include/incTop',$sSideBar);
 		if($this->input->get('pidx')){
 			$arrData=$this->ordersmodel->saveOrder();
-			// $arrData=$this->ordersmodel->modifySavePrice();
 		}else if($this->input->get('idx')){
-			
 			// $this->pricesmodel->priceList();
 		}else{
 			$arrData=$this->c_ordersmodel->c_ordering();
@@ -35,42 +33,10 @@ class C_orders extends CI_Controller {
 		$this->load->view('include/incBottom');
 	}
 
-
-	// public function modifyPrice(){
-	// 	$sSideBar = $this->authmodel->checkLogin01();
-	// 	$this->load->view('include/incTop',$sSideBar);
-	// 	$arrData=$this->pricesmodel->modifyPrice();
-	// 	$this->load->view('prices/modifyPrice',$arrData);
-	// 	$this->load->view('include/incBottom');
-	// }
-
-	// public function modifySavePrice(){
-	// 	$sSideBar = $this->authmodel->checkLogin01();
-	// 	$this->load->view('include/incTop',$sSideBar);
-	// 	$arrData=$this->pricesmodel->modifySavePrice();
-	// 	$this->load->view('prices/priceList',$arrData);
-	// 	$this->load->view('include/incBottom');
-	// }
-
 	public function sendEmail(){
 		$this->authmodel->checkLogin01();
 		$arrData=$this->c_ordersmodel->sendEmail();
 		echo $arrData;
 	}
 
-	// public function addPrice(){
-	// 	$sSideBar = $this->authmodel->checkLogin01();
-	// 	$this->load->view('include/incTop',$sSideBar);
-	// 	$arrData=$this->pricesmodel->priceList();
-	// 	$this->load->view('prices/addPrice',$arrData);
-	// 	$this->load->view('include/incBottom');
-	// }
-
-	// public function deletePrice(){
-	// 	$sSideBar = $this->authmodel->checkLogin01();
-	// 	$this->load->view('include/incTop',$sSideBar);
-	// 	$arrData=$this->pricesmodel->deletePrice();
-	// 	$this->load->view('prices/priceList',$arrData);
-	// 	$this->load->view('include/incBottom');
-	// }
 }

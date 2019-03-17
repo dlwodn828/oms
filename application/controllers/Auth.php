@@ -14,7 +14,7 @@ class Auth extends CI_Controller {
 	}
 	//loginProc
 	public function loginProc() {
-		$retValue = $this->authmodel->loginProc(); // 로그인 여부만 메세지로 알려주는 느낌
+		$retValue = $this->authmodel->loginProc(); 
 		echo $retValue;
 	}
 	//logoutProc
