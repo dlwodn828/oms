@@ -210,8 +210,8 @@ class C_ordersmodel extends CI_Model {
 					'protocol'  => 'smtp',
 					'smtp_host' => 'ssl://smtp.googlemail.com',
 					'smtp_port' => 465,
-					'smtp_user' => 'dlwodn828@gmail.com',
-					'smtp_pass' => 'dl94585854',
+					'smtp_user' => '',
+					'smtp_pass' => '',
 					'mailtype'  => 'text',
 					'charset'   => 'utf-8'
 				);
